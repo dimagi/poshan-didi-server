@@ -35,13 +35,6 @@ logging.basicConfig(filename=settings.LOG_FILENAME,
 logger = logging.getLogger(__name__)
 
 
-# TODO: Get rid of these global variables.
-current_msg_to_nurse = None
-nurse_pending = False
-
-# TODO: get rid of this and use user data instead
-
-
 def get_chat_id(update, context):
     try:
         return f"{context.user_data['first_name']} ({update.effective_chat.id})"
@@ -146,12 +139,12 @@ def process_user_input(update, context):
 
 
 def process_nurse_input(update, context):
-    global nurse_pending
+    nq = NurseQueue()
 
     logger.info(
         f'[{get_chat_id(update, context)}] - NURSE msg received: {update.message.text}')
 
-    if not nurse_pending:
+    if not nq.pending:
         _log_msg(update.message.text, 'nurse', update)
         send_text_reply(
             "You are the nurse and there are no pending messages.", update)
@@ -160,12 +153,12 @@ def process_nurse_input(update, context):
         return
 
     _log_msg(update.message.text, 'nurse', update,
-             chat_id=current_msg_to_nurse.chat_src)
+             chat_id=nq.current_msg_to_nurse.chat_src)
 
     context.bot.send_message(
-        current_msg_to_nurse.chat_src, update.message.text)
-    nurse_pending = False
-    NurseQueue().check_nurse_queue(context)
+        nq.current_msg_to_nurse.chat_src, update.message.text)
+    nq.pending = False
+    nq.check_nurse_queue(context)
 
 
 def error(update, context):
