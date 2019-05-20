@@ -1,3 +1,6 @@
+# Thanks
+# https://stackoverflow.com/questions/6760685/creating-a-singleton-in-python
+
 
 class Singleton(type):
     """Simple metaclass that turns a class into a singleton. To use it define
