@@ -1,11 +1,5 @@
 import csv
 import json
-from fuzzywuzzy import fuzz
-
-
-def str2key(s):
-    x = s.split()
-    return ''.join(x).lower()
 
 
 class State():
@@ -19,10 +13,16 @@ class State():
         return self.children != None
 
 
-# TODO: Get rid of the fuzzy matching stuff 
 class StateMachine(object):
     def __init__(self, flow_filename, messages_filename):
-        self.msg_map, self.uttering_map_en = {}, {}
+        # All of these maps have the state shortname (which is also the
+        # msg_id for a state) as the key and the action or text as the value.
+        # We could generalize this to some Action class or something, but we're
+        # not. It's fine.
+        self.uttering_map_en = {}
+        self.uttering_map_hi = {}
+        self.images_map = {}
+
         self.root_uuid = None
         self.states = []
         self.load_state_machine(flow_filename, messages_filename)
@@ -60,9 +60,8 @@ class StateMachine(object):
             for row in csv_rdr:
                 row['message_shortname'] = row['message_shortname'].replace(
                     ' ', '_')
-                self.msg_map[
-                    str2key(row['english'])] = row['message_shortname']
                 self.uttering_map_en[row['message_shortname']] = row['english']
+                self.uttering_map_hi[row['message_shortname']] = row['hindi']
 
     def _load_flows(self, flow_filename):
         with open(flow_filename) as f:
@@ -70,6 +69,8 @@ class StateMachine(object):
             if len(flow_list['flows']) != 1:
                 raise ValueError(
                     f'Flow file must contain only a single flow. {flow_filename} contains {len(flow_list["flows"])} flows!')
+
+            # Select the single flow and load in all of the 'state transitions' from the "rule sets" section
             flow = flow_list['flows'][0]
             transitions = {}
             for transition in flow['rule_sets']:
@@ -83,24 +84,22 @@ class StateMachine(object):
                     children = transitions[node['destination']]
                 except:
                     children = None
-                # currently only support a single action
-                key = str2key(node['actions'][0]['msg']['base'])
-                keys_list = list(self.msg_map.keys())
-                scores = [fuzz.ratio(key, k) for k in keys_list]
-                if max(scores) < 90:
-                    # if key not in msg_map.keys():
-                    print(max(scores))
-                    print(f'error, cannot find: {key}')
-                    continue
 
+                # currently only support a single action. This means if our
+                # colleagues put in multiple actions for a given state (e.g.,
+                # send an image and send text) it is ignored. We rather use
+                # the translations file to define all of the actions for a
+                # given state.
                 new_node = State(node['uuid'],
-                                 self.msg_map[keys_list[scores.index(max(scores))]], children)
+                                 node['actions'][0]['msg']['base'],
+                                 children)
                 self.states.append(new_node)
 
             # Complete setup
             self._set_state_parents()
 
     def _set_state_parents(self):
+        """Go through all of the states and link children back to their parents"""
         for node in self.states:
             if node.has_children():
                 for _, child_uuid in node.children.items():
