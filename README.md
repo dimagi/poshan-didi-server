@@ -25,27 +25,11 @@ With `virtualenvwrapper`:
 
 `pip install -r requirements.txt`
 
-### Setup the database
-
-Before running the bot or the flask server, it is necessary to create the database. At the moment, this is a sqlite flat file, but you can modify this easily. Use the `DB_SQLALCHEMY_CONNECTION` settings parameter to put in a valid SQLAlchemy connection string. 
-
-Before running the aplpication for the first time, import the `db` module from a standalone terminal and run the `reset_db()` command. For example:
-
-```sh
-$ SIMPLE_SETTINGS=localsettings ipy
-```
-```python
-In [1]: from db import Database
-
-In [2]: Database().reset_db()
-```
-
-
 ### Local settings
 
 For local settings, we use the `simple-settings` library. Note: This is used by the **telegram bot and the Flask server** because of the database credentials.
 
-To get a local settings file first `cp settings_sample.py localsettings.py` and then edit the file to match your local needs.
+To get a local settings file first `cp settings_sample.py localsettings.py`.
 
 When running code you should use a command-line or environment variable such as:
 
@@ -58,7 +42,29 @@ or
 ```sh
 $ SIMPLE_SETTINGS=localsettings python script.py
 ```
- 
+
+#### Customizing settings
+
+You will need to specify the `TELEGRAM_TOKEN` for your bot, the `NURSE_CHAT_ID` that corresponds to the Telegram account you want to escalate messages up to, and--optionally--the `DB_SQLALCHEMY_CONNECTION` string for the database you want to use to store users and messages. 
+
+The `TELEGRAM_TOKEN` comes from the `BotFather` when you initially create your telegram bot.
+
+The `NURSE_CHAT_ID` is the Telegram `chat_id` for the Telegram account that you want to escalate messages to. If you do not know this ahead of time, you can leave it as is and start the bot (after completing the steps below). Once the bot is started, send a message from the account that you want to use for the nurse. The message will be processed as a user message because the `chat_id` does not match the previously set `NURSE_CHAT_ID`. Check the log file or the database to find the `chat_id` for this account. Set the `NURSE_CHAT_ID`, restart the bot, and test that escalation is happening correctly.
+
+### Setup the database
+
+Before running the bot or the flask server, it is necessary to create the database. At the moment, this is a sqlite flat file, but you can modify this easily. Use the `DB_SQLALCHEMY_CONNECTION` settings parameter to put in a valid SQLAlchemy connection string.
+
+Before running the aplpication for the first time, import the `db` module from a standalone terminal and run the `reset_db()` command. For example:
+
+```sh
+$ SIMPLE_SETTINGS=localsettings ipy
+```
+```python
+In [1]: from db import Database
+
+In [2]: Database().reset_db()
+```
 
 ## Running the Flask server
 
