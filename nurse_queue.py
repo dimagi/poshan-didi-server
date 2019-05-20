@@ -45,6 +45,10 @@ class NurseQueue(metaclass=Singleton):
     def pending(self):
         return self.__pending
 
+    @pending.setter
+    def pending(self, val):
+        self.__pending = val
+
     @property
     def current_msg_to_nurse(self):
         return self.__current_msg_to_nurse
@@ -61,10 +65,15 @@ class NurseQueue(metaclass=Singleton):
                 f'{new_msg.msg}')
             return
         elif self.__pending:
+            # There is a msg currently pending. If we are trying to add a
+            # new message, just add it and be done.
+            if new_msg is not None:
+                self.append(new_msg.chat_src, new_msg)
             return
 
         # Add messages from (not the active) user to the message queue
-        self.append(new_msg.chat_src, new_msg)
+        if new_msg is not None:
+            self.append(new_msg.chat_src, new_msg)
         self.__logger.info(self.__the_queue)
 
         # No pending message, but we have a new one added to the queue
