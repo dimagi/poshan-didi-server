@@ -1,0 +1,573 @@
+﻿{
+  "rasa_nlu_data": {
+    "common_examples": [
+      {
+        "text": "हां",
+        "intent": "yes"
+      },
+      {
+        "text": "हां।",
+        "intent": "yes"
+      },
+      {
+        "text": "haa",
+        "intent": "yes"
+      },
+      {
+        "text": "haan",
+        "intent": "yes"
+      },
+      {
+        "text": "ha",
+        "intent": "yes"
+      },
+      {
+        "text": "हूं",
+        "intent": "yes"
+      },
+      {
+        "text": "निश्चित रूप से",
+        "intent": "yes"
+      },
+      {
+        "text": "नितांत",
+        "intent": "yes"
+      },
+      {
+        "text": "निस्संदेह",
+        "intent": "yes"
+      },
+      {
+        "text": "ya",
+        "intent": "yes"
+      },
+      {
+        "text": "yes",
+        "intent": "yes"
+      },
+      {
+        "text": "ja",
+        "intent": "yes"
+      },
+      {
+        "text": "yup",
+        "intent": "yes"
+      },
+      {
+        "text": "yy",
+        "intent": "yes"
+      },
+      {
+        "text": "yeh",
+        "intent": "yes"
+      },
+      {
+        "text": "yeah",
+        "intent": "yes"
+      },
+      {
+        "text": "yep",
+        "intent": "yes"
+      },
+      {
+        "text": "ji",
+        "intent": "yes"
+      },
+      {
+        "text": "yup",
+        "intent": "yes"
+      },
+      {
+        "text": "yo",
+        "intent": "yes"
+      },
+      {
+        "text": "yo!",
+        "intent": "yes"
+      },
+      {
+        "text": "पूर्णतया",
+        "intent": "yes"
+      },
+      {
+        "text": "अवश्यमेव",
+        "intent": "yes"
+      },
+      {
+        "text": "हाँ",
+        "intent": "yes"
+      },
+      {
+        "text": "क्यों नहीं",
+        "intent": "yes"
+      },
+      {
+        "text": "बिलकुल",
+        "intent": "yes"
+      },
+      {
+        "text": "no",
+        "intent": "no",
+        "entities": []
+      },
+      {
+        "text": "Nope",
+        "intent": "no",
+        "entities": []
+      },
+      {
+        "text": "no thank you",
+        "intent": "no",
+        "entities": []
+      },
+      {
+        "text": "do not",
+        "intent": "no",
+        "entities": []
+      },
+      {
+        "text": "naw",
+        "intent": "no",
+        "entities": []
+      },
+      {
+        "text": "please call me another name",
+        "intent": "no",
+        "entities": []
+      },
+      {
+        "text": "call me something else",
+        "intent": "no",
+        "entities": []
+      },
+      {
+        "text": "absolutely not",
+        "intent": "no",
+        "entities": []
+      },
+      {
+        "text": "yes",
+        "intent": "yes",
+        "entities": []
+      },
+      {
+        "text": "uh huh",
+        "intent": "yes",
+        "entities": []
+      },
+      {
+        "text": "sure",
+        "intent": "yes",
+        "entities": []
+      },
+      {
+        "text": "yep",
+        "intent": "yes",
+        "entities": []
+      },
+      {
+        "text": "yup",
+        "intent": "yes",
+        "entities": []
+      },
+      {
+        "text": "definitely",
+        "intent": "yes",
+        "entities": []
+      },
+      {
+        "text": "ok",
+        "intent": "yes",
+        "entities": []
+      },
+      {
+        "text": "sounds good",
+        "intent": "yes",
+        "entities": []
+      },
+      {
+        "text": "please",
+        "intent": "yes",
+        "entities": []
+      },
+      {
+        "text": "yeah",
+        "intent": "yes",
+        "entities": []
+      },
+      {
+        "text": "ja",
+        "intent": "yes",
+        "entities": []
+      },
+      {
+        "text": "ya",
+        "intent": "yes",
+        "entities": []
+      },
+      {
+        "text": "yse",
+        "intent": "yes",
+        "entities": []
+      },
+      {
+        "text": "Hello",
+        "intent": "greet",
+        "entities": []
+      },
+      {
+        "text": "hi",
+        "intent": "greet",
+        "entities": []
+      },
+      {
+        "text": "howzit",
+        "intent": "greet",
+        "entities": []
+      },
+      {
+        "text": "how are you?",
+        "intent": "greet",
+        "entities": []
+      },
+      {
+        "text": "what's up?",
+        "intent": "greet",
+        "entities": []
+      },
+      {
+        "text": "sup?",
+        "intent": "greet",
+        "entities": []
+      },
+      {
+        "text": "hey",
+        "intent": "greet",
+        "entities": []
+      },
+      {
+        "text": "good morning",
+        "intent": "greet",
+        "entities": []
+      },
+      {
+        "text": "हे",
+        "intent": "greet",
+        "entities": []
+      },
+      {
+        "text": "हेलो",
+        "intent": "greet",
+        "entities": []
+      },
+      {
+        "text": "हैल्लो",
+        "intent": "greet",
+        "entities": []
+      },
+      {
+        "text": "नमस्ते",
+        "intent": "greet",
+        "entities": []
+      },
+      {
+        "text": "प्रणाम",
+        "intent": "greet",
+        "entities": []
+      },
+      {
+        "text": "hey",
+        "intent": "greet",
+        "entities": []
+      },
+      {
+        "text": "hello",
+        "intent": "greet",
+        "entities": []
+      },
+      {
+        "text": "hallo",
+        "intent": "greet",
+        "entities": []
+      },
+      {
+        "text": "halo",
+        "intent": "greet",
+        "entities": []
+      },
+      {
+        "text": "helo",
+        "intent": "greet",
+        "entities": []
+      },
+      {
+        "text": "परनाम",
+        "intent": "greet",
+        "entities": []
+      },
+      {
+        "text": "1",
+        "intent": "option",
+        "entities": [
+          {
+            "start": 0,
+            "end": 1,
+            "value": "one",
+            "entity": "number"
+          }
+        ]
+      },
+      {
+        "text": "choice 1",
+        "intent": "option",
+        "entities": [
+          {
+            "start": 7,
+            "end": 8,
+            "value": "one",
+            "entity": "number"
+          }
+        ]
+      },
+      {
+        "text": "option 3",
+        "intent": "option",
+        "entities": [
+          {
+            "start": 7,
+            "end": 8,
+            "value": "three",
+            "entity": "number"
+          }
+        ]
+      },
+      {
+        "text": "nine",
+        "intent": "option",
+        "entities": [
+          {
+            "start": 0,
+            "end": 4,
+            "value": "nine",
+            "entity": "number"
+          }
+        ]
+      },
+      {
+        "text": "one",
+        "intent": "option",
+        "entities": [
+          {
+            "start": 0,
+            "end": 3,
+            "value": "one",
+            "entity": "number"
+          }
+        ]
+      },
+      {
+        "text": "two",
+        "intent": "option",
+        "entities": [
+          {
+            "start": 0,
+            "end": 3,
+            "value": "two",
+            "entity": "number"
+          }
+        ]
+      },
+      {
+        "text": "three",
+        "intent": "option",
+        "entities": [
+          {
+            "start": 0,
+            "end": 5,
+            "value": "three",
+            "entity": "number"
+          }
+        ]
+      },
+      {
+        "text": "four",
+        "intent": "option",
+        "entities": [
+          {
+            "start": 0,
+            "end": 4,
+            "value": "four",
+            "entity": "number"
+          }
+        ]
+      },
+      {
+        "text": "five",
+        "intent": "option",
+        "entities": [
+          {
+            "start": 0,
+            "end": 4,
+            "value": "five",
+            "entity": "number"
+          }
+        ]
+      },
+      {
+        "text": "six",
+        "intent": "option",
+        "entities": [
+          {
+            "start": 0,
+            "end": 3,
+            "value": "six",
+            "entity": "number"
+          }
+        ]
+      },
+      {
+        "text": "seven",
+        "intent": "option",
+        "entities": [
+          {
+            "start": 0,
+            "end": 5,
+            "value": "seven",
+            "entity": "number"
+          }
+        ]
+      },
+      {
+        "text": "eight",
+        "intent": "option",
+        "entities": [
+          {
+            "start": 0,
+            "end": 5,
+            "value": "eight",
+            "entity": "number"
+          }
+        ]
+      },
+      {
+        "text": "नंबर ६",
+        "intent": "option",
+        "entities": [
+          {
+            "start": 5,
+            "end": 6,
+            "value": "six",
+            "entity": "number"
+          }
+        ]
+      }
+    ],
+    "regex_features": [
+      {
+        "name": "number",
+        "pattern": "[0-9१-९]"
+      }
+    ],
+    "entity_synonyms": [
+      {
+        "value": "one",
+        "synonyms": [
+          "1",
+          "one",
+          "१",
+          "एक",
+          "first",
+          "1st"
+        ]
+      },
+      {
+        "value": "two",
+        "synonyms": [
+          "2",
+          "two",
+          "२",
+          "दो",
+          "sencond",
+          "2nd"
+        ]
+      },
+      {
+        "value": "three",
+        "synonyms": [
+          "3",
+          "three",
+          "३",
+          "तीन",
+          "third",
+          "3rd"
+        ]
+      },
+      {
+        "value": "four",
+        "synonyms": [
+          "4",
+          "four",
+          "४",
+          "चार",
+          "fourth",
+          "4th"
+        ]
+      },
+      {
+        "value": "five",
+        "synonyms": [
+          "5",
+          "five",
+          "५",
+          "पांच",
+          "fifth",
+          "5th"
+        ]
+      },
+      {
+        "value": "six",
+        "synonyms": [
+          "6",
+          "six",
+          "६",
+          "छह",
+          "sixth",
+          "6th"
+        ]
+      },
+      {
+        "value": "seven",
+        "synonyms": [
+          "7",
+          "seven",
+          "७",
+          "सात",
+          "seventh",
+          "7th"
+        ]
+      },
+      {
+        "value": "eight",
+        "synonyms": [
+          "8",
+          "eight",
+          "८",
+          "आठ",
+          "eigth",
+          "8th"
+        ]
+      },
+      {
+        "value": "nine",
+        "synonyms": [
+          "9",
+          "nine",
+          "९",
+          "नौ",
+          "nineth",
+          "9th"
+        ]
+      }
+    ]
+  }
+}

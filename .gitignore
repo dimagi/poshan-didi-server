@@ -1,0 +1,7 @@
+localsettings.py
+models/
+.DS_STORE
+*.db
+*.log
+__pycache__
+.vscode

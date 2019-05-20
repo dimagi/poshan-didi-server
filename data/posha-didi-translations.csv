@@ -1,0 +1,151 @@
+message_shortname,image,english,hindi
+main_menu,,"Here's a list of some things I can provide you information on. Press the desired number of the topic you want information on:
+1) Kangaroo mother care 👶🏽
+2)  Child’s activity levels 💪
+3)  Exclusive breastfeeding  🤱🏽 
+4) Talk with you about your last meeting with [AWW name] 👩🏽
+5) Discuss sanitation and hygiene of your child 💧
+6) Talk about growth monitoring of your child
+7) Talk about feeding techniques for your child",
+kangaroo_menu,,"Let’s talk about skin to skin contact with [child’s name]! Please select which of the following would you first like to talk about?
+
+1) definition of skin to skin contact/what is skin to skin contact 
+2) steps/how to practice skin to skin contact
+3) pictures of mothers practicing skin to skin contact 
+4) something else about skin to skin contact (more questions)?
+",
+skin2skin_definition,,"Skin to skin contact also known as kangaroo mother care is a technique of newborn care where babies are kept chest-to-chest and skin-to-skin with a parent, typically their mother. Skin-to-skin contact is really good for the health of your baby, so you may want to try it in the future. I recommend that you spend at least one hour giving your baby skin-to-skin contact every day.",
+skin2skin_howto,,"For skin-to-skin contact, you and [child name] can spend quality time together on a daily basis. In fact, you can move around as you normally do while giving your child skin-to-skin contact. 
+     -->To get started, [child name] should be naked and your chest area should be bare. Rest [child name] upright on your chest so your skin is touching their face, chest, stomach, and arms. Their head should be turned to one side with their legs in a bent position. 
+     -->Then, using a long piece of cloth, wrap [child name] against your chest so they are securely attached to your chest and won't move when you stand up. You can then wear your clothes over the cloth as normal. 
+     -->You can stay in this position while you move around throughout the day and while sleeping at night. You only need to remove the child to change their diaper or give them a bath.",
+skin2skin_picture,skintoskin (.jpeg),Here's a picture of a mother practicing skin to skin contact!,
+skin2skin_ques,,<redirect to the nurse>,
+childactivity_ques,,"❔ Is [child name] active when they're awake?
+Press: 
+1) Yes
+2) No",
+childactivity_yes,,"It's great to hear that [child name] is active. This is a sign of a healthy baby 👶🏽😊! If you start to notice any changes in [child name]'s activity, pay careful attention to their diet and hygiene to make sure they are getting the nutrients they need. The next time we talk I can share some tips about [child name]'s diet that can help him/her stay healthy and active 😊.",
+childactivity_no,,"This can be a danger sign if [child name] is too inactive. If you think something is very wrong with him/her, you may want to contact [AWW name]. Here’s her number, in case you don’t have it: [AWW phone number]. 
+→ In the meantime, you can pay careful attention to [child name]'s diet and hygiene to make sure they are getting the nutrients they need. The next time we talk I can share some tips about [child name]'s diet that can help him/her stay healthy and active 😊.",
+ebf_menu,,"Let’s talk about breastfeeding today! The various kinds of information I can provide you on the same are:
+1) What is exclusive breastfeeding 
+2) Importance of breastfeeding 
+3) Various positions of breastfeeding 
+4) Pictures to show the various positions of breastfeeding
+5) Good attachment and poor attachment of child during breastfeeding with a picture
+6) Frequency of breastfeeding
+7) Q/A on the breastfeeding practices
+8) Baby vomiting out milk after breastfeeding
+9) Other questions on breastfeeding",
+ebf_definition,,"Exclusive breastfeeding means that the child takes no additional food, water, or other fluids, starting at birth. (The child can take medicine and vitamins, if needed on medical advice). It can take time to learn how to breastfeed, but don't worry-- you can do it! ⭐",
+bf_importance,,"Breastfeeding is really important for [child name]'s growth and development, so it's important to keep practicing, even though it might be difficult. Children below 6 months of age should only be given breastmilk as advised by doctors. Anything else, even water might affect the health of your child in an unwanted manner. A mother’s breastmilk has all the necessary nutrients required for the well-being of her child. As soon as [child name] turns six months old, you can start feeding them complementary foods in addition to breastmilk. But remember-- for now, breastmilk is all they need! 😊🤱🏽",
+bf_positions,,"You should know that the position of the mother is very important. There are different methods of breastfeeding such as the underarm, using the opposite arm and mother in the lying down position. It is really important for the mother to be comfortable while breastfeeding. How about you try these tips? I can check in with you tomorrow to see how it went and answer any questions you might have.",
+bf_positions_picture1,bf_p1 (.png),Underarm position! ,
+bf_positions_picture2,bf_p2 (.png),Using the opposite arm position! ,
+bf_positions_picture3,bf_p3 (.png),Mother in lying down position!,
+bf_attachment,bf_attachment (.png),"--> your baby takes the whole nipple and a large amount of the areola into his mouth, more towards his chin than his nose
+--> your baby’s chin is pressed into your breast and his nose is clear or just touching your breast
+--> your baby’s lips are turned out over your breast (not sucked in)
+Signs of good attachment include deep and regular sucking, no breast pain or nipple damage, and well-drained breasts.",
+bf_frequency,,"Breastfeeding throughout the day and at night-- whenever [child name] is hungry-- helps to ensure that they get the nutrients they need 🤱🏽. The baby’s stomach is small. Therefore the baby should be fed frequently on demand—at least 8 — 12 times in 24 hours, day and night—in order to be adequately nourished. As soon as [child name] turns six months old, you can start feeding them complementary foods in addition to breastmilk. But remember-- for now, breastmilk is all they need! 😊🤱🏽",
+bf_qa,,"For each of the following questions, press:
+ 1)yes 
+ 2) no ",
+suckslowly,,→ Does the infant suck slowly? 1) yes 2) no,
+suckslowly_yes,,That is great! Sucking slowly means that the milk is flowing quickly which is a good thing. If the baby is sucking very fast it means that the milk flow has either reduced and if it continues it means that it is not happening properly. It might be a good idea to check with your AWW [name] once!,
+suckslowly_no,,Pay attention! If the baby is sucking very fast it means that the milk flow has either reduced and if it continues it means that it is not happening properly. It might be a good idea to check with your AWW [name] once!,
+infant_tiresout,,→ Does the infant tires out in between and is unable to continue for a long time? 1) yes 2) no,
+infant_tiresout_yes,,"Be careful! If this happens, it might mean that [child’s name] is sick or about to get sick. You should get her/him checked by your AWW and if necessary consult a doctor!",
+infant_tiresout_no,,"Good to know that’s not the case! That should not happen and if does,  it might mean that [child’s name] is sick or about to get sick. You should get her/him checked by your AWW and if necessary consult a doctor!",
+swallow_pause,,"→ Does the infant suckles slowly, followed by swallowing and then pausing? 1) yes 2) no",
+swallow_pause_yes,,"Great! The baby can feed only small amounts at a time, because her/his stomach is small. Therefore it is a good practice if they suckle slowly, swallow the same and resume feeding after some pause.",
+swallow_pause_no,,"You should pay attention to this! The baby can feed only small amounts at a time, because her/his stomach is small. Therefore it is a good practice if they suckle slowly, swallow the same and resume feeding after some pause. If the same is not happening right now then [child’s name] might vomit out the milk she/he drinks and there might be other problems as well.",
+bf_vomiting,,"Does [child’s name] sometimes vomit out the milk after they breastfeed? It is important that after every time you breastfeed your child, you take them and make them burp by softy patting on their back. Child’s body is small and therefore there is little gap between the stomach and the food pipe, which is why if the milk does not reach the stomach and is not digested, the child vomits it out. If the problem continues you should consult your AWW! 
+",
+bf_questions,,<revert to the nurse>,
+sanitation_menu,,"Sanitation and hygiene is an important area that drastically affects a child’s growth. I can provide you information regarding it on the following topics: 
+1) Importance of maintaining good hygiene and sanitation 
+2) How poor sanitation can make [child’s name] sick?
+3) What is diarrhea 
+4) Main causes of diarrhea 
+5) Care needed for the child when they have diarrhea 
+6) Disposal of child feces 
+7) Washing hands 
+8) Usage and cleaning of baby bottles and toys
+",
+sanitation_importance,,"Children are more likely to attract flies, who cause a lot of diseases, when they are left with poor hygienic conditions, for instance, babies with runny nose or suffering from diarrhea. Moreover, babies inactive at the time of sleep or due to sickness also attract flies.Which is why when we talked previously, we emphasized on the importance of the baby being active. It is also very important that you do not practice open defecation nor do you teach your child to do so since the same is a cause of several diseases and other dangers. ",
+poorsanitation_effect,,"Nutritional status is compromised where people are exposed to high levels of infection due to unsafe and insufficient water supply and inadequate sanitation. In secondary malnutrition, people suffering from diarrhoea will not benefit fully from food because frequent stools prevents adequate absorption of nutrients. Worldwide, malnutrition affects one in three people and each of its major forms dwarfs most other diseases globally (WHO, 2000). Malnutrition affects all age groups, but it is especially common among those with inadequate access to health education and to clean water and good sanitation. Which is why it is extremely important that you take care of the sanitation and hygiene of not just [child’s name] but the entire family. ",
+diarrhea_definition,,Diarrhea is defined as 3 or more watery stools in a day.,
+dairrhea_causes,,Diarrhea can be a sign of poor sanitation and hygiene 💧. You can take steps to prevent [child name] from getting diarrhea in the future by maintaining good sanitation and hygiene practices in your home. ,
+diarrhea_care,,"Since diarrhea causes a loss of a lot of nutrients from the body of the child, it is important therefore that the same is replenished and compensated for. If the child has diarrhoea you should give them ORS and breastfeed the child more than usual to maintain their strength. ORS is available at any medical store and also with your AWW. Unless told by a doctor, you should not give them anything else, not even water!",
+childfeces_disposal,,"An important component of maintaining sanitation and hygiene is the safe disposal of child feces since the same could be a breeding ground for flies, scavengers etc. Children are more susceptible to fecal pathogens than adults due to their habits.  While crawling or playing, children may put contaminated fingers, pica or fomites into their mouth. The safest way is to dispose the fecal matter in a toilet/latrine. All other methods are considered unsafe.  Problems associated with open defecation include serious respiratory issues, stomach illness (Typhoid and Jaundice), and malaria apart from diarrhea. ",
+handwashing,,"Hands should be washed on a regular basis, especially after using the washroom/changing the baby's diaper and before breastfeeding the child. Also, breasts should be wiped before breastfeeding the child. Using soap is a simple way to prevent the spread of infection and to keep you and your baby healthy 👶🏽. You might want to place a bar of soap next to all water sources in your house to make it easier to wash your hands with soap every time. ",
+babybottles_toys,,"Did you know that using a baby bottle to feed your child can actually make them sick? 🍼 Bottles are difficult to clean thoroughly, so germs can unintentionally be transferred to your child. It is recommended by many experts to stop all bottle feeding and switching to exclusive breastfeeding to avoid unintended sickness for your baby 🤱🏽. 
+While babies are young, they often put things in their mouths while they are playing 👶🏽. It's important to keep these objects clean and sanitized so they don't transfer germs to the baby while playing. ",
+gm,,"Growth monitoring is a widely used method to determine the nutrition status of a child i.e. to find out whether the child is malnourished or not. I am eager to provide you information on the same. Things I can tell you about are: 
+1) Importance of getting your child weighed by the AWW
+2) Importance of nutrition status and its knowledge with respect to your child 
+3) Explanation with sample pictures of GM chart 
+4) Meaning of the two axes 
+5) How to determine the nutritional status through color
+6) Meaning of the different colors in the GM chart 
+7) Direction of line in the GM chart 
+8) Quick quiz 
+9) GM counselling for your child ",
+weighingchild_importance,,You should talk to [AWW name] and get [child’s name] weighed every month. It is extremely useful to find out the nutrition status of the child.,
+nutritionstatus_importance,,We use nutrition status to compare your child’s growth to expected growth for all children of your child’s age. This allows us to see whether your child is growing normally or could use extra support. ,
+gmchart_explanation,gmchart_boy (.jpg),"This is known as a Growth Monitoring chart. Every month, your AWW based on the age of your child and their weight, marks a point of the graph. Over a period of time this takes shape of a line that will indicate the nutrition status of your child. The straight line shows the weight which increases as you go upwards and the flat line shows the age which increases as you move right. ",
+gmchart_picture ,gmchart_girl (.jpg),This is a growth chart too!,
+gmaxes_meaning,gmchart_axes (.png),This picture indicates what the two axes mean!,
+nutritionstatus_gmcolor,,"According to nutrition specialists, there are 3 different categories that denote the weight for age or essentially the weight your child should have at a particular which are shown in the graph through the green, yellow and red color. Each category shows a different nutritional status and requires a different level of action on your part as the mother to either improve or maintain the child’s nutrition status. ",
+colormeanings_gmchart,,"RED- if the weight of your child is in this color, it means that (s)he is severely underweight and needs your immediate attention. 
+YELLOW- if the weight of your child is in this color, it means that (s)he is underweight and needs your attention. 
+GREEN- if the weight of your child is in this color, it means that (s)he is currently in the appropriate weight range and you should continue taking good care of them and addressing their nutritional needs. 
+",
+gmline_direction,,"If the line moves upwards then the child is growing in a healthy way, but if the line is flat it means that the child’s growth is slow (not happening?) and if the line is going downwards the child needs attention.",
+gm_quiz,gmquiz (.png),"Below is a picture showing the GM of 3 children of the same age. Based on this question you can send your answer by giving the number assigned to the child in the picture, 1, 2 or 3:",
+gm_quiz_normal,,"Based on the growth chart, can you tell which child is showing normal growth? You can tell the number given to the child, 1, 2 or 3.",
+gm_quiz_normal 1,,That's correct! Child 1 is showing normal growth based on his growth chart.,
+gm_quiz_normal 2,,I'm sorry but that is the incorrect answer! Child 2 is not showing normal growth.,
+gm_quiz_normal 3,,I'm sorry but that is the incorrect answer! Child 3 is not showing normal growth.,
+gm_quiz_mn,,"Which child is suffering from malnutrition? You can tell the number given to the child, 1, 2 or 3.
+You can scroll up to see the picture again!",
+gm_quiz_mn 1,,I'm sorry but that is the incorrect answer! Child 1 is not suffering from malnutrition.,
+gm_quiz_mn 2,,That's correct! Child 2 is suffering malnutrition based on his growth chart. He lies in the yellow zone!,
+gm_quiz_mn 3,,I'm sorry but that is the incorrect answer! Child 3 is not suffering from just malnutrition.,
+gm_quiz_smn ,,"Which child is suffering from severe malnutrition? You can tell the number given to the child, 1, 2 or 3.
+You can scroll up to see the picture again!",
+gm_quiz_smn 1,,I'm sorry but that is the incorrect answer! Child 1 is not suffering from severe malnutrition.,
+gm_quiz_smn 2,,I'm sorry but that is the incorrect answer! Child 2 is not suffering from just malnutrition.,
+gm_quiz_smn 3,,That's correct! Child 3 is suffering malnutrition based on his growth chart. He lies in the red zone!,
+feeding_techniques,,"
+One of the different ways the nutrition of a child can be improved is through increased understanding of feeding techniques. While the scope of feeding techniques is vast, some of the things I can tell you about are: 
+1) Number of times a child should be fed 
+2) Recognizing signs of hunger in your child 
+3) Importance of exclusive breastfeeding 
+4) Expressing milk- meaning and purpose 
+5) Steps to express milk
+",
+feeding_frequency ,,"[Child’s name]’s stomach is small. Therefore he/she should be fed frequently on demand—at least 8 — 12 times in 24 hours, day and night—in order to be adequately nourished. Breastfeeding helps the mother and baby to form a close loving relationship which makes mothers feel deeply satisfied emotionally.",
+recognizing_hunger,,"With time you will learn how to recognize the [child’s name]’s way of communicating hunger. She/he might rub the mouth with a fist, start to fuss, or open the mouth wide towards the breast. These are indications that the she/he is ready for breastfeeding. You should not need to wait until the [child’s name] cries before you recognizes hunger and gives the baby your breast. The mother should not wait for the baby to cry before feeding it. Crying is a late sign of hunger. ",
+ebf_importance ,,"Here are these facts!
+-> Exclusive breastfeeding gives an infant the best chance to grow and stay healthy. 
+-> It promotes production of more milk. 
+-> Giving other food or fluids reduces the amount of breastmilk the child takes and, as a result, the amount of breastmilk the mother produces too is reduced. 
+-> It decreases the transmission of germs from the environment. Water, feeding bottles, and utensils can pass germs to the young infant, even when they appear “clean”. The infant can become sick from the germs. 
+-> It ensures that the milk the child gets is nutritious. Breast-milk contains all the nutrients that a baby needs during the first 6 months of life. Other foods or fluids may be too diluted or thin and can be contaminated. 
+-> It provides enough iron. Iron contributes to the development of the brain, and helps the child focus attention. Iron from breast-milk is absorbed better. 
+-> Young infants often have difficulty digesting animal milk. 
+-> Animal milk may cause diarrhoea, rashes, or other allergies. Diarrhoea may continue and become persistent, leading to undernutrition
+",
+expressingmilk_meaning,,"Expressing milk can be useful in several situations especially for feeding a young infant too weak to attach well to the nipple. Most newborns and young infants are strong enough to begin suckling right away. However, a baby may be low weight or for other reasons too weak to take enough milk. It may be necessary to express milk from the breast, and give it to the baby in small sips with a spoon or a small katori. Discourage the use of a feeding bottle. The use of the nipple on the feeding bottle will interfere with the newborn’s suckling on the breast. This makes it more difficult for the newborn to breastfeed effectively. Also, a bottle and nipple are more difficult to clean well than a katori.",
+expressingmilk_steps,,"» Mother should express the breast-milk herself 
+» She should wash her hands well before expressing the milk and sit comfortably and hold a clean katori near her breast 
+» She should put her thumb above the nipple and areola on the breast and her first finger below the nipple and areola. After this she should support her breast with other fingers. 
+» The mother should then press the thumb and first finger towards the chest wall. She should press her breast behind the nipple and areola between her finger and thumb. Then she should press and release alternately. This should not hurt. 
+» The milk may take some time to flow so do not be alarmed. After pressing several times the milk will begin to flow. The milk may come out in streams. Avoid squeezing the nipple since this may hurt. 
+» Express one breast for about five minutes and wait for the milk flow to slow down. Then express the other side and then repeat both. It takes about 20-30 minutes to express the breast-milk especially during the first few days since only little milk may be produced.
+
+
+",
