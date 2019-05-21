@@ -14,6 +14,8 @@ from collections import OrderedDict
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 from simple_settings import settings
 
+from db import Database, User, Message
+
 from registration import registration_conversation
 from nurse_queue import NurseQueue, Msg
 from state_machine import StateMachine
@@ -87,23 +89,26 @@ def get_msg_id(state):
 
 
 def _fetch_user_data(chat_id, context):
-    result = requests.get(
-        f'{settings.API_SERVER_ADDRESS}/api/v1/user/{chat_id}')
     try:
-        user = result.json()[0]
-    except Exception:
-        logger.error(f'Unable to find user data for {chat_id}. URL: '
-                     f'{settings.API_SERVER_ADDRESS}/api/v1/user/{chat_id}\n'
-                     f'Returned value is not valid JSON, using a blank user. Full response:\n'
-                     f'{result.text}')
+        user = Database().session.query(
+            User.first_name,
+            User.last_name,
+            User.chat_id,
+            User.child_birthday,
+            User.child_name,
+            User.aww).one()
+    except:
+        logger.error(
+            f'Unable to find user data for {chat_id}. Or, multiple entries for that chat_id')
         user = {'aww': 'NONE', 'first_name': 'NONE', 'last_name': 'NONE',
                 'child_name': 'NONE', 'child_birthday': 'NONE'}
-    # do a dict merge thing  instead
-    context.user_data['aww'] = user['aww']
-    context.user_data['first_name'] = user['first_name']
-    context.user_data['last_name'] = user['last_name']
-    context.user_data['child_name'] = user['child_name']
-    context.user_data['child_birthday'] = user['child_birthday']
+
+    # do a dict merge thing instead?
+    context.user_data['aww'] = user.aww
+    context.user_data['first_name'] = user.first_name
+    context.user_data['last_name'] = user.last_name
+    context.user_data['child_name'] = user.child_name
+    context.user_data['child_birthday'] = user.child_birthday
 
 
 def _replace_template(msg, context):
