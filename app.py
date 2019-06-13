@@ -130,3 +130,7 @@ def show_user_messages(chat_id):
             Message.server_time
         ).filter(Message.chat_id == chat_id)],
         default=json_serial)
+
+
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=8080)
