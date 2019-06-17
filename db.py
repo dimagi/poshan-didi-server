@@ -21,6 +21,8 @@ class User(Base):
     child_name = Column(String)
     child_birthday = Column(DateTime)
     phone_number = Column(String)
+    current_state = Column(String)
+    current_state_name = Column(String)
     chat_id = Column(String, unique=True, index=True)
 
     messages = relationship(
@@ -49,6 +51,9 @@ class Database(metaclass=Singleton):
         Session = sessionmaker(bind=self.engine)
         self.session = Session()
         self.reset_db()
+
+    def commit(self):
+        self.session.commit()
 
     def reset_db(self):
         Base.metadata.create_all(self.engine)

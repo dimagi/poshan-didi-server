@@ -34,22 +34,23 @@ class StateMachine(object):
     def get_start_state(self):
         return self.find_state(self.root_uuid)
 
-    def get_msg_and_next_state(self, current_state, intent):
+    def get_msg_and_next_state(self, current_state_id, intent):
         intent = str(int(intent))
-        if current_state is None:
+        if current_state_id is None:
             next_state = self.get_start_state()
         else:
-            # current_state = self.find_state(current_state_id)
+            current_state = self.find_state(current_state_id)
             try:
                 next_state = self.find_state(
                     current_state.children[intent])
             except KeyError:
                 raise ValueError(
                     f'No such transition for {intent} from state {current_state.id}. Valid transitions: {current_state.children}')
-        msg = next_state.msg_id
+        msg_id = next_state.msg_id
+        state_id = next_state.id
         if not next_state.has_children():
             next_state = None
-        return self._get_message(msg), next_state
+        return self._get_message(msg_id), state_id, msg_id
 
     def _get_message(self, msg_id):
         return self.uttering_map_en[msg_id]

@@ -52,7 +52,7 @@ def setup_state_machine():
 
 def _get_current_state_from_context(context):
     try:
-        return context.user_data['current_state']
+        return context.user_data['current_state_id']
     except KeyError:
         return None
 
@@ -60,10 +60,10 @@ def _get_current_state_from_context(context):
 # update. Error handlers also receive the raised TelegramError object in error.
 
 
-def _process_unknown(update, context, current_state):
+def _process_unknown(update, context, current_state_id):
     now = int(datetime.utcnow().timestamp())
     msg = CONFUSED_MSG1
-    state = current_state
+    state_id = current_state_id
     try:
         last_confused = context.user_data['last_confused']
         if now - last_confused < 60*CONFUSION_BUFFER_MINUTES:
@@ -75,17 +75,19 @@ def _process_unknown(update, context, current_state):
                     context.user_data['first_name'],
                     update.effective_chat.id,
                     update.message.text))
-            state = None
+            state_id = None
     except KeyError:
         pass
     context.user_data['last_confused'] = now
-    return msg, state
+    return msg, state_id
 
 
-def get_msg_id(state):
-    if state:
-        return state.msg_id
-    return None
+def _save_user_state(chat_id, state_id, state_name):
+    logger.info(f'setting state to {state_name} for {chat_id}')
+    our_user = Database().session.query(User).filter_by(chat_id=chat_id).first()
+    our_user.current_state = state_id
+    our_user.current_state_name = state_name
+    Database().commit()
 
 
 def _fetch_user_data(chat_id, context):
@@ -96,6 +98,7 @@ def _fetch_user_data(chat_id, context):
             User.chat_id,
             User.child_birthday,
             User.child_name,
+            User.current_state,
             User.aww).one()
     except:
         logger.error(
@@ -108,6 +111,7 @@ def _fetch_user_data(chat_id, context):
     context.user_data['first_name'] = user.first_name
     context.user_data['last_name'] = user.last_name
     context.user_data['child_name'] = user.child_name
+    context.user_data['current_state_id'] = user.current_state
     context.user_data['child_birthday'] = user.child_birthday
 
 
@@ -122,23 +126,25 @@ def process_user_input(update, context):
     logger.info(
         f'[{get_chat_id(update, context)}] - msg received: {update.message.text}')
 
-    current_state = _get_current_state_from_context(context)
+    current_state_id = _get_current_state_from_context(context)
     intent = get_intent(update.message.text)
 
     if intent == Intent.UNKNOWN:
         logger.warn(
             f'[{get_chat_id(update, context)}] - intent: {intent} msg: {update.message.text}')
-        msg, state = _process_unknown(update, context, current_state)
+        msg, state_id = _process_unknown(update, context, current_state_id)
     else:
         logger.info(
             f'[{get_chat_id(update, context)}] - intent: {intent} msg: {update.message.text}')
-        msg, state = sm.get_msg_and_next_state(current_state, intent)
+        msg, state_id, state_name = sm.get_msg_and_next_state(
+            current_state_id, intent)
 
     logger.info(
-        f'[{get_chat_id(update, context)}] - current state: {get_msg_id(current_state)} -> next state: {get_msg_id(state)}')
+        f'[{get_chat_id(update, context)}] - current state: {current_state_id} -> next state: {state_id}')
 
     # logger.info(f'[{update.effective_chat.id}] - next state: {state.msg_id}')
-    context.user_data['current_state'] = state
+    context.user_data['current_state_id'] = state_id
+    _save_user_state(update.effective_chat.id, state_id, state_name)
     msg = _replace_template(msg, context)
     send_text_reply(msg, update)
 
