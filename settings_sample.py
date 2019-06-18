@@ -16,9 +16,6 @@ NURSE_CHAT_ID = 12345
 # Database setup
 DB_SQLALCHEMY_CONNECTION = 'sqlite:///poshan_didi.db'
 
-# Our custom API that handles users and messages
-API_SERVER_ADDRESS = 'http://127.0.0.1:5000'
-
 
 # NLU threshold -- NLP engine must have confidence above threshold to
 # return an intent
