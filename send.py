@@ -1,5 +1,5 @@
 from datetime import datetime
-from db import Database, User, Message
+from db import Database, Message
 
 
 def _log_msg(text, source, update, chat_id=None):
