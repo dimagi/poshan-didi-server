@@ -182,6 +182,54 @@ def error(update, context):
     logger.warning('Update "%s" caused error "%s"', update, context.error)
 
 
+def set_state(update, context):
+    logger.warning('Set state called!')
+    nq = NurseQueue()
+    if not nq.pending:
+        _log_msg(update.message.text, 'nurse', update)
+        send_text_reply(
+            "The state command can only be used when there is a pending message. There are currently no pending messages", update)
+        logger.info(
+            f'[{get_chat_id(update, context)}] - no pending nurse messages....')
+        return
+
+    # Check syntax of the command
+    try:
+        cmd_parts = update.message.text.split()
+        new_state = cmd_parts[1]
+    except:
+        _log_msg(update.message.text, 'nurse', update)
+        send_text_reply(
+            "Usage details: /state <new_state_name>", update)
+        return
+    logger.warning(cmd_parts)
+
+    # Set the state for the user manually!
+    chat_id = nq.current_msg_to_nurse.chat_src
+    our_user = Database().session.query(User).filter_by(chat_id=chat_id).first()
+    try:
+        state_id = sm.get_state_id_from_state_name(new_state)
+    except ValueError:
+        _log_msg(update.message.text, 'nurse', update)
+        send_text_reply(
+            f"Usage details: /state <new_state_name>\n '{new_state}' not recognized as a valid state.", update)
+        return
+    our_user.current_state = state_id
+    our_user.current_state_name = new_state
+    Database().commit()
+
+    msg_text = sm.get_message_from_state_name(new_state)
+    context.bot.send_message(
+        nq.current_msg_to_nurse.chat_src, msg_text)
+    nq.pending = False
+    nq.check_nurse_queue(context)
+
+    # Tell the nurse
+    _log_msg(update.message.text, 'nurse', update)
+    send_text_reply(
+        f"Ok. State successfully set to {new_state} and message sent to the user.", update)
+
+
 def main():
     """Start the bot."""
     setup_state_machine()
@@ -195,6 +243,10 @@ def main():
 
     # Add the regsitration conversation, which handles the /start command
     dp.add_handler(registration_conversation)
+
+    # Add a nurse command to set state for a user (only allow the nurse to access this command)
+    dp.add_handler(CommandHandler('state', set_state,
+                                  Filters.chat(settings.NURSE_CHAT_ID)))
 
     # on non-command i.e., a normal message message - process_user_input the
     # message from Telegram. Use different handlers for the purse and user
