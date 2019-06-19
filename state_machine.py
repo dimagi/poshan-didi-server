@@ -50,14 +50,15 @@ class StateMachine(object):
         state_id = next_state.id
         if not next_state.has_children():
             next_state = None
-        return self._get_message(msg_id), state_id, msg_id
+        return self.get_message_from_state_name(msg_id), state_id, msg_id
 
     def get_state_id_from_state_name(self, state_name):
         node = self.find_state_by_name(state_name)
-        return node.uuid
+        return node.id
 
-    def _get_message(self, msg_id):
-        return self.uttering_map_en[msg_id]
+    def get_message_from_state_name(self, state_name):
+        # return self.uttering_map_hi[state_name]
+        return self.uttering_map_en[state_name]
 
     def _load_messages(self, messages_filename):
         with open(messages_filename) as f:
