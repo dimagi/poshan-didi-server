@@ -52,6 +52,10 @@ class StateMachine(object):
             next_state = None
         return self._get_message(msg_id), state_id, msg_id
 
+    def get_state_id_from_state_name(self, state_name):
+        node = self.find_state_by_name(state_name)
+        return node.uuid
+
     def _get_message(self, msg_id):
         return self.uttering_map_en[msg_id]
 
@@ -113,3 +117,10 @@ class StateMachine(object):
             if n.id == uuid:
                 return n
         raise ValueError(f'Unable to find node: {uuid}')
+
+    def find_state_by_name(self, name):
+        #  Nothing smart, because who cares?
+        for n in self.states:
+            if n.msg_id == name:
+                return n
+        raise ValueError(f'Unable to find node by name: {name}')
