@@ -53,6 +53,10 @@ class NurseQueue(metaclass=Singleton):
     def current_msg_to_nurse(self):
         return self.__current_msg_to_nurse
 
+    def mark_answered(self, context):
+        self.__pending = False
+        self.check_nurse_queue(context)
+
     def check_nurse_queue(self, context, new_msg=None):
         """Check if the new message is the current client (and send if yes), else add it to the queue"""
         if new_msg is None and len(self) == 0:
