@@ -201,15 +201,33 @@ def set_state(update, context):
         _log_msg(update.message.text, 'nurse', update)
         send_text_reply(
             "Usage details: /state <new_state_name>", update)
+        return
     logger.warning(cmd_parts)
 
     # Set the state for the user manually!
     chat_id = nq.current_msg_to_nurse.chat_src
     our_user = Database().session.query(User).filter_by(chat_id=chat_id).first()
-    state_id = sm.get_state_id_from_state_name(new_state)
+    try:
+        state_id = sm.get_state_id_from_state_name(new_state)
+    except ValueError:
+        _log_msg(update.message.text, 'nurse', update)
+        send_text_reply(
+            f"Usage details: /state <new_state_name>\n '{new_state}' not recognized as a valid state.", update)
+        return
     our_user.current_state = state_id
     our_user.current_state_name = new_state
     Database().commit()
+
+    msg_text = sm.get_message_from_state_name(new_state)
+    context.bot.send_message(
+        nq.current_msg_to_nurse.chat_src, msg_text)
+    nq.pending = False
+    nq.check_nurse_queue(context)
+
+    # Tell the nurse
+    _log_msg(update.message.text, 'nurse', update)
+    send_text_reply(
+        f"Ok. State successfully set to {new_state} and message sent to the user.", update)
 
 
 def main():
