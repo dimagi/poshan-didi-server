@@ -119,6 +119,7 @@ def show_user_messages(chat_id):
             'id': m.id,
             'source': m.source,
             'chat_id': m.chat_id,
+            'state': m.state,
             'text': m.msg,
             'server_time': m.server_time
         }
@@ -127,6 +128,7 @@ def show_user_messages(chat_id):
             Message.source,
             Message.chat_id,
             Message.msg,
+            Message.state,
             Message.server_time
         ).filter(Message.chat_id == chat_id)],
         default=json_serial)
