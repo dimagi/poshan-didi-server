@@ -154,27 +154,44 @@ def process_user_input(update, context):
     send_text_reply(msg, update)
 
 
-def process_nurse_input(update, context):
+def _check_pending(update, context, none_pending_msg):
+    nq = NurseQueue()
+    if not nq.pending:
+        send_text_reply(none_pending_msg, update)
+        logger.info(
+            f'[{get_chat_id(update, context)}] - no pending nurse messages....')
+        return False
+    return True
+
+
+def _send_message_to_queue(update, context, msg_txt):
+    """Send msg_text to the user at teh top of the nurse queue
+    This does not update the queue (in case we want to send multiple messages.
+    This will, however, log everything correctly"""
     nq = NurseQueue()
 
+    # Log the message from nurse to the user
+    _log_msg(msg_txt, 'nurse', update,
+             chat_id=nq.current_msg_to_nurse.chat_src)
+    # And send it
+    context.bot.send_message(
+        nq.current_msg_to_nurse.chat_src, msg_txt)
+
+
+def process_nurse_input(update, context):
+    # Save the message the nurse sent in.
+    _log_msg(update.message.text, 'nurse', update)
     logger.info(
         f'[{get_chat_id(update, context)}] - NURSE msg received: {update.message.text}')
 
-    if not nq.pending:
-        _log_msg(update.message.text, 'nurse', update)
-        send_text_reply(
-            "You are the nurse and there are no pending messages.", update)
-        logger.info(
-            f'[{get_chat_id(update, context)}] - no pending nurse messages....')
+    # if there are no meding messages, we are done.
+    if not _check_pending(update, context, "You are the nurse and there are no pending messages."):
         return
 
-    _log_msg(update.message.text, 'nurse', update,
-             chat_id=nq.current_msg_to_nurse.chat_src)
-
-    context.bot.send_message(
-        nq.current_msg_to_nurse.chat_src, update.message.text)
-    nq.pending = False
-    nq.check_nurse_queue(context)
+    # Log and send message from nurse to the specific chat ID, then check if
+    # there are more in the queue
+    _send_message_to_queue(update, context, update.message.text)
+    NurseQueue().mark_answered(context)
 
 
 def error(update, context):
@@ -182,52 +199,56 @@ def error(update, context):
     logger.warning('Update "%s" caused error "%s"', update, context.error)
 
 
-def set_state(update, context):
-    logger.warning('Set state called!')
-    nq = NurseQueue()
-    if not nq.pending:
-        _log_msg(update.message.text, 'nurse', update)
+def _set_user_state(update, chat_id, new_state):
+    # Set the state for the user manually
+    our_user = Database().session.query(User).filter_by(chat_id=chat_id).first()
+    try:
+        state_id = sm.get_state_id_from_state_name(new_state)
+    except ValueError:
         send_text_reply(
-            "The state command can only be used when there is a pending message. There are currently no pending messages", update)
-        logger.info(
-            f'[{get_chat_id(update, context)}] - no pending nurse messages....')
+            f"Usage details: /state <new_state_name>\n '{new_state}' not recognized as a valid state.", update)
+        return False
+    our_user.current_state = state_id
+    our_user.current_state_name = new_state
+    Database().commit()
+    return True
+
+
+def set_state(update, context):
+    # Save the mssage the nurse sent in
+    logger.warning('Set state called!')
+    _log_msg(update.message.text, 'nurse', update)
+
+    # Ensure we have pending messages
+    if not _check_pending(update, context,
+                          "The state command can only be used when there is a pending message. There are currently no pending messages"):
         return
 
     # Check syntax of the command
     try:
         cmd_parts = update.message.text.split()
+        if len(cmd_parts) != 2:
+            raise Exception()
         new_state = cmd_parts[1]
     except:
-        _log_msg(update.message.text, 'nurse', update)
         send_text_reply(
             "Usage details: /state <new_state_name>", update)
         return
-    logger.warning(cmd_parts)
 
-    # Set the state for the user manually!
-    chat_id = nq.current_msg_to_nurse.chat_src
-    our_user = Database().session.query(User).filter_by(chat_id=chat_id).first()
-    try:
-        state_id = sm.get_state_id_from_state_name(new_state)
-    except ValueError:
-        _log_msg(update.message.text, 'nurse', update)
-        send_text_reply(
-            f"Usage details: /state <new_state_name>\n '{new_state}' not recognized as a valid state.", update)
+    # Update the DB with the correct message text
+    if not _set_user_state(update,
+                           NurseQueue().current_msg_to_nurse.chat_src,
+                           new_state):
+        # failed to find the state the nurse requested
         return
-    our_user.current_state = state_id
-    our_user.current_state_name = new_state
-    Database().commit()
 
-    msg_text = sm.get_message_from_state_name(new_state)
-    context.bot.send_message(
-        nq.current_msg_to_nurse.chat_src, msg_text)
-    nq.pending = False
-    nq.check_nurse_queue(context)
+    _send_message_to_queue(
+        update, context, sm.get_message_from_state_name(new_state))
 
-    # Tell the nurse
-    _log_msg(update.message.text, 'nurse', update)
+    # Tell the nurse and check the queue
     send_text_reply(
         f"Ok. State successfully set to {new_state} and message sent to the user.", update)
+    NurseQueue().mark_answered(context)
 
 
 def main():
