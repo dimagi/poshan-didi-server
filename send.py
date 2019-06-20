@@ -14,10 +14,10 @@ def _log_msg(text, source, update, state=None, chat_id=None):
     Database().insert(msg)
 
 
-def send_text_reply(txt, update, **kwargs):
+def send_text_reply(txt, update, state=None, ** kwargs):
+    state = state or Database().get_state_name_from_chat_id(
+        update.effective_chat.id)
     _log_msg(txt, 'system', update,
-             state=Database().get_state_name_from_chat_id(
-                 update.effective_chat.id
-             ),
+             state=state,
              chat_id=update.effective_chat.id)
     update.message.reply_text(txt, **kwargs)
