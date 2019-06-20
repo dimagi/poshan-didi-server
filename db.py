@@ -63,7 +63,10 @@ class Database(metaclass=Singleton):
 
     def get_state_name_from_chat_id(self, chat_id):
         user = self.session.query(User).filter_by(chat_id=chat_id).first()
-        return user.current_state_name
+        try:
+            return user.current_state_name
+        except AttributeError:
+            return '<unregistered_user>'
 
     def insert(self, obj):
         if type(obj) is list:
