@@ -12,7 +12,7 @@ CONFIRM_NAME, ASK_NAME, ASK_CHILD_NAME, ASK_CHILD_BIRTHDAY, PHONE_NUMBER, AWW_LI
 
 
 def cancel(update, context):
-    _log_msg(update.message.text, 'user', update)
+    _log_msg(update.message.text, 'user', update, state='registration')
     send_text_reply('cancel called', update)
     pass
 
@@ -29,7 +29,7 @@ def start(update, context):
 
 def _save_name(update, context, name):
     # Don't save because we will have saved input before this is called.
-    # _log_msg(update.message.text, 'user', update)
+    # _log_msg(update.message.text, 'user', update, state='registration')
     context.user_data['preferred_name'] = name
     send_text_reply(
         f'Ok, thank you {name}. Please tell me what I should call your child (just a first name is fine).', update)
@@ -37,7 +37,7 @@ def _save_name(update, context, name):
 
 
 def confirm_name(update, context):
-    _log_msg(update.message.text, 'user', update)
+    _log_msg(update.message.text, 'user', update, state='registration')
     intent = get_intent(update.message.text)
     if intent == Intent.YES:
         return _save_name(update, context, update.message.from_user.first_name)
@@ -52,12 +52,12 @@ def confirm_name(update, context):
 
 
 def ask_name(update, context):
-    _log_msg(update.message.text, 'user', update)
+    _log_msg(update.message.text, 'user', update, state='registration')
     return _save_name(update, context, update.message.text)
 
 
 def ask_child_name(update, context):
-    _log_msg(update.message.text, 'user', update)
+    _log_msg(update.message.text, 'user', update, state='registration')
     name = context.user_data['preferred_name']
     context.user_data['child_name'] = update.message.text
     send_text_reply(
@@ -67,7 +67,7 @@ def ask_child_name(update, context):
 
 
 def ask_child_birthday(update, context):
-    _log_msg(update.message.text, 'user', update)
+    _log_msg(update.message.text, 'user', update, state='registration')
     context.user_data['child_birthday'] = update.message.text
     send_text_reply(
         f'Got it. What is your phone number? Please enter it in the following format: +91dddddddddd, where each d is a number', update)
@@ -75,7 +75,7 @@ def ask_child_birthday(update, context):
 
 
 def phone_number(update, context):
-    _log_msg(update.message.text, 'user', update)
+    _log_msg(update.message.text, 'user', update, state='registration')
     # Our regex lets the users put in white space, so strip it all out
     # (this doesnt actually matter, but is nice)
     context.user_data['phone_number'] = update.message.text.replace(' ', '')
@@ -85,7 +85,7 @@ def phone_number(update, context):
 
 
 def ask_awc_code(update, context):
-    _log_msg(update.message.text, 'user', update)
+    _log_msg(update.message.text, 'user', update, state='registration')
     context.user_data['aww'] = update.message.text
     send_text_reply(
         f'Thanks! Last question: what is the AWC code?', update)
@@ -93,7 +93,7 @@ def ask_awc_code(update, context):
 
 
 def thanks(update, context):
-    _log_msg(update.message.text, 'user', update)
+    _log_msg(update.message.text, 'user', update, state='registration')
     context.user_data['awc_code'] = update.message.text
     # SAVE THE USER
     new_user = User(
