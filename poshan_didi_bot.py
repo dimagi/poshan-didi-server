@@ -101,16 +101,18 @@ def _fetch_user_data(chat_id, context):
             User.child_name,
             User.current_state,
             User.current_state_name,
-            User.aww).one()
+            User.aww,
+            User.awc_code).one()
     except:
         logger.error(
             f'Unable to find user data for {chat_id}. Or, multiple entries for that chat_id')
-        user = {'aww': 'NONE', 'first_name': 'NONE', 'last_name': 'NONE',
+        user = {'aww': 'NONE', 'awc_code': 'NONE', 'first_name': 'NONE', 'last_name': 'NONE',
                 'child_name': 'NONE', 'child_birthday': 'NONE', 'current_state': 'NONE',
                 'current_state_name': 'NONE'}
 
     # do a dict merge thing instead?
     context.user_data['aww'] = user.aww
+    context.user_data['awc_code'] = user.awc_code
     context.user_data['first_name'] = user.first_name
     context.user_data['last_name'] = user.last_name
     context.user_data['child_name'] = user.child_name
