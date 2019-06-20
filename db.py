@@ -39,6 +39,8 @@ class Message(Base):
     server_time = Column(DateTime)
     chat_id = Column(String, index=True)
     source = Column(String)
+    # Name of the state when a message was received from the user
+    state = Column(String)
 
     user = relationship('User', back_populates='messages')
 
