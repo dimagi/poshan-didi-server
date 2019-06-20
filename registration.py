@@ -7,8 +7,8 @@ from send import send_text_reply, _log_msg
 from customnlu import interpreter, get_intent, Intent
 
 # Define the states
-CONFIRM_NAME, ASK_NAME, ASK_CHILD_NAME, ASK_CHILD_BIRTHDAY, PHONE_NUMBER, AWW_LIST = range(
-    6)
+CONFIRM_NAME, ASK_NAME, ASK_CHILD_NAME, ASK_CHILD_BIRTHDAY, PHONE_NUMBER, AWW_LIST, AWC_CODE = range(
+    7)
 
 
 def cancel(update, context):
@@ -80,13 +80,21 @@ def phone_number(update, context):
     # (this doesnt actually matter, but is nice)
     context.user_data['phone_number'] = update.message.text.replace(' ', '')
     send_text_reply(
-        f'Great! Last question: what is the name of the AWW here?', update)
+        f'Great! What is the name of the AWW here?', update)
     return AWW_LIST
+
+
+def ask_awc_code(update, context):
+    _log_msg(update.message.text, 'user', update)
+    context.user_data['aww'] = update.message.text
+    send_text_reply(
+        f'Thanks! Last question: what is the AWC code?', update)
+    return AWC_CODE
 
 
 def thanks(update, context):
     _log_msg(update.message.text, 'user', update)
-    context.user_data['aww'] = update.message.text
+    context.user_data['awc_code'] = update.message.text
     # SAVE THE USER
     new_user = User(
         chat_id=update.effective_chat.id,
@@ -96,7 +104,8 @@ def thanks(update, context):
         child_name=context.user_data['child_name'],
         child_birthday=datetime.strptime(
             context.user_data['child_birthday'], '%Y-%m-%d'),
-        aww=context.user_data['aww']
+        aww=context.user_data['aww'],
+        awc_code=context.user_data['awc_code']
     )
     Database().insert(new_user)
     send_text_reply(
@@ -118,7 +127,9 @@ registration_conversation = ConversationHandler(
 
         PHONE_NUMBER: [MessageHandler(Filters.regex('^\+9\s*1\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*$'), phone_number)],
 
-        AWW_LIST: [MessageHandler(Filters.text, thanks)],
+        AWW_LIST: [MessageHandler(Filters.text, ask_awc_code)],
+
+        AWC_CODE: [MessageHandler(Filters.text, thanks)],
     },
 
     fallbacks=[CommandHandler('cancel', cancel)]
