@@ -8,6 +8,7 @@ import logging
 
 from simple_settings import settings
 
+from db import Database
 from send import _log_msg
 from util import Singleton
 
@@ -90,6 +91,8 @@ class NurseQueue(metaclass=Singleton):
                f"Your reply will be forwarded automatically.\n\n"
                f"{nl.join([m.msg for m in msg_list])}")
         _log_msg(msg, 'system', None,
+                 state=Database().get_state_name_from_chat_id(
+                     self.__current_msg_to_nurse.chat_src),
                  chat_id=settings.NURSE_CHAT_ID)
         context.bot.send_message(
             settings.NURSE_CHAT_ID,
