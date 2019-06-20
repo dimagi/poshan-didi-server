@@ -18,6 +18,7 @@ class User(Base):
     first_name = Column(String)
     last_name = Column(String)
     aww = Column(String)
+    awc_code = Column(String)
     child_name = Column(String)
     child_birthday = Column(DateTime)
     phone_number = Column(String)
