@@ -39,6 +39,8 @@ class Message(Base):
     server_time = Column(DateTime)
     chat_id = Column(String, index=True)
     source = Column(String)
+    # Name of the state when a message was received from the user
+    state = Column(String)
 
     user = relationship('User', back_populates='messages')
 
@@ -58,6 +60,13 @@ class Database(metaclass=Singleton):
 
     def reset_db(self):
         Base.metadata.create_all(self.engine)
+
+    def get_state_name_from_chat_id(self, chat_id):
+        user = self.session.query(User).filter_by(chat_id=chat_id).first()
+        try:
+            return user.current_state_name
+        except AttributeError:
+            return '<unregistered_user>'
 
     def insert(self, obj):
         if type(obj) is list:

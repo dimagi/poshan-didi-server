@@ -75,8 +75,8 @@ def _process_unknown(update, context, current_state_id, state_name):
                     context.user_data['first_name'],
                     update.effective_chat.id,
                     update.message.text))
-            state_id = None
-            state_name = '<None>'
+            # state_id = None
+            # state_name = '<None>'
     except KeyError:
         pass
     context.user_data['last_confused'] = now
@@ -127,12 +127,12 @@ def _replace_template(msg, context):
 
 def process_user_input(update, context):
     """Echo the user message."""
-    _log_msg(update.message.text, 'user', update)
     _fetch_user_data(update.effective_chat.id, context)
+    current_state_id, state_name = _get_current_state_from_context(context)
+    _log_msg(update.message.text, 'user', update, state=state_name)
     logger.info(
         f'[{get_chat_id(update, context)}] - msg received: {update.message.text}')
 
-    current_state_id, state_name = _get_current_state_from_context(context)
     intent = get_intent(update.message.text)
 
     if intent == Intent.UNKNOWN:
@@ -170,19 +170,22 @@ def _send_message_to_queue(update, context, msg_txt):
     """Send msg_text to the user at teh top of the nurse queue
     This does not update the queue (in case we want to send multiple messages.
     This will, however, log everything correctly"""
-    nq = NurseQueue()
+    chat_id = NurseQueue().current_msg_to_nurse.chat_src
 
     # Log the message from nurse to the user
     _log_msg(msg_txt, 'nurse', update,
-             chat_id=nq.current_msg_to_nurse.chat_src)
+             state=Database().get_state_name_from_chat_id(chat_id),
+             chat_id=chat_id)
     # And send it
     context.bot.send_message(
-        nq.current_msg_to_nurse.chat_src, msg_txt)
+        chat_id, msg_txt)
 
 
 def process_nurse_input(update, context):
     # Save the message the nurse sent in.
-    _log_msg(update.message.text, 'nurse', update)
+    _log_msg(update.message.text, 'nurse', update,
+             state=Database().get_state_name_from_chat_id(
+                 NurseQueue().current_msg_to_nurse.chat_src))
     logger.info(
         f'[{get_chat_id(update, context)}] - NURSE msg received: {update.message.text}')
 
@@ -219,7 +222,9 @@ def _set_user_state(update, chat_id, new_state):
 def set_state(update, context):
     # Save the mssage the nurse sent in
     logger.warning('Set state called!')
-    _log_msg(update.message.text, 'nurse', update)
+    chat_id = NurseQueue().current_msg_to_nurse.chat_src
+    _log_msg(update.message.text, 'nurse', update,
+             state=Database().get_state_name_from_chat_id(chat_id))
 
     # Ensure we have pending messages
     if not _check_pending(update, context,
@@ -239,7 +244,7 @@ def set_state(update, context):
 
     # Update the DB with the correct message text
     if not _set_user_state(update,
-                           NurseQueue().current_msg_to_nurse.chat_src,
+                           chat_id,
                            new_state):
         # failed to find the state the nurse requested
         return
