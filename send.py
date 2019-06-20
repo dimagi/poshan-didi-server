@@ -15,5 +15,9 @@ def _log_msg(text, source, update, state=None, chat_id=None):
 
 
 def send_text_reply(txt, update, **kwargs):
-    _log_msg(txt, 'system', update)
+    _log_msg(txt, 'system', update,
+             state=Database().get_state_name_from_chat_id(
+                 update.effective_chat.id
+             ),
+             chat_id=update.effective_chat.id)
     update.message.reply_text(txt, **kwargs)
