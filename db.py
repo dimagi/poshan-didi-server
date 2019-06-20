@@ -61,6 +61,10 @@ class Database(metaclass=Singleton):
     def reset_db(self):
         Base.metadata.create_all(self.engine)
 
+    def get_state_name_from_chat_id(self, chat_id):
+        user = self.session.query(User).filter_by(chat_id=chat_id).first()
+        return user.current_state_name
+
     def insert(self, obj):
         if type(obj) is list:
             self.session.add_all(obj)
