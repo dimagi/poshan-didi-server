@@ -75,8 +75,8 @@ def _process_unknown(update, context, current_state_id, state_name):
                     context.user_data['first_name'],
                     update.effective_chat.id,
                     update.message.text))
-            state_id = None
-            state_name = '<None>'
+            # state_id = None
+            # state_name = '<None>'
     except KeyError:
         pass
     context.user_data['last_confused'] = now
