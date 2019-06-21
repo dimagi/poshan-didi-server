@@ -88,7 +88,7 @@ def ask_aww_number(update, context):
     _log_msg(update.message.text, 'user', update, state='registration')
     context.user_data['aww'] = update.message.text
     send_text_reply(
-        f'Great! What is the phone number for {update.message.text}?', update, state='registration')
+        f'Great! What is the phone number for {update.message.text}? Please enter it in the following format: +91dddddddddd, where each d is a number', update, state='registration')
     return AWW_NUMBER
 
 
