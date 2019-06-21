@@ -7,8 +7,8 @@ from send import send_text_reply, _log_msg
 from customnlu import interpreter, get_intent, Intent
 
 # Define the states
-CONFIRM_NAME, ASK_NAME, ASK_CHILD_NAME, ASK_CHILD_BIRTHDAY, PHONE_NUMBER, AWW_LIST, AWC_CODE = range(
-    7)
+CONFIRM_NAME, ASK_NAME, ASK_CHILD_NAME, ASK_CHILD_BIRTHDAY, PHONE_NUMBER, AWW_LIST, AWW_NUMBER, AWC_CODE = range(
+    8)
 
 
 def cancel(update, context):
@@ -80,13 +80,23 @@ def phone_number(update, context):
     # (this doesnt actually matter, but is nice)
     context.user_data['phone_number'] = update.message.text.replace(' ', '')
     send_text_reply(
-        f'Great! What is the name of the AWW here?', update, state='registration')
+        f'Ok, last few questions. What is the name of the AWW here?', update, state='registration')
     return AWW_LIST
+
+
+def ask_aww_number(update, context):
+    _log_msg(update.message.text, 'user', update, state='registration')
+    context.user_data['aww'] = update.message.text
+    send_text_reply(
+        f'Great! What is the phone number for {update.message.text}?', update, state='registration')
+    return AWW_NUMBER
 
 
 def ask_awc_code(update, context):
     _log_msg(update.message.text, 'user', update, state='registration')
-    context.user_data['aww'] = update.message.text
+    # Our regex lets the users put in white space, so strip it all out
+    # (this doesnt actually matter, but is nice)
+    context.user_data['aww_number'] = update.message.text.replace(' ', '')
     send_text_reply(
         f'Thanks! Last question: what is the AWC code?', update, state='registration')
     return AWC_CODE
@@ -105,6 +115,7 @@ def thanks(update, context):
         child_birthday=datetime.strptime(
             context.user_data['child_birthday'], '%Y-%m-%d'),
         aww=context.user_data['aww'],
+        aww_number=context.user_data['aww_number'],
         awc_code=context.user_data['awc_code']
     )
     Database().insert(new_user)
@@ -127,7 +138,9 @@ registration_conversation = ConversationHandler(
 
         PHONE_NUMBER: [MessageHandler(Filters.regex('^\+9\s*1\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*$'), phone_number)],
 
-        AWW_LIST: [MessageHandler(Filters.text, ask_awc_code)],
+        AWW_LIST: [MessageHandler(Filters.text, ask_aww_number)],
+
+        AWW_NUMBER: [MessageHandler(Filters.regex('^\+9\s*1\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*$'), ask_awc_code)],
 
         AWC_CODE: [MessageHandler(Filters.text, thanks)],
     },
