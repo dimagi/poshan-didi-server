@@ -6,6 +6,7 @@ Poshan Didi!
 
 from datetime import datetime
 import logging
+import os
 import requests
 from collections import OrderedDict
 
@@ -19,7 +20,7 @@ from db import Database, User, Message
 from registration import registration_conversation
 from nurse_queue import NurseQueue, Msg
 from state_machine import StateMachine
-from send import send_text_reply, _log_msg
+from send import send_text_reply, send_image_reply, _log_msg
 from customnlu import interpreter, Intent, get_intent
 
 
@@ -125,6 +126,10 @@ def _replace_template(msg, context):
     return msg.replace("[child\u2019s name]", context.user_data['child_name'])
 
 
+def _prepend_img_path(img):
+    return os.path.join('data', 'images', img)
+
+
 def process_user_input(update, context):
     """Echo the user message."""
     _fetch_user_data(update.effective_chat.id, context)
@@ -143,7 +148,7 @@ def process_user_input(update, context):
     else:
         logger.info(
             f'[{get_chat_id(update, context)}] - intent: {intent} msg: {update.message.text}')
-        msg, state_id, state_name = sm.get_msg_and_next_state(
+        msg, img, state_id, state_name = sm.get_msg_and_next_state(
             current_state_id, intent)
 
     logger.info(
@@ -154,6 +159,8 @@ def process_user_input(update, context):
     _save_user_state(update.effective_chat.id, state_id, state_name)
     msg = _replace_template(msg, context)
     send_text_reply(msg, update)
+    if img:
+        send_image_reply(_prepend_img_path(img), update)
 
 
 def _check_pending(update, context, none_pending_msg):
@@ -182,10 +189,13 @@ def _send_message_to_queue(update, context, msg_txt):
 
 
 def process_nurse_input(update, context):
+    if NurseQueue().current_msg_to_nurse is not None:
+        chat_id = NurseQueue().current_msg_to_nurse.chat_src
+    else:
+        chat_id = update.effective_chat.id
     # Save the message the nurse sent in.
     _log_msg(update.message.text, 'nurse', update,
-             state=Database().get_state_name_from_chat_id(
-                 NurseQueue().current_msg_to_nurse.chat_src))
+             state=Database().get_state_name_from_chat_id(chat_id))
     logger.info(
         f'[{get_chat_id(update, context)}] - NURSE msg received: {update.message.text}')
 

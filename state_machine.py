@@ -50,7 +50,7 @@ class StateMachine(object):
         state_id = next_state.id
         if not next_state.has_children():
             next_state = None
-        return self.get_message_from_state_name(msg_id), state_id, msg_id
+        return self.get_message_from_state_name(msg_id), self.get_image_from_state_name(msg_id), state_id, msg_id
 
     def get_state_id_from_state_name(self, state_name):
         node = self.find_state_by_name(state_name)
@@ -60,6 +60,12 @@ class StateMachine(object):
         # return self.uttering_map_hi[state_name]
         return self.uttering_map_en[state_name]
 
+    def get_image_from_state_name(self, state_name):
+        try:
+            return self.images_map[state_name]
+        except KeyError:
+            return None
+
     def _load_messages(self, messages_filename):
         with open(messages_filename) as f:
             csv_rdr = csv.DictReader(f)
@@ -68,6 +74,7 @@ class StateMachine(object):
                     ' ', '_')
                 self.uttering_map_en[row['message_shortname']] = row['english']
                 self.uttering_map_hi[row['message_shortname']] = row['hindi']
+                self.images_map[row['message_shortname']] = row['image']
 
     def _load_flows(self, flow_filename):
         with open(flow_filename) as f:
