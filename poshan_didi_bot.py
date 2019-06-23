@@ -81,7 +81,7 @@ def _process_unknown(update, context, current_state_id, state_name):
     except KeyError:
         pass
     context.user_data['last_confused'] = now
-    return msg, state_id, state_name
+    return [msg], state_id, state_name
 
 
 def _save_user_state(chat_id, state_id, state_name):
@@ -153,16 +153,16 @@ def process_user_input(update, context):
 
     intent = get_intent(update.message.text)
 
-    img = None
+    imgs = None
     if intent == Intent.UNKNOWN:
         logger.warn(
             f'[{get_chat_id(update, context)}] - intent: {intent} msg: {update.message.text}')
-        msg, state_id, state_name = _process_unknown(
+        msgs, state_id, state_name = _process_unknown(
             update, context, current_state_id, state_name)
     else:
         logger.info(
             f'[{get_chat_id(update, context)}] - intent: {intent} msg: {update.message.text}')
-        msg, img, state_id, state_name = sm.get_msg_and_next_state(
+        msgs, imgs, state_id, state_name = sm.get_msg_and_next_state(
             current_state_id, intent)
 
     logger.info(
@@ -171,10 +171,12 @@ def process_user_input(update, context):
     # logger.info(f'[{update.effective_chat.id}] - next state: {state.msg_id}')
     context.user_data['current_state_id'] = state_id
     _save_user_state(update.effective_chat.id, state_id, state_name)
-    msg = _replace_template(msg, context)
-    send_text_reply(msg, update)
-    if img:
-        send_image_reply(_prepend_img_path(img), update)
+    msgs = [_replace_template(m, context) for m in msgs]
+    for msg in msgs:
+        send_text_reply(msg, update)
+    if imgs:
+        for img in imgs:
+            send_image_reply(_prepend_img_path(img), update)
 
 
 def _check_pending(update, context, none_pending_msg):
@@ -187,20 +189,21 @@ def _check_pending(update, context, none_pending_msg):
     return True
 
 
-def _send_message_to_queue(update, context, msg_txt):
+def _send_message_to_queue(update, context, msgs_txt):
     """Send msg_text to the user at teh top of the nurse queue
     This does not update the queue (in case we want to send multiple messages.
     This will, however, log everything correctly"""
     chat_id = NurseQueue().current_msg_to_nurse.chat_src
-
-    # Log the message from nurse to the user
-    _log_msg(msg_txt, 'nurse', update,
-             state=Database().get_state_name_from_chat_id(chat_id),
-             chat_id=chat_id)
-    # And send it
     _fetch_user_data(chat_id, context)
-    context.bot.send_message(
-        chat_id, _replace_template(msg_txt, context))
+
+    for msg_txt in msgs_txt:
+        # Log the message from nurse to the user
+        _log_msg(msg_txt, 'nurse', update,
+                 state=Database().get_state_name_from_chat_id(chat_id),
+                 chat_id=chat_id)
+        # And send it
+        context.bot.send_message(
+            chat_id, _replace_template(msg_txt, context))
 
 
 def process_nurse_input(update, context):
@@ -220,7 +223,7 @@ def process_nurse_input(update, context):
 
     # Log and send message from nurse to the specific chat ID, then check if
     # there are more in the queue
-    _send_message_to_queue(update, context, update.message.text)
+    _send_message_to_queue(update, context, [update.message.text])
     NurseQueue().mark_answered(context)
 
 
@@ -275,7 +278,7 @@ def set_state(update, context):
         return
 
     _send_message_to_queue(
-        update, context, sm.get_message_from_state_name(new_state))
+        update, context, sm.get_messages_from_state_name(new_state))
 
     # Tell the nurse and check the queue
     send_text_reply(
