@@ -103,16 +103,18 @@ def _fetch_user_data(chat_id, context):
             User.current_state,
             User.current_state_name,
             User.aww,
-            User.awc_code).one()
+            User.aww_number,
+            User.awc_code).filter_by(chat_id=chat_id).first()
     except:
         logger.error(
             f'Unable to find user data for {chat_id}. Or, multiple entries for that chat_id')
-        user = {'aww': 'NONE', 'awc_code': 'NONE', 'first_name': 'NONE', 'last_name': 'NONE',
+        user = {'aww': 'NONE', 'aww_number': 'NONE', 'awc_code': 'NONE', 'first_name': 'NONE', 'last_name': 'NONE',
                 'child_name': 'NONE', 'child_birthday': 'NONE', 'current_state': 'NONE',
                 'current_state_name': 'NONE'}
 
     # do a dict merge thing instead?
     context.user_data['aww'] = user.aww
+    context.user_data['aww_number'] = user.aww_number
     context.user_data['awc_code'] = user.awc_code
     context.user_data['first_name'] = user.first_name
     context.user_data['last_name'] = user.last_name
@@ -123,7 +125,18 @@ def _fetch_user_data(chat_id, context):
 
 
 def _replace_template(msg, context):
-    return msg.replace("[child\u2019s name]", context.user_data['child_name'])
+    repl = {
+        '[child name]': context.user_data['child_name'],
+        '[बच्चे का नाम]': context.user_data['child_name'],
+        '[AWW name]': context.user_data['aww'],
+        '[AWW नाम]': context.user_data['aww'],
+        '[mother name]': context.user_data['first_name'],
+        '[AWW phone number]': context.user_data['aww_number'],
+        '[AWW फोन नंबर]': context.user_data['aww_number'],
+    }
+    for initial, word in repl.items():
+        msg = msg.replace(initial, word)
+    return msg
 
 
 def _prepend_img_path(img):
@@ -140,6 +153,7 @@ def process_user_input(update, context):
 
     intent = get_intent(update.message.text)
 
+    img = None
     if intent == Intent.UNKNOWN:
         logger.warn(
             f'[{get_chat_id(update, context)}] - intent: {intent} msg: {update.message.text}')
@@ -184,8 +198,9 @@ def _send_message_to_queue(update, context, msg_txt):
              state=Database().get_state_name_from_chat_id(chat_id),
              chat_id=chat_id)
     # And send it
+    _fetch_user_data(chat_id, context)
     context.bot.send_message(
-        chat_id, msg_txt)
+        chat_id, _replace_template(msg_txt, context))
 
 
 def process_nurse_input(update, context):
