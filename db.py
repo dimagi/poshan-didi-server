@@ -64,7 +64,7 @@ class Database(metaclass=Singleton):
         Base.metadata.create_all(self.engine)
 
     def get_state_name_from_chat_id(self, chat_id):
-        user = self.session.query(User).filter_by(chat_id=chat_id).first()
+        user = self.session.query(User).filter_by(chat_id=str(chat_id)).first()
         try:
             return user.current_state_name
         except AttributeError:
