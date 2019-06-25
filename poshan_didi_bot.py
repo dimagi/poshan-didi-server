@@ -206,6 +206,22 @@ def _send_message_to_queue(update, context, msgs_txt):
             chat_id, _replace_template(msg_txt, context))
 
 
+def _send_message_to_chat_id(update, context, chat_id, msgs_txt):
+    """Send msg_text to the user at teh top of the nurse queue
+    This does not update the queue (in case we want to send multiple messages.
+    This will, however, log everything correctly"""
+    _fetch_user_data(chat_id, context)
+
+    for msg_txt in msgs_txt:
+        # Log the message from nurse to the user
+        _log_msg(msg_txt, 'GOD', update,
+                 state=Database().get_state_name_from_chat_id(chat_id),
+                 chat_id=chat_id)
+        # And send it
+        context.bot.send_message(
+            chat_id, _replace_template(msg_txt, context))
+
+
 def process_nurse_input(update, context):
     if NurseQueue().current_msg_to_nurse is not None:
         chat_id = NurseQueue().current_msg_to_nurse.chat_src
@@ -286,6 +302,40 @@ def set_state(update, context):
     NurseQueue().mark_answered(context)
 
 
+def set_super_state(update, context):
+    # Save the mssage the nurse sent in
+    logger.warning('Set SUPER state called in GOD mode!')
+    _log_msg(update.message.text, 'GOD', update)
+
+    # Check syntax of the command
+    try:
+        cmd_parts = update.message.text.split()
+        if len(cmd_parts) != 3:
+            raise Exception()
+        chat_id = cmd_parts[1]
+        new_state = cmd_parts[2]
+    except:
+        send_text_reply(
+            "Usage details for GOD mode: /state <chat_id> <new_state_name>", update)
+        return
+
+    # Update the DB with the correct message text
+    if not _set_user_state(update,
+                           chat_id,
+                           new_state):
+        # failed to find the state the nurse requested
+        return
+
+    _send_message_to_chat_id(
+        update, context, chat_id,
+        sm.get_messages_from_state_name(new_state))
+
+    # Tell the nurse and check the queue
+    send_text_reply(
+        f"Ok. State successfully set to {new_state} and message sent to the user.", update)
+    # NurseQueue().mark_answered(context)
+
+
 def main():
     """Start the bot."""
     setup_state_machine()
@@ -303,6 +353,10 @@ def main():
     # Add a nurse command to set state for a user (only allow the nurse to access this command)
     dp.add_handler(CommandHandler('state', set_state,
                                   Filters.chat(settings.NURSE_CHAT_ID)))
+
+    # Add a nurse command to set state for a user (only allow the nurse to access this command)
+    dp.add_handler(CommandHandler('state', set_super_state,
+                                  Filters.chat(settings.GOD_MODE)))
 
     # on non-command i.e., a normal message message - process_user_input the
     # message from Telegram. Use different handlers for the purse and user

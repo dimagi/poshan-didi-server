@@ -27,3 +27,6 @@ TRANSLATIONS_CSV = os.path.join('data', 'poshan-didi-translations.csv')
 
 # Should this be in Hindi?
 HINDI = False
+
+# GOD Mode chat ID
+GOD_MODE = 0
