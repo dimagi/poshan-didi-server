@@ -17,6 +17,7 @@ class User(Base):
     id = Column(Integer, primary_key=True)
     first_name = Column(String)
     last_name = Column(String)
+    track = Column(String)
     aww = Column(String)
     aww_number = Column(String)
     awc_code = Column(String)

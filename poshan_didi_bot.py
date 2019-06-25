@@ -103,17 +103,19 @@ def _fetch_user_data(chat_id, context):
             User.current_state,
             User.current_state_name,
             User.aww,
+            User.track,
             User.aww_number,
             User.awc_code).filter_by(chat_id=chat_id).first()
     except:
         logger.error(
             f'Unable to find user data for {chat_id}. Or, multiple entries for that chat_id')
-        user = {'aww': 'NONE', 'aww_number': 'NONE', 'awc_code': 'NONE', 'first_name': 'NONE', 'last_name': 'NONE',
+        user = {'aww': 'NONE', 'track': 'NONE', 'aww_number': 'NONE', 'awc_code': 'NONE', 'first_name': 'NONE', 'last_name': 'NONE',
                 'child_name': 'NONE', 'child_birthday': 'NONE', 'current_state': 'NONE',
                 'current_state_name': 'NONE'}
 
     # do a dict merge thing instead?
     context.user_data['aww'] = user.aww
+    context.user_data['track'] = user.track
     context.user_data['aww_number'] = user.aww_number
     context.user_data['awc_code'] = user.awc_code
     context.user_data['first_name'] = user.first_name

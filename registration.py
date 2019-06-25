@@ -103,7 +103,28 @@ def wrong_child_birthday(update, context):
 
 def ask_child_birthday(update, context):
     _log_msg(update.message.text, 'user', update, state='registration_4')
+
+    # Determine the track based on 5 months
+    if (datetime.utcnow() - datetime.strptime(update.message.text, '%Y-%m-%d')).days >= 365:
+        return wrong_child_birthday(update, context)
+    elif (datetime.utcnow() - datetime.strptime(update.message.text, '%Y-%m-%d')).days >= 150:
+        context.user_data['track'] = 12
+        if settings.HINDI:
+            send_text_reply('ठीक है, 6-12 महीने।', update,
+                            state='registration_4')
+        else:
+            send_text_reply('Ok, 6-12 months.', update, state='registration_4')
+    else:
+        context.user_data['track'] = 6
+        if settings.HINDI:
+            send_text_reply('ठीक है, 0-6 महीने।', update,
+                            state='registration_4')
+        else:
+            send_text_reply('Ok, 0-6 months.', update, state='registration_4')
+
+    # Save after the error checking and track determination above
     context.user_data['child_birthday'] = update.message.text
+
     if settings.HINDI:
         send_text_reply(
             f'समझ गयी। आपका फोन नंबर क्या है? कृपया उसे निम्न प्रारूप में दर्ज करें: + 91dddddddddd, जहां प्रत्येक d एक संख्या है।', update, state='registration_4')
@@ -183,6 +204,7 @@ def thanks(update, context):
         chat_id=update.effective_chat.id,
         first_name=context.user_data['preferred_name'],
         last_name=update.message.from_user.last_name,
+        track=context.user_data['track'],
         phone_number=context.user_data['phone_number'],
         child_name=context.user_data['child_name'],
         child_birthday=datetime.strptime(
