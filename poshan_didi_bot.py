@@ -89,7 +89,7 @@ def _process_unknown(update, context, current_state_id, state_name):
 
 def _save_user_state(chat_id, state_id, state_name):
     logger.info(f'setting state to {state_name} for {chat_id}')
-    our_user = Database().session.query(User).filter_by(chat_id=chat_id).first()
+    our_user = Database().session.query(User).filter_by(chat_id=str(chat_id)).first()
     our_user.current_state = state_id
     our_user.current_state_name = state_name
     Database().commit()
@@ -108,7 +108,7 @@ def _fetch_user_data(chat_id, context):
             User.aww,
             User.track,
             User.aww_number,
-            User.awc_code).filter_by(chat_id=chat_id).first()
+            User.awc_code).filter_by(chat_id=str(chat_id)).first()
     except:
         logger.error(
             f'Unable to find user data for {chat_id}. Or, multiple entries for that chat_id')
@@ -216,7 +216,7 @@ def _send_message_to_queue(update, context, msgs_txt):
         # Log the message from nurse to the user
         _log_msg(msg_txt, 'nurse', update,
                  state=Database().get_state_name_from_chat_id(chat_id),
-                 chat_id=chat_id)
+                 chat_id=str(chat_id))
         # And send it
         context.bot.send_message(
             chat_id, _replace_template(msg_txt, context))
@@ -232,7 +232,7 @@ def _send_message_to_chat_id(update, context, chat_id, msgs_txt):
         # Log the message from nurse to the user
         _log_msg(msg_txt, 'GOD', update,
                  state=Database().get_state_name_from_chat_id(chat_id),
-                 chat_id=chat_id)
+                 chat_id=str(chat_id))
         # And send it
         context.bot.send_message(
             chat_id, _replace_template(msg_txt, context))
@@ -266,7 +266,7 @@ def error(update, context):
 
 def _set_user_state(update, chat_id, new_state):
     # Set the state for the user manually
-    our_user = Database().session.query(User).filter_by(chat_id=chat_id).first()
+    our_user = Database().session.query(User).filter_by(chat_id=str(chat_id)).first()
     sm = _get_sm_from_track(our_user.track)
     try:
         state_id = sm.get_state_id_from_state_name(new_state)
@@ -310,7 +310,7 @@ def set_state(update, context):
         # failed to find the state the nurse requested
         return
 
-    our_user = Database().session.query(User).filter_by(chat_id=chat_id).first()
+    our_user = Database().session.query(User).filter_by(chat_id=str(chat_id)).first()
     sm = _get_sm_from_track(our_user.track)
     _send_message_to_queue(
         update, context, sm.get_messages_from_state_name(new_state))
