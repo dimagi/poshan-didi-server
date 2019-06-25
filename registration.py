@@ -90,6 +90,17 @@ def ask_child_name(update, context):
     return ASK_CHILD_BIRTHDAY
 
 
+def wrong_child_birthday(update, context):
+    _log_msg(update.message.text, 'user', update, state='registration_4b')
+    if settings.HINDI:
+        send_text_reply(
+            f"{context.user_data['child_name']} की जन्म की तारिख कब की है? कृपया उस संख्या को इस प्रारूप में लिखें: YYYY-MM-DD (साल-महीना-महीने का दिन)", update, state='registration_4b')
+    else:
+        send_text_reply(
+            f"What is the birthday for {context.user_data['child_name']}? Please enter in this format: YYYY-MM-DD", update, state='registration_4b')
+    return ASK_CHILD_BIRTHDAY
+
+
 def ask_child_birthday(update, context):
     _log_msg(update.message.text, 'user', update, state='registration_4')
     context.user_data['child_birthday'] = update.message.text
@@ -99,6 +110,17 @@ def ask_child_birthday(update, context):
     else:
         send_text_reply(
             f'Got it. What is your phone number? Please enter it in the following format: +91dddddddddd, where each d is a number', update, state='registration_4')
+    return PHONE_NUMBER
+
+
+def wrong_phone_number(update, context):
+    _log_msg(update.message.text, 'user', update, state='registration_5b')
+    if settings.HINDI:
+        send_text_reply(
+            f'आपका फोन नंबर क्या है? कृपया उसे निम्न प्रारूप में दर्ज करें: + 91dddddddddd, जहां प्रत्येक d एक संख्या है।', update, state='registration_5b')
+    else:
+        send_text_reply(
+            f'What is your phone number? Please enter it in the following format: +91dddddddddd, where each d is a number', update, state='registration_5b')
     return PHONE_NUMBER
 
 
@@ -125,6 +147,17 @@ def ask_aww_number(update, context):
     else:
         send_text_reply(
             f'Great! What is the phone number for {update.message.text}? Please enter it in the following format: +91dddddddddd, where each d is a number', update, state='registration_6')
+    return AWW_NUMBER
+
+
+def wrong_aww_number(update, context):
+    _log_msg(update.message.text, 'user', update, state='registration_6b')
+    if settings.HINDI:
+        send_text_reply(
+            f'{context.user_data["aww"]} के लिए फ़ोन नंबर क्या है? कृपया इसे निम्न प्रारूप में दर्ज करें: + 91dddddddddd, जहां प्रत्येक d एक संख्या है', update, state='registration_6')
+    else:
+        send_text_reply(
+            f'What is the phone number for {context.user_data["aww"]}? Please enter it in the following format: +91dddddddddd, where each d is a number', update, state='registration_6')
     return AWW_NUMBER
 
 
@@ -182,13 +215,16 @@ registration_conversation = ConversationHandler(
 
         ASK_CHILD_NAME: [MessageHandler(Filters.text, ask_child_name)],
 
-        ASK_CHILD_BIRTHDAY: [MessageHandler(Filters.regex('^201[8,9]-[0,1][0-9]-[0,1,2,3][0-9]$'), ask_child_birthday)],
+        ASK_CHILD_BIRTHDAY: [MessageHandler(Filters.regex('^201[8,9]-[0,1][0-9]-[0,1,2,3][0-9]$'), ask_child_birthday),
+                             MessageHandler(~Filters.regex('^201[8,9]-[0,1][0-9]-[0,1,2,3][0-9]$'), wrong_child_birthday)],
 
-        PHONE_NUMBER: [MessageHandler(Filters.regex('^\+9\s*1\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*$'), phone_number)],
+        PHONE_NUMBER: [MessageHandler(Filters.regex('^\+9\s*1\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*$'), phone_number),
+                       MessageHandler(~Filters.regex('^\+9\s*1\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*$'), wrong_phone_number)],
 
         AWW_LIST: [MessageHandler(Filters.text, ask_aww_number)],
 
-        AWW_NUMBER: [MessageHandler(Filters.regex('^\+9\s*1\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*$'), ask_awc_code)],
+        AWW_NUMBER: [MessageHandler(Filters.regex('^\+9\s*1\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*$'), ask_awc_code),
+                     MessageHandler(~Filters.regex('^\+9\s*1\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*\d\s*$'), wrong_aww_number)],
 
         AWC_CODE: [MessageHandler(Filters.text, thanks)],
     },
