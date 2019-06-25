@@ -1,6 +1,8 @@
 import csv
 import json
 
+from simple_settings import settings
+
 
 class State():
     def __init__(self, uuid, msg_id, children):
@@ -57,7 +59,8 @@ class StateMachine(object):
         return node.id
 
     def get_messages_from_state_name(self, state_name):
-        # return self.uttering_map_hi[state_name]
+        if settings.HINDI:
+            return self.uttering_map_hi[state_name]
         return self.uttering_map_en[state_name]
 
     def get_images_from_state_name(self, state_name):
