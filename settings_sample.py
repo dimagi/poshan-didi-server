@@ -22,8 +22,12 @@ DB_SQLALCHEMY_CONNECTION = 'sqlite:///poshan_didi.db'
 NLU_THRESHOLD = 0.4
 
 # State machine files
-MAIN_FLOW = os.path.join('data', 'poshan-didi-flow.json')
-TRANSLATIONS_CSV = os.path.join('data', 'poshan-didi-translations.csv')
+FLOW_6_MONTHS = os.path.join('data', 'poshan-didi-6months.json')
+FLOW_12_MONTHS = os.path.join('data', 'poshan-didi-12months.json')
+TRANSLATIONS_6_MONTHS = os.path.join(
+    'data', 'poshan-didi-translations-6months.csv')
+TRANSLATIONS_12_MONTHS = os.path.join(
+    'data', 'poshan-didi-translations-12months.csv')
 
 # Should this be in Hindi?
 HINDI = False

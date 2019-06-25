@@ -25,7 +25,8 @@ from customnlu import interpreter, Intent, get_intent
 
 
 #  TODO: get rid of this global statemachine
-sm = None
+sm6 = None
+sm12 = None
 
 CONFUSED_MSG1 = "Hmm, I didn't quite understand what you're trying to say. Please try again"
 CONFUSED_MSG2 = "Let me check into that and get back to you"
@@ -47,8 +48,10 @@ def get_chat_id(update, context):
 
 # TODO: get rid of global variable?
 def setup_state_machine():
-    global sm
-    sm = StateMachine(settings.MAIN_FLOW, settings.TRANSLATIONS_CSV)
+    global sm6, sm12
+    sm6 = StateMachine(settings.FLOW_6_MONTHS, settings.TRANSLATIONS_6_MONTHS)
+    sm12 = StateMachine(settings.FLOW_12_MONTHS,
+                        settings.TRANSLATIONS_12_MONTHS)
 
 
 def _get_current_state_from_context(context):
@@ -145,6 +148,16 @@ def _prepend_img_path(img):
     return os.path.join('data', 'images', img)
 
 
+def _get_sm_from_track(track):
+    if int(track) == 12:
+        return sm12
+    return sm6
+
+
+def _get_sm_from_context(context):
+    return _get_sm_from_track(context.user_data['track'])
+
+
 def process_user_input(update, context):
     """Echo the user message."""
     _fetch_user_data(update.effective_chat.id, context)
@@ -154,8 +167,9 @@ def process_user_input(update, context):
         f'[{get_chat_id(update, context)}] - msg received: {update.message.text}')
 
     intent = get_intent(update.message.text)
+    sm = _get_sm_from_context(context)
 
-    imgs = None
+    imgs = []
     if intent == Intent.UNKNOWN:
         logger.warn(
             f'[{get_chat_id(update, context)}] - intent: {intent} msg: {update.message.text}')
@@ -253,6 +267,7 @@ def error(update, context):
 def _set_user_state(update, chat_id, new_state):
     # Set the state for the user manually
     our_user = Database().session.query(User).filter_by(chat_id=chat_id).first()
+    sm = _get_sm_from_track(our_user.track)
     try:
         state_id = sm.get_state_id_from_state_name(new_state)
     except ValueError:
@@ -295,6 +310,8 @@ def set_state(update, context):
         # failed to find the state the nurse requested
         return
 
+    our_user = Database().session.query(User).filter_by(chat_id=chat_id).first()
+    sm = _get_sm_from_track(our_user.track)
     _send_message_to_queue(
         update, context, sm.get_messages_from_state_name(new_state))
 
