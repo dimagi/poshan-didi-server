@@ -209,6 +209,8 @@ def thanks(update, context):
         child_name=context.user_data['child_name'],
         child_birthday=datetime.strptime(
             context.user_data['child_birthday'], '%Y-%m-%d'),
+        current_state='echo',
+        current_state_name='echo',
         aww=context.user_data['aww'],
         aww_number=context.user_data['aww_number'],
         awc_code=context.user_data['awc_code']

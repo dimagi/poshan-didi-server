@@ -36,8 +36,16 @@ class StateMachine(object):
     def get_start_state(self):
         return self.find_state(self.root_uuid)
 
+    def _handle_echo(self, intent):
+        return str(intent), None, 'echo', 'echo'
+
     def get_msg_and_next_state(self, current_state_id, intent):
         intent = str(int(intent))
+
+        # Hardcode in the echo state
+        if current_state_id == 'echo':
+            return self._handle_echo(intent)
+
         if current_state_id is None:
             next_state = self.get_start_state()
         else:
@@ -87,9 +95,10 @@ class StateMachine(object):
                 self.uttering_map_hi = self._check_and_add(self.uttering_map_hi,
                                                            row['message_shortname'],
                                                            row['hindi'])
-                self.images_map = self._check_and_add(self.images_map,
-                                                      row['message_shortname'],
-                                                      row['image'])
+                if len(row['image']) > 0:
+                    self.images_map = self._check_and_add(self.images_map,
+                                                          row['message_shortname'],
+                                                          row['image'])
 
     def _load_flows(self, flow_filename):
         with open(flow_filename) as f:
