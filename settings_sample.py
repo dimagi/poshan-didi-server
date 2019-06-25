@@ -24,3 +24,6 @@ NLU_THRESHOLD = 0.4
 # State machine files
 MAIN_FLOW = os.path.join('data', 'poshan-didi-flow.json')
 TRANSLATIONS_CSV = os.path.join('data', 'poshan-didi-translations.csv')
+
+# Should this be in Hindi?
+HINDI = False

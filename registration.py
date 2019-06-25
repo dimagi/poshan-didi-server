@@ -5,6 +5,7 @@ from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters, Rege
 from db import User, Database
 from send import send_text_reply, _log_msg
 from customnlu import interpreter, get_intent, Intent
+from simple_settings import settings
 
 # Define the states
 CONFIRM_NAME, ASK_NAME, ASK_CHILD_NAME, ASK_CHILD_BIRTHDAY, PHONE_NUMBER, AWW_LIST, AWW_NUMBER, AWC_CODE = range(
@@ -19,11 +20,19 @@ def cancel(update, context):
 
 def start(update, context):
     # TODO: Update this once we are ready to launch?
-    send_text_reply(
-        'Hello and welcome. My name is Poshan Didi and I am currently under development.', update, state='registration')
+    if settings.HINDI:
+        send_text_reply(
+            'नमस्ते और आपका स्वागत है। मेरा नाम पोशन दीदी है और मैं इस समय विकसित हो रही हूँ।', update, state='registration')
+    else:
+        send_text_reply(
+            'Hello and welcome. My name is Poshan Didi and I am currently under development.', update, state='registration')
 
-    send_text_reply(
-        f'Can I call you {update.message.from_user.first_name}?', update, state='registration')
+    if settings.HINDI:
+        send_text_reply(
+            f'क्या मैं आपको {update.message.from_user.first_name} कह सकती हूं?', update, state='registration')
+    else:
+        send_text_reply(
+            f'Can I call you {update.message.from_user.first_name}?', update, state='registration')
     return CONFIRM_NAME
 
 
@@ -31,8 +40,12 @@ def _save_name(update, context, name):
     # Don't save because we will have saved input before this is called.
     # _log_msg(update.message.text, 'user', update, state='registration')
     context.user_data['preferred_name'] = name
-    send_text_reply(
-        f'Ok, thank you {name}. Please tell me what I should call your child (just a first name is fine).', update, state='registration')
+    if settings.HINDI:
+        send_text_reply(
+            f'ठीक है, धन्यवाद {name}। कृपया मुझे बताएं कि मुझे आपके बच्चे को क्या कहना चाहिए (उनका दिया गया पहला नाम ही काफी रहेगा)।', update, state='registration')
+    else:
+        send_text_reply(
+            f'Ok, thank you {name}. Please tell me what I should call your child (just a first name is fine).', update, state='registration')
     return ASK_CHILD_NAME
 
 
@@ -42,12 +55,20 @@ def confirm_name(update, context):
     if intent == Intent.YES:
         return _save_name(update, context, update.message.from_user.first_name)
     elif intent == Intent.NO:
-        send_text_reply(
-            'Ok, no problem. What would you like me to call you (just a first name is fine)?', update, state='registration')
+        if settings.HINDI:
+            send_text_reply(
+                'ठीक है, कोई बात नहीं। आप मुझसे खुद को क्या बुलवाना पसंद करेंगी (बस एक पहला नाम ठीक है)?', update, state='registration')
+        else:
+            send_text_reply(
+                'Ok, no problem. What would you like me to call you (just a first name is fine)?', update, state='registration')
         return ASK_NAME
 
-    send_text_reply(
-        f"I didn't quite get that. Please respond with 'yes' or 'no'. Can I call you {update.message.from_user.first_name}?", update, state='registration')
+    if settings.HINDI:
+        send_text_reply(
+            f"मुझे वह सही से समझ नहीं आया। कृपया 'हां' या 'नहीं' के साथ जवाब दें। क्या मैं आपको {update.message.from_user.first_name} कह कर आपसे बात कर सकती हूँ?", update, state='registration')
+    else:
+        send_text_reply(
+            f"I didn't quite get that. Please respond with 'yes' or 'no'. Can I call you {update.message.from_user.first_name}?", update, state='registration')
     return CONFIRM_NAME
 
 
@@ -60,17 +81,26 @@ def ask_child_name(update, context):
     _log_msg(update.message.text, 'user', update, state='registration')
     name = context.user_data['preferred_name']
     context.user_data['child_name'] = update.message.text
-    send_text_reply(
-        f'Ok, thank you {name}--I will refer to your child as {update.message.text}.\n\nAlmost done--just a few more questions. '
-        f'What is the birthday for {update.message.text}? Please enter in this format: YYYY-MM-DD', update, state='registration')
+    if settings.HINDI:
+        send_text_reply(
+            f'ठीक है, धन्यवाद {name} - मैं आपके बच्चे को {update.message.text} के नाम से बुलाऊंगी। बस हो गया- कुछ और प्रश्न रह रहे हैं।'
+            f'{update.message.text} की जन्म की तारिख कब की है? कृपया उस संख्या को इस प्रारूप में लिखें: YYYY-MM-DD (साल-महीना-महीने का दिन)', update, state='registration')
+    else:
+        send_text_reply(
+            f'Ok, thank you {name}--I will refer to your child as {update.message.text}.\n\nAlmost done--just a few more questions. '
+            f'What is the birthday for {update.message.text}? Please enter in this format: YYYY-MM-DD', update, state='registration')
     return ASK_CHILD_BIRTHDAY
 
 
 def ask_child_birthday(update, context):
     _log_msg(update.message.text, 'user', update, state='registration')
     context.user_data['child_birthday'] = update.message.text
-    send_text_reply(
-        f'Got it. What is your phone number? Please enter it in the following format: +91dddddddddd, where each d is a number', update, state='registration')
+    if settings.HINDI:
+        send_text_reply(
+            f'समझ गयी। आपका फोन नंबर क्या है? कृपया उसे निम्न प्रारूप में दर्ज करें: + 91dddddddddd, जहां प्रत्येक d एक संख्या है।', update, state='registration')
+    else:
+        send_text_reply(
+            f'Got it. What is your phone number? Please enter it in the following format: +91dddddddddd, where each d is a number', update, state='registration')
     return PHONE_NUMBER
 
 
@@ -79,16 +109,24 @@ def phone_number(update, context):
     # Our regex lets the users put in white space, so strip it all out
     # (this doesnt actually matter, but is nice)
     context.user_data['phone_number'] = update.message.text.replace(' ', '')
-    send_text_reply(
-        f'Ok, last few questions. What is the name of the AWW here?', update, state='registration')
+    if settings.HINDI:
+        send_text_reply(
+            f'बहुत अच्छे! बस कुछ सवाल। आपकी आंगनवाड़ी कार्यकर्ता का क्या नाम है?', update, state='registration')
+    else:
+        send_text_reply(
+            f'Ok, last few questions. What is the name of the AWW here?', update, state='registration')
     return AWW_LIST
 
 
 def ask_aww_number(update, context):
     _log_msg(update.message.text, 'user', update, state='registration')
     context.user_data['aww'] = update.message.text
-    send_text_reply(
-        f'Great! What is the phone number for {update.message.text}? Please enter it in the following format: +91dddddddddd, where each d is a number', update, state='registration')
+    if settings.HINDI:
+        send_text_reply(
+            f'धन्यवाद! {update.message.text} के लिए फ़ोन नंबर क्या है? कृपया इसे निम्न प्रारूप में दर्ज करें: + 91dddddddddd, जहां प्रत्येक d एक संख्या है', update, state='registration')
+    else:
+        send_text_reply(
+            f'Great! What is the phone number for {update.message.text}? Please enter it in the following format: +91dddddddddd, where each d is a number', update, state='registration')
     return AWW_NUMBER
 
 
@@ -97,8 +135,12 @@ def ask_awc_code(update, context):
     # Our regex lets the users put in white space, so strip it all out
     # (this doesnt actually matter, but is nice)
     context.user_data['aww_number'] = update.message.text.replace(' ', '')
-    send_text_reply(
-        f'Thanks! Last question: what is the AWC code?', update, state='registration')
+    if settings.HINDI:
+        send_text_reply(
+            f'धन्यवाद! अंतिम प्रश्न: आपके आंगनवाड़ी सेंटर का कोड क्या है?', update, state='registration')
+    else:
+        send_text_reply(
+            f'Thanks! Last question: what is the AWC code?', update, state='registration')
     return AWC_CODE
 
 
@@ -119,8 +161,16 @@ def thanks(update, context):
         awc_code=context.user_data['awc_code']
     )
     Database().insert(new_user)
-    send_text_reply(
-        "Thank you! You're all registered. Just wait for your first message, which should come at some point in the next 7 days", update, state='registration')
+    if settings.HINDI:
+        send_text_reply(
+            "धन्यवाद! अब आप पंजीकृत हैं।", update, state='registration')
+        send_text_reply(
+            "कृपया अपने पहले संदेश की प्रतीक्षा करें, जो अगले 7 दिनों के भीतर मेरे द्वारा आना चाहिए। आप मेरे द्वारा भेजे गए किसी भी सन्देश को फिर से पा सकते हैं, बस किसी भी समय हेल्लो टाइप करके!", update, state='registration')
+        send_text_reply(
+            "यदि आप मेरे द्वारा पहला संदेश भेजने से पहले थोड़ा अभ्यास करना चाहते हैं, तो कृपया 1 से 9 के बीच कोई भी संख्या दर्ज करें और मैं आपको बताउंगी कि मैंने क्या समझा।", update, state='registration')
+    else:
+        send_text_reply(
+            "Thank you! You're registered. Please wait for your first message, that should come within the next 7 days. You can access all content I have sent you after that just by typing hello at any time! If you want to practice before I sent you the first message, please enter a number between 1 to 9 and I will tell you what I understood. ", update, state='registration')
     return ConversationHandler.END
 
 
