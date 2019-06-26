@@ -8,6 +8,16 @@ from util import Singleton
 Base = declarative_base()
 
 
+class Escalation(Base):
+    __tablename__ = 'nurse_queue'
+
+    id = Column(Integer, primary_key=True)
+    chat_src_id = Column(String)
+    first_name = Column(String)
+    msg_txt = Column(String)
+    pending = Column(Boolean, default=True)
+    escalated_time = Column(DateTime)
+
 # TODO: Should the primary key be the chat_id?
 # TODO: Should we get rid of the linking between User and Message? We don't
 # use it aywhere and I'm a bit nervous using it would do unpredictable things
