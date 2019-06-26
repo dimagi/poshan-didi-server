@@ -37,7 +37,9 @@ class StateMachine(object):
         return self.find_state(self.root_uuid)
 
     def _handle_echo(self, intent):
-        return str(intent), None, 'echo', 'echo'
+        if settings.HINDI:
+            return f'आपने {str(intent)} नंबर दर्ज किया है।', None, 'echo', 'echo'
+        return f'You have said: {str(intent)}', None, 'echo', 'echo'
 
     def get_msg_and_next_state(self, current_state_id, intent):
         intent = str(int(intent))
