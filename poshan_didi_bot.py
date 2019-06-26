@@ -295,9 +295,9 @@ def set_state(update, context):
     # Check syntax of the command
     try:
         cmd_parts = update.message.text.split()
-        if len(cmd_parts) != 2:
+        if len(cmd_parts) < 2:
             raise Exception()
-        new_state = cmd_parts[1]
+        new_state = ''.join(cmd_parts[1:])
     except:
         send_text_reply(
             "Usage details: /state <new_state_name>", update)
