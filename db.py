@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from sqlalchemy import Column, Integer, String, Boolean, DateTime, ForeignKey, create_engine
 from sqlalchemy.orm import relationship, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
@@ -16,11 +18,15 @@ class Escalation(Base):
     first_name = Column(String)
     msg_txt = Column(String)
     pending = Column(Boolean, default=True)
+    state_name_when_escalated = Column(String)
     escalated_time = Column(DateTime)
+    replied_time = Column(DateTime)
 
 # TODO: Should the primary key be the chat_id?
 # TODO: Should we get rid of the linking between User and Message? We don't
 # use it aywhere and I'm a bit nervous using it would do unpredictable things
+
+
 class User(Base):
     __tablename__ = 'users'
 
@@ -87,3 +93,13 @@ class Database(metaclass=Singleton):
         else:
             self.session.add(obj)
         self.session.commit()
+
+    def nurse_queue_pending(self):
+        return bool(self.session.query(Escalation.pending).filter_by(pending=True).first())
+
+    def get_nurse_queue_first_pending(self):
+        return self.session.query(Escalation).filter_by(pending=True).first()
+
+    def nurse_queue_mark_answered(self, chat_id):
+        self.session.query(Escalation).filter_by(
+            chat_src_id=chat_id, pending=True).update({'pending': False, 'replied_time': datetime.utcnow()})
