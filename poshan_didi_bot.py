@@ -15,10 +15,9 @@ from collections import OrderedDict
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 from simple_settings import settings
 
-from db import Database, User, Message
+from db import Database, User, Message, Escalation
 
 from registration import registration_conversation
-from nurse_queue import NurseQueue, Msg
 from state_machine import StateMachine
 from send import send_text_reply, send_image_reply, _log_msg
 from customnlu import interpreter, Intent, get_intent
@@ -60,6 +59,33 @@ def _get_current_state_from_context(context):
     except KeyError:
         return None
 
+
+def _check_nurse_queue(context):
+    first_pending = Database().get_nurse_queue_first_pending()
+    try:
+        relevant_messages = Database().session.query(
+            Escalation
+        ).filter_by(pending=True, chat_src_id=first_pending.chat_src_id)
+    except AttributeError:
+        # No pending messages
+        return
+    for msg in relevant_messages:
+        _log_msg(msg.msg_txt, 'system-unsent', None, msg.state_name_when_escalated,
+                 chat_id=settings.NURSE_CHAT_ID)
+        msg.replied_time = datetime.utcnow()
+
+    nl = '\n'
+    msg = (f"The following message(s) are from "
+           f"'{first_pending.first_name}' ({first_pending.chat_src_id})."
+           f"Your reply will be forwarded automatically.\n\n"
+           f"{nl.join([m.msg_txt for m in relevant_messages])}")
+    context.bot.send_message(
+        settings.NURSE_CHAT_ID,
+        msg
+    )
+    Database().commit()
+
+
 # Define a few command handlers. These usually take the two arguments bot and
 # update. Error handlers also receive the raised TelegramError object in error.
 
@@ -72,13 +98,17 @@ def _process_unknown(update, context, current_state_id, state_name):
         last_confused = context.user_data['last_confused']
         if now - last_confused < 60*CONFUSION_BUFFER_MINUTES:
             msg = CONFUSED_MSG2
-
-            NurseQueue().check_nurse_queue(
-                context,
-                Msg(
-                    context.user_data['first_name'],
-                    update.effective_chat.id,
-                    update.message.text))
+            _, state_name = _get_current_state_from_context(context)
+            new_escalation = Escalation(
+                chat_src_id=update.effective_chat.id,
+                first_name=context.user_data['first_name'],
+                msg_txt=update.message.text,
+                pending=True,
+                escalated_time=datetime.utcnow(),
+                state_name_when_escalated=state_name
+            )
+            Database().insert(new_escalation)
+            _check_nurse_queue(context)
             # state_id = None
             # state_name = '<None>'
     except KeyError:
@@ -196,8 +226,7 @@ def process_user_input(update, context):
 
 
 def _check_pending(update, context, none_pending_msg):
-    nq = NurseQueue()
-    if not nq.pending:
+    if not Database().nurse_queue_pending():
         send_text_reply(none_pending_msg, update)
         logger.info(
             f'[{get_chat_id(update, context)}] - no pending nurse messages....')
@@ -209,17 +238,17 @@ def _send_message_to_queue(update, context, msgs_txt):
     """Send msg_text to the user at teh top of the nurse queue
     This does not update the queue (in case we want to send multiple messages.
     This will, however, log everything correctly"""
-    chat_id = NurseQueue().current_msg_to_nurse.chat_src
-    _fetch_user_data(chat_id, context)
+    escalation = Database().get_nurse_queue_first_pending()
+    _fetch_user_data(escalation.chat_src_id, context)
 
     for msg_txt in msgs_txt:
         # Log the message from nurse to the user
         _log_msg(msg_txt, 'nurse', update,
-                 state=Database().get_state_name_from_chat_id(chat_id),
-                 chat_id=str(chat_id))
+                 state=Database().get_state_name_from_chat_id(escalation.chat_src_id),
+                 chat_id=str(escalation.chat_src_id))
         # And send it
         context.bot.send_message(
-            chat_id, _replace_template(msg_txt, context))
+            escalation.chat_src_id, _replace_template(msg_txt, context))
 
 
 def _send_message_to_chat_id(update, context, chat_id, msgs_txt):
@@ -239,9 +268,10 @@ def _send_message_to_chat_id(update, context, chat_id, msgs_txt):
 
 
 def process_nurse_input(update, context):
-    if NurseQueue().current_msg_to_nurse is not None:
-        chat_id = NurseQueue().current_msg_to_nurse.chat_src
-    else:
+    current_msg = Database().get_nurse_queue_first_pending()
+    try:
+        chat_id = current_msg.chat_src_id
+    except AttributeError:
         chat_id = update.effective_chat.id
     # Save the message the nurse sent in.
     _log_msg(update.message.text, 'nurse', update,
@@ -256,7 +286,8 @@ def process_nurse_input(update, context):
     # Log and send message from nurse to the specific chat ID, then check if
     # there are more in the queue
     _send_message_to_queue(update, context, [update.message.text])
-    NurseQueue().mark_answered(context)
+    Database().nurse_queue_mark_answered(current_msg.chat_src_id)
+    _check_nurse_queue(context)
 
 
 def error(update, context):
@@ -283,7 +314,11 @@ def _set_user_state(update, chat_id, new_state):
 def set_state(update, context):
     # Save the mssage the nurse sent in
     logger.warning('Set state called!')
-    chat_id = NurseQueue().current_msg_to_nurse.chat_src
+    current_msg = Database().get_nurse_queue_first_pending()
+    try:
+        chat_id = current_msg.chat_src_id
+    except AttributeError:
+        chat_id = update.effective_chat.id
     _log_msg(update.message.text, 'nurse', update,
              state=Database().get_state_name_from_chat_id(chat_id))
 
@@ -318,7 +353,8 @@ def set_state(update, context):
     # Tell the nurse and check the queue
     send_text_reply(
         f"Ok. State successfully set to {new_state} and message sent to the user.", update)
-    NurseQueue().mark_answered(context)
+    Database().nurse_queue_mark_answered(current_msg.chat_src_id)
+    _check_nurse_queue(context)
 
 
 def set_super_state(update, context):
@@ -352,7 +388,7 @@ def set_super_state(update, context):
     # Tell the nurse and check the queue
     send_text_reply(
         f"Ok. State successfully set to {new_state} and message sent to the user.", update)
-    # NurseQueue().mark_answered(context)
+    _check_nurse_queue(context)
 
 
 def main():
