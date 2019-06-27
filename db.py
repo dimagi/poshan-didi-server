@@ -23,6 +23,7 @@ class User(Base):
     aww_number = Column(String)
     awc_code = Column(String)
     child_name = Column(String)
+    child_gender = Column(String(1))
     child_birthday = Column(DateTime)
     phone_number = Column(String)
     current_state = Column(String)

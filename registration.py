@@ -8,14 +8,14 @@ from customnlu import interpreter, get_intent, Intent
 from simple_settings import settings
 
 # Define the states
-CONFIRM_NAME, ASK_NAME, ASK_CHILD_NAME, ASK_CHILD_BIRTHDAY, PHONE_NUMBER, AWW_LIST, AWW_NUMBER, AWC_CODE = range(
-    8)
+CONFIRM_NAME, ASK_NAME, ASK_CHILD_NAME, ASK_CHILD_GENDER, ASK_CHILD_BIRTHDAY, PHONE_NUMBER, AWW_LIST, AWW_NUMBER, AWC_CODE = range(
+    9)
 
 
 def cancel(update, context):
     _log_msg(update.message.text, 'user', update, state='registration_cancel')
     send_text_reply('cancel called, ending registration flow',
-                    update, state='registration')
+                    update, state='registration_cancel')
     return ConversationHandler.END
 
 
@@ -79,14 +79,42 @@ def ask_child_name(update, context):
     _log_msg(update.message.text, 'user', update, state='registration_3')
     name = context.user_data['preferred_name']
     context.user_data['child_name'] = update.message.text
+
     if settings.HINDI:
         send_text_reply(
-            f'ठीक है, धन्यवाद {name} - मैं आपके बच्चे को {update.message.text} के नाम से बुलाऊंगी। बस हो गया- कुछ और प्रश्न रह रहे हैं।'
-            f'{update.message.text} की जन्म की तारिख कब की है? कृपया उस संख्या को इस प्रारूप में लिखें: YYYY-MM-DD (साल-महीना-महीने का दिन)', update, state='registration_3')
+            f'ठीक है, धन्यवाद {name} - मैं आपके बच्चे को {update.message.text} के नाम से बुलाऊंगी। बस हो गया- कुछ और प्रश्न रह रहे हैं।\n\n'
+            f'आपके बच्चे का लिंग क्या है?\n'
+            f'1) लड़की\n'
+            f'2) लड़का', update, state='registration_3')
     else:
         send_text_reply(
             f'Ok, thank you {name}--I will refer to your child as {update.message.text}.\n\nAlmost done--just a few more questions. '
-            f'What is the birthday for {update.message.text}? Please enter in this format: YYYY-MM-DD', update, state='registration_3')
+            f'What is the gender of your child?\n1) Girl\n2) Boy', update, state='registration_3')
+    return ASK_CHILD_GENDER
+
+
+def save_child_gender(update, context):
+    _log_msg(update.message.text, 'user', update, state='registration_3.5')
+    intent = get_intent(update.message.text)
+    if intent == Intent.ONE:
+        context.user_data['child_gender'] = 'F'
+    elif intent == Intent.TWO:
+        context.user_data['child_gender'] = 'M'
+    else:
+        if settings.HINDI:
+            send_text_reply(
+                f"मुझे वह सही से समझ नहीं आया। कृपया '1' या '2' के साथ जवाब दें। आपके बच्चे का लिंग क्या है?\n1) लड़की\n2) लड़का", update, state='registration_3.5x')
+        else:
+            send_text_reply(
+                f"I didn't quite get that. Please respond with '1' or '2'. What is the gender of your child?\n1) Girl\n2) Boy?", update, state='registration_3.5x')
+        return ASK_CHILD_GENDER
+
+    if settings.HINDI:
+        send_text_reply(
+            f'{context.user_data["child_name"]} की जन्म की तारिख कब की है? कृपया उस संख्या को इस प्रारूप में लिखें: YYYY-MM-DD (साल-महीना-महीने का दिन)', update, state='registration_3.5')
+    else:
+        send_text_reply(
+            f'What is the birthday for {context.user_data["child_name"]}? Please enter in this format: YYYY-MM-DD', update, state='registration_3.5')
     return ASK_CHILD_BIRTHDAY
 
 
@@ -207,6 +235,7 @@ def thanks(update, context):
         track=context.user_data['track'],
         phone_number=context.user_data['phone_number'],
         child_name=context.user_data['child_name'],
+        child_gender=context.user_data['child_gender'],
         child_birthday=datetime.strptime(
             context.user_data['child_birthday'], '%Y-%m-%d'),
         current_state='echo',
@@ -238,6 +267,8 @@ registration_conversation = ConversationHandler(
         ASK_NAME: [MessageHandler(Filters.text, ask_name)],
 
         ASK_CHILD_NAME: [MessageHandler(Filters.text, ask_child_name)],
+
+        ASK_CHILD_GENDER: [MessageHandler(Filters.text, save_child_gender)],
 
         ASK_CHILD_BIRTHDAY: [MessageHandler(Filters.regex('^201[8,9]-[0,1][0-9]-[0,1,2,3][0-9]$'), ask_child_birthday),
                              MessageHandler(~Filters.regex('^201[8,9]-[0,1][0-9]-[0,1,2,3][0-9]$'), wrong_child_birthday)],
