@@ -49,6 +49,9 @@ class User(Base):
     messages = relationship(
         'Message', order_by='Message.server_time', back_populates='user')
 
+    def to_dict(self):
+        return {col.name: getattr(self, col.name) for col in self.__table__.columns}
+
 
 class Message(Base):
     __tablename__ = 'messages'
