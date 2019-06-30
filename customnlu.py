@@ -43,7 +43,10 @@ def get_intent(msg):
 
     # A bit of a cheat, but we'll take entities over anything
     if len(result['entities']) > 0:
-        return ENTITY_MAP[result['entities'][0]['value']]
+        try:
+            return ENTITY_MAP[result['entities'][0]['value']]
+        except KeyError:
+            return Intent.UNKNOWN
 
     if result['intent']['confidence'] < settings.NLU_THRESHOLD:
         return Intent.UNKNOWN
