@@ -19,8 +19,6 @@ logging.basicConfig(filename=settings.LOG_FILENAME,
 logger = logging.getLogger(__name__)
 
 
-
-
 # Define a few command handlers. These usually take the two arguments bot and
 # update. Error handlers also receive the raised TelegramError object in error.
 

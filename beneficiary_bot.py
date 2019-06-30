@@ -1,5 +1,5 @@
 import os
-from datetime import datetime
+from datetime import datetime, timedelta
 import logging
 
 from simple_settings import settings
@@ -14,6 +14,9 @@ from state_machine import StateMachine
 CONFUSED_MSG1 = "Hmm, I didn't quite understand what you're trying to say. Please try again"
 CONFUSED_MSG2 = "Let me check into that and get back to you"
 CONFUSION_BUFFER_MINUTES = 3
+
+TIMEOUT_TEXT = "Thank you for talking to me. If you want to talk to me again, say hello."
+TIMEOUT_TEXT_HI = "मुझसे बात करने के लिए धन्यवाद। यदि आप किसी भी समय बात करना चाहते हैं तो 'हेल्लो' बोलिये!"
 
 # Enable logging
 logging.basicConfig(filename=settings.LOG_FILENAME,
@@ -87,6 +90,38 @@ def _save_user_state(chat_id, state_id, state_name):
 
 
 #################################################
+# Timeout
+#################################################
+def timeout(context):
+    chat_id = context.job.context["chat_id"]
+    logger.info(f'Timeout called for {chat_id}')
+
+    # Reset state
+    prior_state = context.job.context['current_state_name']
+    _save_user_state(chat_id, None, None)
+
+    # Tell the user
+    msg_txt = TIMEOUT_TEXT
+    if settings.HINDI:
+        msg_txt = TIMEOUT_TEXT_HI
+    _log_msg(msg_txt, 'system-timeout', None,
+             state=prior_state,
+             chat_id=str(chat_id))
+    context.bot.send_message(
+        chat_id, msg_txt)
+
+
+def remove_old_timer_add_new(context):
+    for j in context.job_queue.get_jobs_by_name(f'timeout_{context.user_data["chat_id"]}'):
+        j.schedule_removal()
+
+    context.user_data['job_timeout'] = context.job_queue.run_once(
+        timeout, timedelta(minutes=settings.STATE_TIMEOUT_MINUTES),
+        context=context.user_data,
+        name=f'timeout_{context.user_data["chat_id"]}')
+
+
+#################################################
 # Message sending and prep
 #################################################
 def replace_template(msg, context):
@@ -148,6 +183,9 @@ def process_user_input(update, context):
     _log_msg(update.message.text, 'user', update, state=state_name)
     logger.info(
         f'[{get_chat_id(update, context)}] - msg received: {update.message.text}')
+
+    # First, set a timeout
+    remove_old_timer_add_new(context)
 
     intent = get_intent(update.message.text)
     # Special case for echos

@@ -29,6 +29,9 @@ TRANSLATIONS_6_MONTHS = os.path.join(
 TRANSLATIONS_12_MONTHS = os.path.join(
     'data', 'poshan-didi-translations-12months.csv')
 
+# state machine timeout
+STATE_TIMEOUT_MINUTES = 30
+
 # Should this be in Hindi?
 HINDI = False
 
