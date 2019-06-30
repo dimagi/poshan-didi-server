@@ -167,7 +167,7 @@ def process_user_input(update, context):
         logger.info(
             f'[{get_chat_id(update, context)}] - intent: {intent} msg: {update.message.text}')
         msgs, imgs, state_id, state_name = sm.get_msg_and_next_state(
-            current_state_id, intent)
+            current_state_id, intent, context.user_data['child_gender'])
 
     logger.info(
         f'[{get_chat_id(update, context)}] - current state: {current_state_id} -> next state: {state_id}')

@@ -140,7 +140,7 @@ def set_state(update, context):
     our_user = Database().session.query(User).filter_by(chat_id=str(chat_id)).first()
     sm = beneficiary_bot.get_sm_from_track(our_user.track)
     _send_message_to_queue(
-        update, context, sm.get_messages_from_state_name(new_state))
+        update, context, sm.get_messages_from_state_name(new_state, our_user.child_gender))
 
     # Tell the nurse and check the queue
     send_text_reply(
@@ -177,7 +177,7 @@ def set_super_state(update, context):
     sm = beneficiary_bot.get_sm_from_track(our_user.track)
     _send_message_to_chat_id(
         update, context, chat_id,
-        sm.get_messages_from_state_name(new_state))
+        sm.get_messages_from_state_name(new_state, our_user.child_gender))
 
     # Tell the nurse and check the queue
     send_text_reply(

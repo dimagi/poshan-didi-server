@@ -23,6 +23,8 @@ class StateMachine(object):
         # not. It's fine.
         self.uttering_map_en = {}
         self.uttering_map_hi = {}
+        self.uttering_map_hi_male = {}
+        self.uttering_map_hi_female = {}
         self.images_map = {}
 
         self.root_uuid = None
@@ -38,10 +40,11 @@ class StateMachine(object):
 
     def _handle_echo(self, intent):
         if settings.HINDI:
+            # return [f'आपने {str(intent)} नंबर दर्ज किया है। कृपया 1 से 9 के बीच कोई भी संख्या दर्ज करें और मैं आपको बताउंगी कि मैंने क्या समझा।'], None, 'echo', 'echo'
             return [f'आपने {str(intent)} नंबर दर्ज किया है।'], None, 'echo', 'echo'
         return [f'You have said: {str(intent)}'], None, 'echo', 'echo'
 
-    def get_msg_and_next_state(self, current_state_id, intent):
+    def get_msg_and_next_state(self, current_state_id, intent, gender):
         intent = str(int(intent))
 
         # Hardcode in the echo state
@@ -62,15 +65,23 @@ class StateMachine(object):
         state_id = next_state.id
         if not next_state.has_children():
             next_state = None
-        return self.get_messages_from_state_name(msg_id), self.get_images_from_state_name(msg_id), state_id, msg_id
+        return self.get_messages_from_state_name(msg_id, gender), self.get_images_from_state_name(msg_id), state_id, msg_id
 
     def get_state_id_from_state_name(self, state_name):
         node = self.find_state_by_name(state_name)
         return node.id
 
-    def get_messages_from_state_name(self, state_name):
+    def get_messages_from_state_name(self, state_name, gender):
         if settings.HINDI:
-            return self.uttering_map_hi[state_name]
+            try:
+                if gender == 'M':
+                    return self.uttering_map_hi_male[state_name]
+                elif gender == 'F':
+                    return self.uttering_map_hi_female[state_name]
+                else:
+                    raise IndexError(f'Unknown gender: {gender}')
+            except KeyError:
+                return self.uttering_map_hi[state_name]
         return self.uttering_map_en[state_name]
 
     def get_images_from_state_name(self, state_name):
@@ -97,6 +108,14 @@ class StateMachine(object):
                 self.uttering_map_hi = self._check_and_add(self.uttering_map_hi,
                                                            row['message_shortname'],
                                                            row['hindi'])
+                if len(row['hindi_male']) > 0:
+                    self.uttering_map_hi_male = self._check_and_add(self.uttering_map_hi_male,
+                                                                    row['message_shortname'],
+                                                                    row['hindi_male'])
+                if len(row['hindi_female']) > 0:
+                    self.uttering_map_hi_female = self._check_and_add(self.uttering_map_hi_female,
+                                                                      row['message_shortname'],
+                                                                      row['hindi_female'])
                 if len(row['image']) > 0:
                     self.images_map = self._check_and_add(self.images_map,
                                                           row['message_shortname'],
