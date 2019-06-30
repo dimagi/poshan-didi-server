@@ -150,6 +150,11 @@ def process_user_input(update, context):
         f'[{get_chat_id(update, context)}] - msg received: {update.message.text}')
 
     intent = get_intent(update.message.text)
+    # Special case for echos
+    if state_name == 'echo' and (intent < 1 or intent > 10):
+        intent = Intent.UNKNOWN
+
+    # Get the correct state machine
     sm = _get_sm_from_context(context)
 
     imgs = []
