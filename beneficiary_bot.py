@@ -15,6 +15,9 @@ CONFUSED_MSG1 = "Hmm, I didn't quite understand what you're trying to say. Pleas
 CONFUSED_MSG2 = "Let me check into that and get back to you"
 CONFUSION_BUFFER_MINUTES = 3
 
+WRONG_INPUT = "I did not quite understand what you are saying. Please try again."
+WRONG_INPUT_HI = "मुझे समझ नहीं आया आप क्या कहना चाह। कृपया पुन: प्रयास करें।"
+
 TIMEOUT_TEXT = "Thank you for talking to me. If you want to talk to me again, say hello."
 TIMEOUT_TEXT_HI = "मुझसे बात करने के लिए धन्यवाद। यदि आप किसी भी समय बात करना चाहते हैं तो 'हेल्लो' बोलिये!"
 
@@ -89,9 +92,22 @@ def _save_user_state(chat_id, state_id, state_name):
     Database().commit()
 
 
+def _get_menu_for_user(context):
+    # msgs, imgs, state_id, state_name
+    # THIS is a HACK
+    if int(context.user_data['track']) == 6:
+        state_name = '1_1_kmm'
+    else:
+        state_name = '1_1_act'
+
+    sm = _get_sm_from_context(context)
+    return sm.get_messages_from_state_name(state_name, context.user_data['child_gender']), sm.get_images_from_state_name(state_name), sm.get_state_id_from_state_name(state_name), state_name
+
 #################################################
 # Timeout
 #################################################
+
+
 def timeout(context):
     chat_id = context.job.context["chat_id"]
     logger.info(f'Timeout called for {chat_id}')
@@ -196,6 +212,7 @@ def process_user_input(update, context):
     sm = _get_sm_from_context(context)
 
     imgs = []
+    terminal = False
     if intent == Intent.UNKNOWN:
         logger.warn(
             f'[{get_chat_id(update, context)}] - intent: {intent} msg: {update.message.text}')
@@ -204,8 +221,19 @@ def process_user_input(update, context):
     else:
         logger.info(
             f'[{get_chat_id(update, context)}] - intent: {intent} msg: {update.message.text}')
-        msgs, imgs, state_id, state_name = sm.get_msg_and_next_state(
-            current_state_id, intent, context.user_data['child_gender'])
+        try:
+            msgs, imgs, state_id, state_name, terminal = sm.get_msg_and_next_state(
+                current_state_id, intent, context.user_data['child_gender'])
+        except ValueError:
+            # This is a state transition that doesn't exist (e.g., they typed 6
+            # when the menu is only 1-5)
+            msgs = [WRONG_INPUT]
+            if settings.HINDI:
+                msgs = [WRONG_INPUT_HI]
+            # Repeat our message.
+            msgs = msgs + sm.get_messages_from_state_name(
+                state_name, context.user_data['child_gender'])
+            state_id = current_state_id
 
     logger.info(
         f'[{get_chat_id(update, context)}] - current state: {current_state_id} -> next state: {state_id}')
@@ -219,3 +247,14 @@ def process_user_input(update, context):
     if imgs:
         for img in imgs:
             send_image_reply(prepend_img_path(img), update)
+
+    # Such a HACK
+    if terminal:
+        msgs, imgs, state_id, state_name = _get_menu_for_user(context)
+        _save_user_state(update.effective_chat.id, state_id, state_name)
+        msgs = [replace_template(m, context) for m in msgs]
+        for msg in msgs:
+            send_text_reply(msg, update)
+        if imgs:
+            for img in imgs:
+                send_image_reply(prepend_img_path(img), update)

@@ -51,27 +51,34 @@ class StateMachine(object):
         if current_state_id == 'echo':
             return self._handle_echo(intent)
 
+        msg_id, state_id, terminal = None, None, True
+
         if current_state_id is None:
             next_state = self.get_start_state()
         else:
             current_state = self.find_state(current_state_id)
-            try:
-                next_state = self.find_state(
-                    current_state.children[intent])
-            except KeyError:
-                raise ValueError(
-                    f'No such transition for {intent} from state {current_state.id}. Valid transitions: {current_state.children}')
-        msg_id = next_state.msg_id
-        state_id = next_state.id
-        if not next_state.has_children():
-            next_state = None
-        return self.get_messages_from_state_name(msg_id, gender), self.get_images_from_state_name(msg_id), state_id, msg_id
+            if current_state.has_children():
+                try:
+                    next_state = self.find_state(
+                        current_state.children[intent])
+                except KeyError:
+                    raise ValueError(
+                        f'No such transition for {intent} from state {current_state.id}. Valid transitions: {current_state.children}')
+            else:
+                next_state = None
+        if next_state:
+            msg_id = next_state.msg_id
+            state_id = next_state.id
+            terminal = not next_state.has_children()
+        return self.get_messages_from_state_name(msg_id, gender), self.get_images_from_state_name(msg_id), state_id, msg_id, terminal
 
     def get_state_id_from_state_name(self, state_name):
         node = self.find_state_by_name(state_name)
         return node.id
 
     def get_messages_from_state_name(self, state_name, gender):
+        if state_name is None:
+            return []
         if settings.HINDI:
             try:
                 if gender == 'M':
@@ -85,6 +92,8 @@ class StateMachine(object):
         return self.uttering_map_en[state_name]
 
     def get_images_from_state_name(self, state_name):
+        if state_name is None:
+            return None
         try:
             return self.images_map[state_name]
         except KeyError:
