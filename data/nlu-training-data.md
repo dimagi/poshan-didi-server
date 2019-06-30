@@ -12,6 +12,8 @@
 - हैल्लो
 - नमस्ते
 - प्रणाम
+- namaste
+- namaskar
 - hey
 - hello
 - hallo
@@ -194,7 +196,6 @@
 - choice [1](number:one)
 - [first](number:one) number
 - नंबर [एक](number:one)
-- [nine](number)
 - [one](number)
 - [two](number)
 - [three](number)
@@ -203,6 +204,28 @@
 - [six](number)
 - [seven](number)
 - [eight](number)
+- [nine](number)
+- [ten](number)
+- [One](number:one)
+- [Two](number:two)
+- [Three](number:three)
+- [Four](number:four)
+- [Five](number:five)
+- [Six](number:six)
+- [Seven](number:seven)
+- [Eight](number:eight)
+- [Nine](number:nine)
+- [Ten](number:ten)
+- [ONE](number:one)
+- [TWO](number:two)
+- [THREE](number:three)
+- [FOUR](number:four)
+- [FIVE](number:five)
+- [SIX](number:six)
+- [SEVEN](number:seven)
+- [EIGHT](number:eight)
+- [NINE](number:nine)
+- [TEN](number:ten)
 - [ek](number:one)
 - [do](number:two)
 - [teen](number:three)
@@ -213,6 +236,26 @@
 - [aaath](number:eight)
 - [nou](number:nine)
 - [das](number:ten)
+- [Ek](number:one)
+- [EK](number:one)
+- [Do](number:two)
+- [DO](number:two)
+- [Teen](number:three)
+- [TEEN](number:three)
+- [Chaar](number:four)
+- [CHAAR](number:four)
+- [Paanch](number:five)
+- [PAANCH](number:five)
+- [Chhah](number:six)
+- [CHHAH](number:six)
+- [Saat](number:seven)
+- [SAAT](number:seven)
+- [Aaath](number:eight)
+- [AAATH](number:eight)
+- [Nou](number:nine)
+- [NOU](number:nine)
+- [Das](number:ten)
+- [DAS](number:ten)
 - [नौवा](number:nine)
 - [आठवां](number:eight)
 - [सातवा](number:seven)
@@ -239,11 +282,16 @@
 - Haa
 - haan
 - Haan
+- Han
+- han
 - ha
+- Ha
 - हूं
 - निश्चित रूप से
 - नितांत
 - निस्संदेह
+- हां बिल्कुल
+- हाँ बिल्कुल
 - ya
 - yes
 - ja
