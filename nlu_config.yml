@@ -1,2 +1,9 @@
 language: hi
-pipeline: supervised_embeddings
+pipeline:
+- name: "WhitespaceTokenizer"
+- name: "RegexFeaturizer"
+- name: "CRFEntityExtractor"
+- name: "EntitySynonymMapper"
+- name: "CountVectorsFeaturizer"
+  analyzer: 'char'  # use 'char' or 'char_wb' for character
+- name: "EmbeddingIntentClassifier"
