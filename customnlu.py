@@ -57,7 +57,10 @@ def get_intent(msg):
     elif result['intent']['name'] == 'no':
         return Intent.NO
     elif result['intent']['name'] == 'option':
-        return ENTITY_MAP[result['entities'][0]['value']]
+        try:
+            return ENTITY_MAP[result['entities'][0]['value']]
+        except:
+            return Intent.UNKNOWN
     return Intent.UNKNOWN
 
 
