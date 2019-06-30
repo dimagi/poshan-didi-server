@@ -55,6 +55,19 @@
 - कुछ और
 
 ## intent:option
+- [दसवां](number:ten) वाला
+- option [10](number:ten)
+- select [10](number:ten)
+- नंबर [१०](number:ten)
+- नंबर [10](number:ten)
+- [१०] नंबर(number:ten)
+- [10] नंबर(number:ten)
+- [दस](number:ten) नंबर
+- नंबर [दस](number:ten)
+- विकल्प [१०](number:ten)
+- option [ten](number:ten)
+- choice [10](number:ten)
+- [tenth](number:ten) number
 - [नौवा](number:nine) वाला
 - option [9](number:nine)
 - select [9](number:nine)
@@ -262,6 +275,14 @@
 - ya
 - yse
 
+## synonym:ten
+- ten
+- 10
+- दसवा
+- tenth
+- १०
+- das
+- दस
 
 ## synonym:nine
 - nine
