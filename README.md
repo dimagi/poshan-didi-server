@@ -87,7 +87,7 @@ TBD
 The telegram bot we built relies on the RASA-NLU package to do very basic NLU on incoming messages to determine the intent of incoming messages. This is overkill for initial purposes, but lays the ground work for complex NLU. The library requires that we build models based on the training data before it can be used. To do that, run the following command:
 
 ```sh
-$ python -m rasa_nlu.train -c nlu_config.yml --data data/nlu-training-data.json -o models --fixed_model_name nlu --project current --verbose
+$ python -m rasa_nlu.train -c nlu_config.yml --data data/nlu-training-data.md -o models --fixed_model_name nlu --project current --verbose
 ```
 
 This process should complete relatively quickly and will produce a folder called `models` that contains the training data from the NLU library.
