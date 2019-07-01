@@ -189,6 +189,30 @@ def _process_unknown(update, context, current_state_id, state_name):
     return [msg], state_id, state_name
 
 
+def handle_echo(update, context):
+    intent = get_intent(update.message.text)
+
+    # Get the correct state machine
+    sm = _get_sm_from_context(context)
+
+    if intent == Intent.UNKNOWN or (int(intent) < 1 or int(intent) > 10):
+        if settings.HINDI:
+            send_text_reply("मुझे खेद है कि मुझे यह समझ में नहीं आया। यह 1 से 10 के बीच एक भी अंक नहीं है। कृपया 1 से 10 के बीच का कोई एक अंक लिखें।",
+                            update)
+        else:
+            send_text_reply(
+                "I am sorry I did not understand that. It is not a single digit number between 1 to 10. Please enter one digit between 1 to 10.",
+                update)
+    else:
+        if settings.HINDI:
+            send_text_reply(f'आपने {str(int(intent))} नंबर दर्ज किया है।',
+                            update)
+        else:
+            send_text_reply(
+                f'You have said: {str(int(intent))}',
+                update)
+
+
 def process_user_input(update, context):
     """Handle a user message."""
     logger.info(f'trying to get info for {update.effective_chat.id}')
@@ -199,6 +223,10 @@ def process_user_input(update, context):
     _log_msg(update.message.text, 'user', update, state=state_name)
     logger.info(
         f'[{get_chat_id(update, context)}] - msg received: {update.message.text}')
+
+    # Special case for echos
+    if state_name == 'echo':
+        return handle_echo(update, context)
 
     # First, set a timeout
     remove_old_timer_add_new(context)
@@ -218,9 +246,6 @@ def process_user_input(update, context):
     else:
         logger.info(
             f'[{get_chat_id(update, context)}] - intent: {intent} msg: {update.message.text}')
-        # Special case for echos
-        if state_name == 'echo' and (intent < 1 or intent > 10):
-            intent = Intent.UNKNOWN
 
         try:
             if current_state_id is None:

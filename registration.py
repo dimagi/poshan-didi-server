@@ -251,10 +251,10 @@ def thanks(update, context):
         send_text_reply(
             "कृपया अपने पहले संदेश की प्रतीक्षा करें, जो अगले 7 दिनों के भीतर मेरे द्वारा आना चाहिए। आप मेरे द्वारा भेजे गए किसी भी सन्देश को फिर से पा सकते हैं, बस किसी भी समय हेल्लो टाइप करके!", update, state='registration_final')
         send_text_reply(
-            "यदि आप मेरे द्वारा पहला संदेश भेजने से पहले थोड़ा अभ्यास करना चाहते हैं, तो कृपया 1 से 9 के बीच कोई भी संख्या दर्ज करें और मैं आपको बताउंगी कि मैंने क्या समझा।", update, state='registration_final')
+            "यदि आप मेरे द्वारा पहला संदेश भेजने से पहले थोड़ा अभ्यास करना चाहते हैं, तो कृपया 1 से 10 के बीच कोई भी संख्या दर्ज करें और मैं आपको बताउंगी कि मैंने क्या समझा।", update, state='registration_final')
     else:
         send_text_reply(
-            "Thank you! You're registered. Please wait for your first message, that should come within the next 7 days. You can access all content I have sent you after that just by typing hello at any time! If you want to practice before I sent you the first message, please enter a number between 1 to 9 and I will tell you what I understood. ", update, state='registration_final')
+            "Thank you! You're registered. Please wait for your first message, that should come within the next 7 days. You can access all content I have sent you after that just by typing hello at any time! If you want to practice before I sent you the first message, please enter a number between 1 to 10 and I will tell you what I understood. ", update, state='registration_final')
     return ConversationHandler.END
 
 
