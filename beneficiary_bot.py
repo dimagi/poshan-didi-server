@@ -222,8 +222,19 @@ def process_user_input(update, context):
         logger.info(
             f'[{get_chat_id(update, context)}] - intent: {intent} msg: {update.message.text}')
         try:
-            msgs, imgs, state_id, state_name, terminal = sm.get_msg_and_next_state(
-                current_state_id, intent, context.user_data['child_gender'])
+            if current_state_id is None:
+                msgs, imgs, state_id, state_name = _get_menu_for_user(context)
+                _save_user_state(update.effective_chat.id,
+                                 state_id, state_name)
+                msgs = [replace_template(m, context) for m in msgs]
+                for msg in msgs:
+                    send_text_reply(msg, update)
+                if imgs:
+                    for img in imgs:
+                        send_image_reply(prepend_img_path(img), update)
+            else:
+                msgs, imgs, state_id, state_name, terminal = sm.get_msg_and_next_state(
+                    current_state_id, intent, context.user_data['child_gender'])
         except ValueError:
             # This is a state transition that doesn't exist (e.g., they typed 6
             # when the menu is only 1-5)
