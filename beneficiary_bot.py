@@ -204,9 +204,6 @@ def process_user_input(update, context):
     remove_old_timer_add_new(context)
 
     intent = get_intent(update.message.text)
-    # Special case for echos
-    if state_name == 'echo' and (intent < 1 or intent > 10):
-        intent = Intent.UNKNOWN
 
     # Get the correct state machine
     sm = _get_sm_from_context(context)
@@ -221,6 +218,10 @@ def process_user_input(update, context):
     else:
         logger.info(
             f'[{get_chat_id(update, context)}] - intent: {intent} msg: {update.message.text}')
+        # Special case for echos
+        if state_name == 'echo' and (intent < 1 or intent > 10):
+            intent = Intent.UNKNOWN
+
         try:
             if current_state_id is None:
                 msgs, imgs, state_id, state_name = _get_menu_for_user(context)
