@@ -27,7 +27,7 @@ def start(update, context):
         # User exists, so let 'em know
         msg_txt = 'You have already been registered! Please talk to your AWW [AWW name] on [AWW phone number] if you have any doubts.'
         if settings.HINDI:
-            msg_txt = 'आप पहले से ही पंजीकृत हैं! यदि आपको कोई संदेह है तो कृपया [AWW phone number] पर अपनी [AWW name] से बात करें।'
+            msg_txt = 'आप पहले से ही पंजीकृत हैं! यदि आपको कोई संदेह है तो कृपया [AWW phone number] पर अपनी आंगनवाड़ी कार्यकर्ता [AWW name] से बात करें।'
 
         msg_txt = msg_txt.replace('[AWW name]', user.aww)
         msg_txt = msg_txt.replace('[AWW phone number]', user.aww_number)
