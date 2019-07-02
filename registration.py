@@ -20,7 +20,20 @@ def cancel(update, context):
 
 
 def start(update, context):
-    # TODO: Update this once we are ready to launch?
+    # Check for duplicate registration
+    user = Database().session.query(User).filter_by(
+        chat_id=str(update.effective_chat.id)).first()
+    if user is not None:
+        # User exists, so let 'em know
+        msg_txt = 'You have already been registered! Please talk to your AWW [AWW name] on [AWW phone number] if you have any doubts.'
+        if settings.HINDI:
+            msg_txt = 'आप पहले से ही पंजीकृत हैं! यदि आपको कोई संदेह है तो कृपया [AWW phone number] पर अपनी [AWW name] से बात करें।'
+
+        msg_txt = msg_txt.replace('[AWW name]', user.aww)
+        msg_txt = msg_txt.replace('[AWW phone number]', user.aww_number)
+        send_text_reply(msg_txt, update)
+        return ConversationHandler.END
+
     if settings.HINDI:
         send_text_reply(
             'नमस्ते और आपका स्वागत है। मेरा नाम पोशन दीदी है और मैं इस समय विकसित हो रही हूँ।', update, state='registration_1')
