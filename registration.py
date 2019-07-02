@@ -31,7 +31,7 @@ def start(update, context):
 
         msg_txt = msg_txt.replace('[AWW name]', user.aww)
         msg_txt = msg_txt.replace('[AWW phone number]', user.aww_number)
-        send_text_reply(msg_txt, update)
+        send_text_reply(msg_txt, update, state='registration_duplicate')
         return ConversationHandler.END
 
     if settings.HINDI:
@@ -237,9 +237,28 @@ def ask_awc_code(update, context):
     return AWC_CODE
 
 
+def _awc_code_error(update):
+    if settings.HINDI:
+        send_text_reply('आंगनवाड़ी सेण्टर कोड में 11 अंक होने चाहिए। आपके आंगनवाड़ी सेंटर का कोड क्या है?',
+                        update, state='registration_7x')
+    else:
+        send_text_reply('There should be 11 digits in the AWC code. What is the AWC code?',
+                        update, state='registration_7x')
+    return AWC_CODE
+
+
 def thanks(update, context):
     _log_msg(update.message.text, 'user', update, state='registration_final')
+    try:
+        awc_code = int(update.message.text)
+    except:
+        return _awc_code_error(update)
+
+    if len(str(awc_code)) != 11:
+        return _awc_code_error(update)
+
     context.user_data['awc_code'] = update.message.text
+
     # SAVE THE USER
     new_user = User(
         chat_id=update.effective_chat.id,
