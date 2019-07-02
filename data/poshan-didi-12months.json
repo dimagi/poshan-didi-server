@@ -26,15 +26,15 @@
         },
         {
           "uuid": "44e3f3dc-afb4-44df-9643-00d7498ffbf7",
-          "x": 300,
-          "y": 297,
+          "x": 261,
+          "y": 317,
           "destination": "784d6a75-920e-4c22-90da-4aa3c7b3b1ab",
           "actions": [
             {
               "type": "reply",
               "uuid": "be539c8c-6a40-41a5-a5e8-383256c0af02",
               "msg": {
-                "base": "1_1_act"
+                "base": "1_2_act"
               },
               "media": {},
               "quick_replies": [],
@@ -53,7 +53,7 @@
               "type": "reply",
               "uuid": "ea76fce9-6969-4245-8c0c-74e1480699bd",
               "msg": {
-                "base": "1_1_1_yes"
+                "base": "1_2_1_yes"
               },
               "media": {},
               "quick_replies": [],
@@ -72,7 +72,7 @@
               "type": "reply",
               "uuid": "d301b6de-d9ee-4a1d-9af5-96b0d67d3a69",
               "msg": {
-                "base": "1_1_2_no"
+                "base": "1_2_2_no"
               },
               "media": {},
               "quick_replies": [],
@@ -91,7 +91,7 @@
               "type": "reply",
               "uuid": "b641dc04-0cb2-47cc-bee2-37bf8d919719",
               "msg": {
-                "base": "1_2_cbf"
+                "base": "1_1_cbf"
               },
               "media": {},
               "quick_replies": [],
@@ -110,7 +110,7 @@
               "type": "reply",
               "uuid": "31770732-3c0f-4d1a-a652-d5c292436637",
               "msg": {
-                "base": "1_2_1_imp"
+                "base": "1_1_1_imp"
               },
               "media": {},
               "quick_replies": [],
@@ -129,7 +129,7 @@
               "type": "reply",
               "uuid": "469b6e00-7c17-44e0-be3f-1ae5464f0fec",
               "msg": {
-                "base": "1_2_3_pic"
+                "base": "1_1_3_pic"
               },
               "media": {
                 "base": "image/png:attachments/15397/123785/steps/13333e05-ed56-40ce-8168-2aff47e112af.png"
@@ -141,7 +141,7 @@
               "type": "reply",
               "uuid": "10092eae-f5e6-4593-bd3e-b8423dbf878d",
               "msg": {
-                "base": "1_2_3_pic"
+                "base": "1_1_3_pic"
               },
               "media": {
                 "base": "image/png:attachments/15397/123785/steps/e77ca691-48b4-465c-9390-815f5c7dd247.png"
@@ -153,7 +153,7 @@
               "type": "reply",
               "uuid": "55752152-e334-4eed-bd63-86e72204c661",
               "msg": {
-                "base": "1_2_3_pic"
+                "base": "1_1_3_pic"
               },
               "media": {
                 "base": "image/png:attachments/15397/123785/steps/49860b5b-bd12-41d8-b347-0aef5f752f8b.png"
@@ -174,7 +174,7 @@
               "type": "reply",
               "uuid": "047e4491-4cc5-4943-b774-5b1abff9c11e",
               "msg": {
-                "base": "1_2_4_att"
+                "base": "1_1_4_att"
               },
               "media": {
                 "base": "image/png:attachments/15397/123785/steps/d1e9d3c4-271c-426b-ba45-731c05b5101b.png"
@@ -195,7 +195,7 @@
               "type": "reply",
               "uuid": "f31dc61c-9ece-4f63-b1e6-87b956d0206b",
               "msg": {
-                "base": "1_2_6_qa_suckslowly"
+                "base": "1_1_6_qa_suckslowly"
               },
               "media": {},
               "quick_replies": [],
@@ -214,7 +214,7 @@
               "type": "reply",
               "uuid": "5c90e0da-baa7-4dad-8bfc-c97fd801635e",
               "msg": {
-                "base": "1_2_6_qa_suckslowly_yes"
+                "base": "1_1_6_qa_suckslowly_yes"
               },
               "media": {},
               "quick_replies": [],
@@ -233,7 +233,7 @@
               "type": "reply",
               "uuid": "0d3573e8-0562-4d1d-bb17-5581ce6e3d24",
               "msg": {
-                "base": "1_2_6_qa_suckslowly_no"
+                "base": "1_1_6_qa_suckslowly_no"
               },
               "media": {},
               "quick_replies": [],
@@ -252,7 +252,7 @@
               "type": "reply",
               "uuid": "85bd5a0f-5d0a-4038-9a86-e800f858b134",
               "msg": {
-                "base": "1_2_6_qa_infant_tiresout"
+                "base": "1_1_6_qa_infant_tiresout"
               },
               "media": {},
               "quick_replies": [],
@@ -271,7 +271,7 @@
               "type": "reply",
               "uuid": "6b141dcb-4f0e-448e-995e-26fc461b20f5",
               "msg": {
-                "base": "1_2_6_infant_tiresout_yes"
+                "base": "1_1_6_infant_tiresout_yes"
               },
               "media": {},
               "quick_replies": [],
@@ -290,7 +290,7 @@
               "type": "reply",
               "uuid": "754f3a2b-118b-4210-bde8-649858c6cef6",
               "msg": {
-                "base": "1_2_6_infant_tiresout_no"
+                "base": "1_1_6_infant_tiresout_no"
               },
               "media": {},
               "quick_replies": [],
@@ -309,7 +309,7 @@
               "type": "reply",
               "uuid": "e04ee741-002d-4538-a894-df75a37c7e0d",
               "msg": {
-                "base": "1_2_6_swallow_pause"
+                "base": "1_1_6_swallow_pause"
               },
               "media": {},
               "quick_replies": [],
@@ -328,7 +328,7 @@
               "type": "reply",
               "uuid": "137e35ff-7b77-4fa2-9631-fff86ac9bf9d",
               "msg": {
-                "base": "1_2_6_swallow_pause_yes"
+                "base": "1_1_6_swallow_pause_yes"
               },
               "media": {},
               "quick_replies": [],
@@ -347,7 +347,7 @@
               "type": "reply",
               "uuid": "9f90deae-6914-43aa-9393-a5141fed8a15",
               "msg": {
-                "base": "1_2_6_swallow_pause_no"
+                "base": "1_1_6_swallow_pause_no"
               },
               "media": {},
               "quick_replies": [],
@@ -366,7 +366,7 @@
               "type": "reply",
               "uuid": "17d71bdb-49c6-4482-ab26-21e183c05bdc",
               "msg": {
-                "base": "1_2_7_vom"
+                "base": "1_1_7_vom"
               },
               "media": {},
               "quick_replies": [],
@@ -385,7 +385,7 @@
               "type": "reply",
               "uuid": "79813bff-b859-4ee0-b513-de38a4e78ee2",
               "msg": {
-                "base": "1_2_8_ques"
+                "base": "1_1_8_ques"
               },
               "media": {},
               "quick_replies": [],
@@ -2446,7 +2446,7 @@
               "type": "reply",
               "uuid": "a5d6cce4-28dd-445c-b73f-2097d509d106",
               "msg": {
-                "base": "1_2_2_pos"
+                "base": "1_1_2_pos"
               },
               "media": {},
               "quick_replies": [],
@@ -2465,7 +2465,7 @@
               "type": "reply",
               "uuid": "035b72c2-9cac-489f-b1dc-7bc870614288",
               "msg": {
-                "base": "1_2_5_fre"
+                "base": "1_1_5_fre"
               },
               "media": {},
               "quick_replies": [],
@@ -2840,7 +2840,7 @@
         {
           "uuid": "7528be7f-fafb-48b8-af5b-35cd2357b1fb",
           "x": 176,
-          "y": 204,
+          "y": 206,
           "label": "Main menu",
           "rules": [
             {
@@ -2848,7 +2848,7 @@
               "category": {
                 "base": "1"
               },
-              "destination": "44e3f3dc-afb4-44df-9643-00d7498ffbf7",
+              "destination": "dbce1aca-2bcd-4964-bc32-67623ddf7646",
               "destination_type": "A",
               "test": {
                 "type": "contains_any",
@@ -2863,7 +2863,7 @@
               "category": {
                 "base": "2"
               },
-              "destination": "dbce1aca-2bcd-4964-bc32-67623ddf7646",
+              "destination": "44e3f3dc-afb4-44df-9643-00d7498ffbf7",
               "destination_type": "A",
               "test": {
                 "type": "contains_any",
@@ -6090,9 +6090,10 @@
         "dependencies": {},
         "uuid": "47d40ef7-81aa-453d-bed8-ca24daf6f9ad",
         "name": "Poshan Didi(6-12)_shortnames",
-        "saved_on": "2019-06-27T15:12:55.351841Z",
-        "revision": 379,
-        "expires": 10080
+        "saved_on": "2019-07-01T14:51:36.046522Z",
+        "revision": 406,
+        "expires": 10080,
+        "notes": []
       }
     }
   ],
