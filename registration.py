@@ -274,7 +274,8 @@ def thanks(update, context):
         current_state_name='echo',
         aww=context.user_data['aww'],
         aww_number=context.user_data['aww_number'],
-        awc_code=context.user_data['awc_code']
+        awc_code=context.user_data['awc_code'],
+        registration_date=datetime.utcnow()
     )
     Database().insert(new_user)
     if settings.HINDI:

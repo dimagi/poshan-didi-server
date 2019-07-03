@@ -44,6 +44,7 @@ class User(Base):
     phone_number = Column(String)
     current_state = Column(String)
     current_state_name = Column(String)
+    registration_date = Column(DateTime)
     chat_id = Column(String, unique=True, index=True)
 
     messages = relationship(
