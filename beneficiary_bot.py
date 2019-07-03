@@ -96,9 +96,11 @@ def _get_menu_for_user(context):
     # msgs, imgs, state_id, state_name
     # THIS is a HACK
     if int(context.user_data['track']) == 6:
-        state_name = '1_1_kmm'
+        # state_name = '1_1_kmm'
+        state_name = '1_2_act'
     else:
-        state_name = '1_1_act'
+        # state_name = '1_1_act'
+        state_name = '1_1_cbf'
 
     sm = _get_sm_from_context(context)
     return sm.get_messages_from_state_name(state_name, context.user_data['child_gender']), sm.get_images_from_state_name(state_name), sm.get_state_id_from_state_name(state_name), state_name
