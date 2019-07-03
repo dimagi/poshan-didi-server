@@ -11,9 +11,12 @@ from send import send_text_reply, send_image_reply, _log_msg
 from state_machine import StateMachine
 
 
-CONFUSED_MSG1 = "Hmm, I didn't quite understand what you're trying to say. Please try again"
-CONFUSED_MSG2 = "Let me check into that and get back to you"
-CONFUSION_BUFFER_MINUTES = 3
+# CONFUSED_MSG1 = "Hmm, I didn't quite understand what you're trying to say. Please try again"
+# CONFUSED_MSG2 = "Let me check into that and get back to you"
+# CONFUSION_BUFFER_MINUTES = 3
+
+ESCALATE_TEXT = 'Let me check into that and get back to you.'
+ESCALATE_TEXT_HI = 'मुझे इस बारे में थोड़ी जानकारी इकठ्ठा कर के आपको थोड़ी देर में बताती हूँ।'
 
 WRONG_INPUT = "I did not quite understand what you are saying. Please try again."
 WRONG_INPUT_HI = "मुझे समझ नहीं आया आप क्या कहना चाह। कृपया पुन: प्रयास करें।"
@@ -165,29 +168,21 @@ def prepend_img_path(img):
 # Telegram bot processing new messages
 #################################################
 def _process_unknown(update, context, current_state_id, state_name):
-    now = int(datetime.utcnow().timestamp())
-    msg = CONFUSED_MSG1
+    msg = ESCALATE_TEXT
+    if settings.HINDI:
+        msg = ESCALATE_TEXT_HI
     state_id = current_state_id
-    try:
-        last_confused = context.user_data['last_confused']
-        if now - last_confused < 60*CONFUSION_BUFFER_MINUTES:
-            msg = CONFUSED_MSG2
-            _, state_name = _get_current_state_from_context(context)
-            new_escalation = Escalation(
-                chat_src_id=update.effective_chat.id,
-                first_name=context.user_data['first_name'],
-                msg_txt=update.message.text,
-                pending=True,
-                escalated_time=datetime.utcnow(),
-                state_name_when_escalated=state_name
-            )
-            Database().insert(new_escalation)
-            nurse_bot._check_nurse_queue(context)
-            # state_id = None
-            # state_name = '<None>'
-    except KeyError:
-        pass
-    context.user_data['last_confused'] = now
+    _, state_name = _get_current_state_from_context(context)
+    new_escalation = Escalation(
+        chat_src_id=update.effective_chat.id,
+        first_name=context.user_data['first_name'],
+        msg_txt=update.message.text,
+        pending=True,
+        escalated_time=datetime.utcnow(),
+        state_name_when_escalated=state_name
+    )
+    Database().insert(new_escalation)
+    nurse_bot._check_nurse_queue(context)
     return [msg], state_id, state_name
 
 
@@ -260,19 +255,22 @@ def process_user_input(update, context):
                 if imgs:
                     for img in imgs:
                         send_image_reply(prepend_img_path(img), update)
+                return
             else:
                 msgs, imgs, state_id, state_name, terminal = sm.get_msg_and_next_state(
                     current_state_id, intent, context.user_data['child_gender'])
         except ValueError:
             # This is a state transition that doesn't exist (e.g., they typed 6
             # when the menu is only 1-5)
-            msgs = [WRONG_INPUT]
-            if settings.HINDI:
-                msgs = [WRONG_INPUT_HI]
-            # Repeat our message.
-            msgs = msgs + sm.get_messages_from_state_name(
-                state_name, context.user_data['child_gender'])
-            state_id = current_state_id
+            msgs, state_id, state_name = _process_unknown(
+                update, context, current_state_id, state_name)
+            # msgs = [WRONG_INPUT]
+            # if settings.HINDI:
+            #     msgs = [WRONG_INPUT_HI]
+            # # Repeat our message.
+            # msgs = msgs + sm.get_messages_from_state_name(
+            #     state_name, context.user_data['child_gender'])
+            # state_id = current_state_id
 
     logger.info(
         f'[{get_chat_id(update, context)}] - current state: {current_state_id} -> next state: {state_id}')
