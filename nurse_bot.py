@@ -1,5 +1,6 @@
 from datetime import datetime
 import logging
+import re
 
 # from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 from simple_settings import settings
@@ -183,6 +184,50 @@ def set_super_state(update, context):
     send_text_reply(
         f"Ok. State successfully set to {new_state} and message sent to the user.", update)
     _check_nurse_queue(context)
+
+
+date_re = re.compile('[0-3]\d-[0-1]\d-[1-2]\d\d\d')
+
+
+def send_vhnd_reminder(update, context):
+    logger.warning('Send VHND reminder called in GOD mode!')
+    _log_msg(update.message.text, 'GOD', update)
+
+    # Check syntax
+    try:
+        cmd_parts = update.message.text.split()
+        if len(cmd_parts) != 3:
+            logger.warning('Send VHND reminder: wrong number of args')
+            raise Exception()
+        awc_id = cmd_parts[1]
+        date = cmd_parts[2]
+        if len(awc_id) != 11 or date_re.match(date) is None:
+            logger.warning(
+                f'Send VHND reminder: PROBLEM with arguments AWC chars:{len(awc_id)}')
+            raise Exception()
+    except:
+        send_text_reply(
+            'Usage details for VHND: /vhnd <awc_id> <DD-MM-YYYY>', update)
+        return
+
+    users = Database().session.query(User).filter_by(awc_code=awc_id)
+    logger.warning(f'Found {users.count()} users for AWC code {awc_id}')
+    for user in users:
+        if settings.HINDI:
+            msg = f'नमस्ते [mother name]! आपके क्षेत्र में टीकाकरण दिवस {date} को हो रहा है । अपने बच्चे [child name] के साथ अपने आंगनवाड़ी केंद्र जाना ना भूलें!'
+        else:
+            msg = f'Hello [mother name]! The VHSND in your area is happening on {date}. Make sure to go to your AWC with [child name]!'
+
+        logger.info(f'sending {msg} to {user.chat_id}')
+        _send_message_to_chat_id(
+            update, context, user.chat_id, [msg]
+        )
+    if users.count() > 0:
+        send_text_reply(
+            f"Ok. Successfully sent VHND reminders to {users.count()} users.", update)
+    else:
+        send_text_reply(
+            f"Unable to find any users with AWC code {awc_id}", update)
 
 
 #################################################
