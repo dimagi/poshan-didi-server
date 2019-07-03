@@ -145,9 +145,11 @@ def wrong_child_birthday(update, context):
 def ask_child_birthday(update, context):
     _log_msg(update.message.text, 'user', update, state='registration_4')
 
-    # Determine the track based on 5 months
-    if (datetime.utcnow() - datetime.strptime(update.message.text, '%Y-%m-%d')).days >= 365:
+    # No future birthdays and no one older than 1 year
+    if ((datetime.utcnow() - datetime.strptime(update.message.text, '%Y-%m-%d')).days <= 0 or
+            (datetime.utcnow() - datetime.strptime(update.message.text, '%Y-%m-%d')).days >= 365):
         return wrong_child_birthday(update, context)
+    # Determine the track based on 5 months
     elif (datetime.utcnow() - datetime.strptime(update.message.text, '%Y-%m-%d')).days >= 150:
         context.user_data['track'] = 12
         if settings.HINDI:
