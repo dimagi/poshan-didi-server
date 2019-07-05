@@ -24,6 +24,11 @@ WRONG_INPUT_HI = "मुझे समझ नहीं आया आप क्य
 TIMEOUT_TEXT = "Thank you for talking to me. If you want to talk to me again, say hello."
 TIMEOUT_TEXT_HI = "मुझसे बात करने के लिए धन्यवाद। यदि आप किसी भी समय बात करना चाहते हैं तो 'हेल्लो' बोलिये!"
 
+GLOBAL_MAIN_MENU_STATE = '1_menu'
+
+DEMO_6_MONTH_MENU = '1_1_kmm'
+DEMO_12_MONTH_MENU = '1_1_cbf'
+
 # Enable logging
 logging.basicConfig(filename=settings.LOG_FILENAME,
                     format=settings.LOG_FORMAT,
@@ -96,17 +101,29 @@ def _save_user_state(chat_id, state_id, state_name):
 
 
 def _get_menu_for_user(context):
+    # Must return:
     # msgs, imgs, state_id, state_name
-    # THIS is a HACK
-    if int(context.user_data['track']) == 6:
-        # state_name = '1_1_kmm'
-        state_name = '1_2_act'
-    else:
-        # state_name = '1_1_act'
-        state_name = '1_1_cbf'
+    menu_state = GLOBAL_MAIN_MENU_STATE
+    logger.info(
+        f'[{context.user_data["chat_id"]}] - getting menu for user!')
+    # Demo users are a special case
+    if int(context.user_data['chat_id']) in settings.DEMO_CHAT_IDS:
+        menu_state = DEMO_6_MONTH_MENU if context.user_data['track'] == 6 else DEMO_12_MONTH_MENU
+        logger.info(
+            f'[{context.user_data["chat_id"]}] - DEMO user, fetching special menu!')
 
+    # The "global main menu" is state 1_menu for both of them.
+    # Menus have only one message, so we can just take that.
     sm = _get_sm_from_context(context)
-    return sm.get_messages_from_state_name(state_name, context.user_data['child_gender']), sm.get_images_from_state_name(state_name), sm.get_state_id_from_state_name(state_name), state_name
+    msg = sm.get_messages_from_state_name(
+        menu_state, context.user_data['child_gender'])[0]
+
+    if menu_state == GLOBAL_MAIN_MENU_STATE:
+        # Trim down the menu to content they have seen before in non-demo mode
+        msg = '\n'.join(msg.split(
+            '\n')[:context.user_data['next_module']])
+
+    return [msg], sm.get_images_from_state_name(menu_state), sm.get_state_id_from_state_name(menu_state), menu_state
 
 #################################################
 # Timeout
@@ -133,6 +150,7 @@ def timeout(context):
 
 
 def remove_old_timer_add_new(context):
+    # TODO: Redo this to use the DB-based timeouts. This is cool though!
     for j in context.job_queue.get_jobs_by_name(f'timeout_{context.user_data["chat_id"]}'):
         j.schedule_removal()
 
@@ -167,30 +185,58 @@ def prepend_img_path(img):
 #################################################
 # Telegram bot processing new messages
 #################################################
-def _process_unknown(update, context, current_state_id, state_name):
+def _log_and_fetch_user_data(update, context):
+    logger.info(f'trying to get info for {update.effective_chat.id}')
+    fetch_user_data(update.effective_chat.id, context)
+    logger.info(f'ending user dict is: {context.user_data}')
+    current_state_id, current_state_name = _get_current_state_from_context(
+        context)
+    logger.info(
+        f'fetched the following: {current_state_id}, {current_state_name}')
+    _log_msg(update.message.text, 'user', update, state=current_state_name)
+    logger.warn(
+        f'[{get_chat_id(update, context)}] - intent: {get_intent(update.message.text)} msg received: {update.message.text}')
+    return current_state_id, current_state_name
+
+
+def _save_state_and_process(update, context, msgs, imgs, state_id, state_name):
+    current_state_id, _ = _get_current_state_from_context(context)
+
+    logger.info(
+        f'[{get_chat_id(update, context)}] - current state: {current_state_id} -> next state: {state_id}')
+
+    # logger.info(f'[{update.effective_chat.id}] - next state: {state.msg_id}')
+    context.user_data['current_state'] = state_id
+    _save_user_state(update.effective_chat.id, state_id, state_name)
+    msgs = [replace_template(m, context) for m in msgs]
+    for msg in msgs:
+        send_text_reply(msg, update)
+    if imgs:
+        for img in imgs:
+            send_image_reply(prepend_img_path(img), update)
+
+
+def _escalate_to_nurse(update, context):
     msg = ESCALATE_TEXT
     if settings.HINDI:
         msg = ESCALATE_TEXT_HI
-    state_id = current_state_id
-    _, state_name = _get_current_state_from_context(context)
+    current_state_id, current_state_name = _get_current_state_from_context(
+        context)
     new_escalation = Escalation(
         chat_src_id=update.effective_chat.id,
         first_name=context.user_data['first_name'],
         msg_txt=update.message.text,
         pending=True,
         escalated_time=datetime.utcnow(),
-        state_name_when_escalated=state_name
+        state_name_when_escalated=current_state_name
     )
     Database().insert(new_escalation)
     nurse_bot._check_nurse_queue(context)
-    return [msg], state_id, state_name
+    return [msg], current_state_id, current_state_name
 
 
-def handle_echo(update, context):
+def _handle_echo(update, context):
     intent = get_intent(update.message.text)
-
-    # Get the correct state machine
-    sm = _get_sm_from_context(context)
 
     if intent == Intent.UNKNOWN or (int(intent) < 1 or int(intent) > 10):
         if settings.HINDI:
@@ -210,74 +256,10 @@ def handle_echo(update, context):
                 update)
 
 
-def process_user_input(update, context):
-    """Handle a user message."""
-    logger.info(f'trying to get info for {update.effective_chat.id}')
-    fetch_user_data(update.effective_chat.id, context)
-    logger.info(f'ending user dict is: {context.user_data}')
-    current_state_id, state_name = _get_current_state_from_context(context)
-    logger.info(f'fetched the following: {current_state_id}, {state_name}')
-    _log_msg(update.message.text, 'user', update, state=state_name)
-    logger.info(
-        f'[{get_chat_id(update, context)}] - msg received: {update.message.text}')
-
-    # Special case for echos
-    if state_name == 'echo':
-        return handle_echo(update, context)
-
-    # First, set a timeout
-    remove_old_timer_add_new(context)
-
-    intent = get_intent(update.message.text)
-
-    # Get the correct state machine
-    sm = _get_sm_from_context(context)
-
-    imgs = []
-    terminal = False
-    if intent == Intent.UNKNOWN:
-        logger.warn(
-            f'[{get_chat_id(update, context)}] - intent: {intent} msg: {update.message.text}')
-        msgs, state_id, state_name = _process_unknown(
-            update, context, current_state_id, state_name)
-    else:
-        logger.info(
-            f'[{get_chat_id(update, context)}] - intent: {intent} msg: {update.message.text}')
-
-        try:
-            if current_state_id is None or current_state_id == '':
-                msgs, imgs, state_id, state_name = _get_menu_for_user(context)
-                _save_user_state(update.effective_chat.id,
-                                 state_id, state_name)
-                msgs = [replace_template(m, context) for m in msgs]
-                for msg in msgs:
-                    send_text_reply(msg, update)
-                if imgs:
-                    for img in imgs:
-                        send_image_reply(prepend_img_path(img), update)
-                return
-            else:
-                msgs, imgs, state_id, state_name, terminal = sm.get_msg_and_next_state(
-                    current_state_id, intent, context.user_data['child_gender'])
-        except ValueError:
-            # This is a state transition that doesn't exist (e.g., they typed 6
-            # when the menu is only 1-5)
-            msgs, state_id, state_name = _process_unknown(
-                update, context, current_state_id, state_name)
-            # msgs = [WRONG_INPUT]
-            # if settings.HINDI:
-            #     msgs = [WRONG_INPUT_HI]
-            # # Repeat our message.
-            # msgs = msgs + sm.get_messages_from_state_name(
-            #     state_name, context.user_data['child_gender'])
-            # state_id = current_state_id
-
-    logger.info(
-        f'[{get_chat_id(update, context)}] - current state: {current_state_id} -> next state: {state_id}')
-
-    # logger.info(f'[{update.effective_chat.id}] - next state: {state.msg_id}')
-    context.user_data['current_state'] = state_id
-    _save_user_state(update.effective_chat.id, state_id, state_name)
+def _handle_global_reset(update, context):
+    msgs, imgs, state_id, state_name = _get_menu_for_user(context)
+    _save_user_state(update.effective_chat.id,
+                     state_id, state_name)
     msgs = [replace_template(m, context) for m in msgs]
     for msg in msgs:
         send_text_reply(msg, update)
@@ -285,13 +267,102 @@ def process_user_input(update, context):
         for img in imgs:
             send_image_reply(prepend_img_path(img), update)
 
-    # Such a HACK
+
+def _handle_wrong_input(update, context):
+    # This is a state transition that doesn't exist (e.g., they typed 6
+    # when the menu is only 1-5)
+    current_state_id, current_state_name = _get_current_state_from_context(
+        context)
+    msgs = [WRONG_INPUT]
+    if settings.HINDI:
+        msgs = [WRONG_INPUT_HI]
+    # Repeat our message.
+    sm = _get_sm_from_context(context)
+    if current_state_name == GLOBAL_MAIN_MENU_STATE:
+        msgs, _, _, _ = _get_menu_for_user(context)
+    else:
+        msgs = msgs + sm.get_messages_from_state_name(
+            current_state_name, context.user_data['child_gender'])
+    return _save_state_and_process(update, context, msgs, [], current_state_id, current_state_name)
+
+
+def _handle_global_menu_input(update, context):
+    intent = get_intent(update.message.text)
+    if intent < Intent.ONE or intent > Intent.TEN:
+        # Input was way off, so escalate up to the nurse
+        msgs, state_id, state_name = _escalate_to_nurse(update, context)
+        return _save_state_and_process(update, context, msgs, [], state_id, state_name)
+    elif intent >= context.user_data['next_module']:
+        # They gave a number input, but it was out of bounds, so just re-prompt them
+        return _handle_wrong_input(update, context)
+
+    # Ok, we have valid input from our current state, so we can process it
+    return _handle_valid_input(update, context)
+
+
+def _handle_valid_input(update, context):
+    current_state_id, _ = _get_current_state_from_context(
+        context)
+    if current_state_id is None or current_state_id == '':
+        return _handle_global_reset(update, context)
+
+    # Get the correct state machine
+    sm = _get_sm_from_context(context)
+    intent = get_intent(update.message.text)
+
+    try:
+        msgs, imgs, state_id, state_name, terminal = sm.get_msg_and_next_state(
+            current_state_id, intent, context.user_data['child_gender'])
+    except ValueError:
+        # Ok, something went wrong with the input and a transition.
+        # We already know it is a numeric input as a precodition, so we can
+        # ask for the input again
+        return _handle_wrong_input(update, context)
+
+    # Ok, valid input and valid transition!
+    _save_state_and_process(update, context, msgs, imgs, state_id, state_name)
+
+    # Last bit, if it's a leaf node, send them back to the main menu
     if terminal:
-        msgs, imgs, state_id, state_name = _get_menu_for_user(context)
-        _save_user_state(update.effective_chat.id, state_id, state_name)
-        msgs = [replace_template(m, context) for m in msgs]
-        for msg in msgs:
-            send_text_reply(msg, update)
-        if imgs:
-            for img in imgs:
-                send_image_reply(prepend_img_path(img), update)
+        return _handle_global_reset(update, context)
+
+
+def process_user_input(update, context):
+    """Handle a user message."""
+    # Log and fetch user data
+    _, current_state_name = _log_and_fetch_user_data(
+        update, context)
+
+    # Special case: handle the echo state
+    if current_state_name == 'echo':
+        logger.info(
+            f'[{get_chat_id(update, context)}] - Calling echo')
+        return _handle_echo(update, context)
+
+    # Reset timers
+    remove_old_timer_add_new(context)
+
+    # Handle global reset
+    intent = get_intent(update.message.text)
+    if intent == Intent.GREET or intent == Intent.RESTART:
+        logger.info(
+            f'[{get_chat_id(update, context)}] - Calling global reset')
+        return _handle_global_reset(update, context)
+
+    # handle global main menu inputs
+    if current_state_name == GLOBAL_MAIN_MENU_STATE:
+        logger.info(
+            f'[{get_chat_id(update, context)}] - Calling global menu input')
+        return _handle_global_menu_input(update, context)
+
+    # Handle unknown
+    # TODO: In the future we will change this section to allow non-numeric
+    # input (e.g., yes and no as appropriate )
+    if intent < Intent.ONE or intent > Intent.TEN:
+        # Non-numeric input at this stage, so escalate up to the nurse.
+        msgs, state_id, state_name = _escalate_to_nurse(update, context)
+        return _save_state_and_process(update, context, msgs, [], state_id, state_name)
+
+    # Handle valid input (standard case)
+    return _handle_valid_input(update, context)
+    # Handle quick state transitions for quiz??
