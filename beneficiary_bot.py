@@ -245,7 +245,7 @@ def process_user_input(update, context):
             f'[{get_chat_id(update, context)}] - intent: {intent} msg: {update.message.text}')
 
         try:
-            if current_state_id is None:
+            if current_state_id is None or current_state_id == '':
                 msgs, imgs, state_id, state_name = _get_menu_for_user(context)
                 _save_user_state(update.effective_chat.id,
                                  state_id, state_name)
