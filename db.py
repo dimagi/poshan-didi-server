@@ -10,6 +10,15 @@ from util import Singleton
 Base = declarative_base()
 
 
+class Timeout(Base):
+    __tablename__ = 'timeout_queue'
+
+    id = Column(Integer, primary_key=True)
+    chat_src_id = Column(String, nullable=False)
+    timeout_time = Column(DateTime, nullable=False)
+    valid = Column(Boolean, default=True, nullable=False)
+
+
 class Escalation(Base):
     __tablename__ = 'nurse_queue'
 
