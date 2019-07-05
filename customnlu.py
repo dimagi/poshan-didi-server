@@ -22,6 +22,7 @@ class Intent(IntEnum):
     TEN = 10,
     YES = 11,
     NO = 12,
+    RESTART = 13,
 
 
 ENTITY_MAP = {
@@ -56,6 +57,8 @@ def get_intent(msg):
         return Intent.YES
     elif result['intent']['name'] == 'no':
         return Intent.NO
+    elif result['intent']['name'] == 'restart':
+        return Intent.RESTART
     elif result['intent']['name'] == 'option':
         try:
             return ENTITY_MAP[result['entities'][0]['value']]
