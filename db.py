@@ -45,6 +45,9 @@ class User(Base):
     current_state = Column(String)
     current_state_name = Column(String)
     registration_date = Column(DateTime)
+    next_module = Column(Integer, default=1, nullable=False)
+    started = Column(Boolean, default=False, nullable=False)
+    first_msg_date = Column(DateTime)
     chat_id = Column(String, unique=True, index=True)
 
     messages = relationship(
