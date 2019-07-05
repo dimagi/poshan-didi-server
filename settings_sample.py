@@ -37,3 +37,6 @@ HINDI = False
 
 # GOD Mode chat ID
 GOD_MODE = 0
+
+# Demo users
+DEMO_CHAT_IDS = [123, 456]
