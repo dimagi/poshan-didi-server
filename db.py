@@ -115,7 +115,7 @@ class Database(metaclass=Singleton):
         return bool(self.session.query(Escalation.pending).filter_by(pending=True).first())
 
     def get_nurse_queue_first_pending(self):
-        return self.session.query(Escalation).filter_by(pending=True).first()
+        return self.session.query(Escalation).filter_by(pending=True).order_by(Escalation.escalated_time.asc()).first()
 
     def nurse_queue_mark_answered(self, chat_id):
         self.session.query(Escalation).filter_by(
