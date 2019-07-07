@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 #################################################
 # Nurse queue
 #################################################
-def _check_nurse_queue(context):
+def _check_nurse_queue(context, escalation=None):
     first_pending = Database().get_nurse_queue_first_pending()
     try:
         relevant_messages = Database().session.query(
@@ -28,6 +28,11 @@ def _check_nurse_queue(context):
     except AttributeError:
         # No pending messages
         return
+
+    # If escalation exists, then only send if the escalation is relevant
+    if escalation and first_pending.chat_src_id != escalation.chat_src_id:
+        return
+
     for msg in relevant_messages:
         _log_msg(msg.msg_txt, 'system-unsent', None, msg.state_name_when_escalated,
                  chat_id=settings.NURSE_CHAT_ID)
@@ -35,14 +40,14 @@ def _check_nurse_queue(context):
 
     nl = '\n'
     msg = (f"The following message(s) are from "
-           f"'{first_pending.first_name}' ({first_pending.chat_src_id})."
+           f"'{first_pending.first_name}' ({first_pending.chat_src_id}). "
            f"Your reply will be forwarded automatically.\n\n"
            f"{nl.join([m.msg_txt for m in relevant_messages])}")
     context.bot.send_message(
         settings.NURSE_CHAT_ID,
         msg
     )
-    Database().commit()
+    # Database().commit()
 
 
 def _check_pending(update, context, none_pending_msg):

@@ -231,7 +231,7 @@ def _escalate_to_nurse(update, context):
         state_name_when_escalated=current_state_name
     )
     Database().insert(new_escalation)
-    nurse_bot._check_nurse_queue(context)
+    nurse_bot._check_nurse_queue(context, new_escalation)
     return [msg], current_state_id, current_state_name
 
 
