@@ -37,7 +37,7 @@ def _send_next_module_and_log(update, context, user):
     # Send the content
     for msg_txt in msgs:
         # Log the message from system-new-module to the user
-        _log_msg(msg_txt, 'system-new-module', update,
+        _log_msg(beneficiary_bot.replace_template(msg_txt, context), 'system-new-module', update,
                  state=Database().get_state_name_from_chat_id(user.chat_id),
                  chat_id=str(user.chat_id))
         # And send it
@@ -174,7 +174,7 @@ def _send_message_to_queue(update, context, msgs_txt, imgs=[]):
 
     for msg_txt in msgs_txt:
         # Log the message from nurse to the user
-        _log_msg(msg_txt, 'nurse', update,
+        _log_msg(beneficiary_bot.replace_template(msg_txt, context), 'nurse', update,
                  state=Database().get_state_name_from_chat_id(escalation.chat_src_id),
                  chat_id=str(escalation.chat_src_id))
         # And send it
@@ -199,7 +199,7 @@ def _send_message_to_chat_id(update, context, chat_id, msgs_txt):
 
     for msg_txt in msgs_txt:
         # Log the message from nurse to the user
-        _log_msg(msg_txt, 'GOD', update,
+        _log_msg(beneficiary_bot.replace_template(msg_txt, context), 'GOD', update,
                  state=Database().get_state_name_from_chat_id(chat_id),
                  chat_id=str(chat_id))
         # And send it
