@@ -108,7 +108,7 @@ def _get_menu_for_user(context):
         f'[{context.user_data["chat_id"]}] - getting menu for user!')
     # Demo users are a special case
     if int(context.user_data['chat_id']) in settings.DEMO_CHAT_IDS:
-        menu_state = DEMO_6_MONTH_MENU if context.user_data['track'] == 6 else DEMO_12_MONTH_MENU
+        menu_state = DEMO_6_MONTH_MENU if context.user_data['track'] == '6' else DEMO_12_MONTH_MENU
         logger.info(
             f'[{context.user_data["chat_id"]}] - DEMO user, fetching special menu!')
 
