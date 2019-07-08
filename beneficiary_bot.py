@@ -344,7 +344,8 @@ def process_user_input(update, context):
 
     # Handle global reset
     intent = get_intent(update.message.text)
-    if intent == Intent.GREET or intent == Intent.RESTART:
+    # if intent == Intent.GREET or intent == Intent.RESTART:
+    if intent == Intent.GREET:
         logger.info(
             f'[{get_chat_id(update, context)}] - Calling global reset')
         return _handle_global_reset(update, context)
