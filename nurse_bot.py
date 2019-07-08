@@ -59,7 +59,7 @@ def _check_pending(update, context, none_pending_msg):
     return True
 
 
-def _send_message_to_queue(update, context, msgs_txt):
+def _send_message_to_queue(update, context, msgs_txt, imgs=[]):
     """Send msg_text to the user at the top of the nurse queue
     This does not update the queue (in case we want to send multiple messages.
     This will, however, log everything correctly"""
@@ -74,6 +74,17 @@ def _send_message_to_queue(update, context, msgs_txt):
         # And send it
         context.bot.send_message(
             escalation.chat_src_id, beneficiary_bot.replace_template(msg_txt, context))
+
+    for img in imgs:
+        # Log the image from nurse to the user
+        _log_msg(img, 'nurse', update,
+                 state=Database().get_state_name_from_chat_id(escalation.chat_src_id),
+                 chat_id=str(escalation.chat_src_id))
+        # And send it
+        f = open(beneficiary_bot.prepend_img_path(img), 'rb')
+        context.bot.send_photo(
+            escalation.chat_src_id, f)
+        f.close()
 
 
 def _send_message_to_chat_id(update, context, chat_id, msgs_txt):
@@ -146,7 +157,9 @@ def set_state(update, context):
     our_user = Database().session.query(User).filter_by(chat_id=str(chat_id)).first()
     sm = beneficiary_bot.get_sm_from_track(our_user.track)
     _send_message_to_queue(
-        update, context, sm.get_messages_from_state_name(new_state, our_user.child_gender))
+        update, context, sm.get_messages_from_state_name(
+            new_state, our_user.child_gender),
+        sm.get_images_from_state_name(new_state))
 
     # Tell the nurse and check the queue
     send_text_reply(
