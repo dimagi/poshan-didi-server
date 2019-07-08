@@ -48,7 +48,11 @@ def main():
     # Add a nurse command to set state for a user (only allow the nurse to access this command)
     dp.add_handler(CommandHandler('state', nurse_bot.set_super_state,
                                   Filters.chat(settings.GOD_MODE)))
-    
+
+    # Add a nurse command to set state for a user (only allow the nurse to access this command)
+    dp.add_handler(CommandHandler('send_next_modules', nurse_bot.send_next_modules,
+                                  Filters.chat(settings.GOD_MODE)))
+
     # Add a nurse command to set state for a user (only allow the nurse to access this command)
     dp.add_handler(CommandHandler('vhnd', nurse_bot.send_vhnd_reminder,
                                   Filters.chat(settings.GOD_MODE)))

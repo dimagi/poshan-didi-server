@@ -176,3 +176,10 @@ class StateMachine(object):
             if n.msg_id == name:
                 return n
         raise ValueError(f'Unable to find node by name: {name}')
+
+    def get_submodule_state_name(self, prefix):
+        # Take advantage of our naming scheme to find the correct submodule menu.
+        options = [k for k in self.uttering_map_hi.keys()
+                   if k.startswith(prefix)]
+        options.sort()
+        return options[-1]

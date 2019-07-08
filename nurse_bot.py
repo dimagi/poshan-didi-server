@@ -17,6 +17,112 @@ logger = logging.getLogger(__name__)
 
 
 #################################################
+# Send module messages!
+#################################################
+MAX_MODULE_6 = 7
+MAX_MODULE_12 = 8
+
+
+def _send_next_module_and_log(update, context, user):
+    # Find state associated with the next_module
+    sm = beneficiary_bot.get_sm_from_track(user.track)
+    next_state_name = sm.get_submodule_state_name(f'1_{user.next_module}_')
+    next_state_id = sm.get_state_id_from_state_name(next_state_name)
+
+    # Get the content
+    msgs = sm.get_messages_from_state_name(
+        next_state_name, user.child_gender)
+    imgs = sm.get_images_from_state_name(next_state_name) or []
+
+    # Send the content
+    for msg_txt in msgs:
+        # Log the message from system-new-module to the user
+        _log_msg(msg_txt, 'system-new-module', update,
+                 state=Database().get_state_name_from_chat_id(user.chat_id),
+                 chat_id=str(user.chat_id))
+        # And send it
+        context.bot.send_message(
+            user.chat_id, beneficiary_bot.replace_template(msg_txt, context))
+
+    for img in imgs:
+        # Log the image from system-new-module to the user
+        _log_msg(img, 'system-new-module', update,
+                 state=Database().get_state_name_from_chat_id(user.chat_id),
+                 chat_id=str(user.chat_id))
+        # And send it
+        f = open(beneficiary_bot.prepend_img_path(img), 'rb')
+        context.bot.send_photo(
+            user.chat_id, f)
+        f.close()
+
+    user.state_id = next_state_id
+    user.state_name = next_state_name
+    return user
+
+
+def send_next_module(update, context, registration_cutoff=datetime(2100, 1, 1)):
+    # Find all the users whose:
+    # - next_module is less than max
+    # - not a test user
+    # - Registration was before cutoff
+    users = Database().session.query(User).filter(
+        (User.test_user == False) &
+        (User.registration_date < registration_cutoff) &
+        ((User.track == '6') & (User.next_module < MAX_MODULE_6) |
+            (User.track == '12') & (User.next_module < MAX_MODULE_12))
+    )
+
+    for user in users:
+        # Send out messages to user
+        beneficiary_bot.fetch_user_data(user.chat_id, context)
+        _send_next_module_and_log(update, context, user)
+
+        # Increment next_module
+        user.next_module = user.next_module + 1
+
+        # Set 'started' and 'first_msg_date' if needed
+        if not user.started:
+            user.started = True
+            user.first_msg_date = datetime.utcnow()
+
+    # Save back to DB
+    Database().commit()
+    return users.count()
+
+
+def send_next_modules(update, context):
+    logger.warning('Send next modules called in GOD mode!')
+    _log_msg(update.message.text, 'GOD', update)
+
+    # Check syntax
+    date = None
+    try:
+        cmd_parts = update.message.text.split()
+        if len(cmd_parts) > 2:
+            logger.warning('Send next modules: wrong number of args')
+            raise Exception()
+        if len(cmd_parts) > 1:
+            date = cmd_parts[1]
+            if date_y_first_re.match(date) is None:
+                logger.warning(
+                    f'Send next modules: PROBLEM with the date: {date}')
+                raise Exception()
+    except:
+        send_text_reply(
+            'Usage details for send next modules: /send_next_modules <YYYY-MM-DD>, where the date is an optional cutoff for registration date', update)
+        return
+
+    if date:
+        user_count = send_next_module(
+            update, context, registration_cutoff=date)
+    else:
+        user_count = send_next_module(update, context)
+
+    return send_text_reply(
+        f'Successfully changed the state for {user_count} users!', update)
+
+
+#################################################
 # Nurse queue
 #################################################
 def _check_nurse_queue(context, escalation=None):
@@ -205,6 +311,7 @@ def set_super_state(update, context):
 
 
 date_re = re.compile('[0-3]\d-[0-1]\d-[1-2]\d\d\d')
+date_y_first_re = re.compile('[1-2]\d\d\d-[0-1]\d-[0-3]\d')
 
 
 def send_vhnd_reminder(update, context):
