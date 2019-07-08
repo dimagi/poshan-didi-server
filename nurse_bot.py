@@ -55,8 +55,8 @@ def _send_next_module_and_log(update, context, user):
             user.chat_id, f)
         f.close()
 
-    user.state_id = next_state_id
-    user.state_name = next_state_name
+    user.current_state = next_state_id
+    user.current_state_name = next_state_name
     return user
 
 
@@ -75,7 +75,7 @@ def send_next_module(update, context, registration_cutoff=datetime(2100, 1, 1)):
     for user in users:
         # Send out messages to user
         beneficiary_bot.fetch_user_data(user.chat_id, context)
-        _send_next_module_and_log(update, context, user)
+        user = _send_next_module_and_log(update, context, user)
 
         # Increment next_module
         user.next_module = user.next_module + 1
