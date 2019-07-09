@@ -262,10 +262,11 @@ def set_state(update, context):
 
     our_user = Database().session.query(User).filter_by(chat_id=str(chat_id)).first()
     sm = beneficiary_bot.get_sm_from_track(our_user.track)
+    imgs = sm.get_images_from_state_name(new_state) or []
     _send_message_to_queue(
         update, context, sm.get_messages_from_state_name(
-            new_state, our_user.child_gender),
-        sm.get_images_from_state_name(new_state))
+            new_state, our_user.child_gender), imgs
+    )
 
     # Tell the nurse and check the queue
     send_text_reply(
