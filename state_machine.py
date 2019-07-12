@@ -26,6 +26,7 @@ class StateMachine(object):
         self.uttering_map_hi_male = {}
         self.uttering_map_hi_female = {}
         self.images_map = {}
+        self.direct_to_nurse_states = []
 
         self.root_uuid = None
         self.states = []
@@ -62,6 +63,9 @@ class StateMachine(object):
             terminal = not next_state.has_children()
         return self.get_messages_from_state_name(msg_id, gender), self.get_images_from_state_name(msg_id), state_id, msg_id, terminal
 
+    def is_nurse_state(self, state_name):
+        return state_name in self.direct_to_nurse_states
+        
     def get_state_id_from_state_name(self, state_name):
         node = self.find_state_by_name(state_name)
         return node.id
@@ -101,6 +105,8 @@ class StateMachine(object):
             for row in csv_rdr:
                 row['message_shortname'] = row['message_shortname'].replace(
                     ' ', '_')
+                if row['direct_to_nurse'].lower() == 'yes':
+                    self.direct_to_nurse_states.append(row['message_shortname'])
                 self.uttering_map_en = self._check_and_add(self.uttering_map_en,
                                                            row['message_shortname'],
                                                            row['english'])

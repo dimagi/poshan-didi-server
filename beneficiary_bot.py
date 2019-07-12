@@ -323,7 +323,8 @@ def _handle_valid_input(update, context):
     _save_state_and_process(update, context, msgs, imgs, state_id, state_name)
 
     # Last bit, if it's a leaf node, send them back to the main menu
-    if terminal:
+    # UNLESS we have a nurse state
+    if terminal and not sm.is_nurse_state(state_name):
         return _handle_global_reset(update, context)
 
 
@@ -355,6 +356,13 @@ def process_user_input(update, context):
         logger.info(
             f'[{get_chat_id(update, context)}] - Calling global menu input')
         return _handle_global_menu_input(update, context)
+
+    # Before we move on, check if we are currently in a state to speak to the nurse
+    sm = _get_sm_from_context(context)
+    if sm.is_nurse_state(current_state_name):
+        # The message should go direct to the nurse
+        msgs, state_id, state_name = _escalate_to_nurse(update, context)
+        return _save_state_and_process(update, context, msgs, [], state_id, state_name)
 
     # Handle unknown
     # TODO: In the future we will change this section to allow non-numeric
