@@ -142,6 +142,7 @@ def _check_nurse_queue(context, escalation=None):
     for msg in relevant_messages:
         _log_msg(msg.msg_txt, 'system-unsent', None, msg.state_name_when_escalated,
                  chat_id=settings.NURSE_CHAT_ID)
+        #  TODO: does the line below make any sense??
         msg.replied_time = datetime.utcnow()
 
     nl = '\n'

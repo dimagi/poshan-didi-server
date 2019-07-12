@@ -59,6 +59,8 @@ class User(Base):
     first_msg_date = Column(DateTime)
     chat_id = Column(String, unique=True, index=True)
 
+    cohort = Column(Integer, default=-1, nullable=False)
+
     messages = relationship(
         'Message', order_by='Message.server_time', back_populates='user')
 
