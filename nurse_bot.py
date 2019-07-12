@@ -60,14 +60,14 @@ def _send_next_module_and_log(update, context, user):
     return user
 
 
-def send_next_module(update, context, registration_cutoff=datetime(2100, 1, 1)):
+def send_next_module(update, context, cohort):
     # Find all the users whose:
     # - next_module is less than max
     # - not a test user
     # - Registration was before cutoff
     users = Database().session.query(User).filter(
         (User.test_user == False) &
-        (User.registration_date < registration_cutoff) &
+        (User.cohort == cohort) &
         ((User.track == '6') & (User.next_module < MAX_MODULE_6) |
             (User.track == '12') & (User.next_module < MAX_MODULE_12))
     )
@@ -98,25 +98,17 @@ def send_next_modules(update, context):
     date = None
     try:
         cmd_parts = update.message.text.split()
-        if len(cmd_parts) > 2:
+        if len(cmd_parts) != 2:
             logger.warning('Send next modules: wrong number of args')
             raise Exception()
-        if len(cmd_parts) > 1:
-            date = cmd_parts[1]
-            if date_y_first_re.match(date) is None:
-                logger.warning(
-                    f'Send next modules: PROBLEM with the date: {date}')
-                raise Exception()
+            cohort = cmd_parts[1]
     except:
         send_text_reply(
-            'Usage details for send next modules: /send_next_modules <YYYY-MM-DD>, where the date is an optional cutoff for registration date', update)
+            'Usage details for send next modules: /send_next_modules <cohort>, where the cohort is the group to increment', update)
         return
 
-    if date:
-        user_count = send_next_module(
-            update, context, registration_cutoff=date)
-    else:
-        user_count = send_next_module(update, context)
+    user_count = send_next_module(
+        update, context, cohort)
 
     return send_text_reply(
         f'Successfully changed the state for {user_count} users!', update)

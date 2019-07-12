@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters, RegexHandler,
                           ConversationHandler)
@@ -261,6 +261,13 @@ def thanks(update, context):
 
     context.user_data['awc_code'] = update.message.text
 
+    # HACK: to calculate the cohort
+    d1 = datetime(2019, 6, 26)
+    d2 = datetime.utcnow()
+    monday1 = (d1 - timedelta(days=d1.weekday()))
+    monday2 = (d2 - timedelta(days=d2.weekday()))
+    cohort = (monday2 - monday1).days // 7
+
     # SAVE THE USER
     new_user = User(
         chat_id=update.effective_chat.id,
@@ -278,6 +285,7 @@ def thanks(update, context):
         aww_number=context.user_data['aww_number'],
         awc_code=context.user_data['awc_code'],
         registration_date=datetime.utcnow(),
+        cohort=cohort,
         test_user=False
     )
     Database().insert(new_user)
