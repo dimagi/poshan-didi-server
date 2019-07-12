@@ -95,13 +95,12 @@ def send_next_modules(update, context):
     _log_msg(update.message.text, 'GOD', update)
 
     # Check syntax
-    date = None
     try:
         cmd_parts = update.message.text.split()
         if len(cmd_parts) != 2:
             logger.warning('Send next modules: wrong number of args')
             raise Exception()
-            cohort = cmd_parts[1]
+        cohort = cmd_parts[1]
     except:
         send_text_reply(
             'Usage details for send next modules: /send_next_modules <cohort>, where the cohort is the group to increment', update)
