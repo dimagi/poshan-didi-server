@@ -2,6 +2,7 @@ from enum import IntEnum, unique
 from rasa_nlu.model import Interpreter
 from simple_settings import settings
 
+from nlu_data import NUMBERS
 # where model_directory points to the model folder
 interpreter = Interpreter.load('models/current/nlu')
 
@@ -39,7 +40,7 @@ ENTITY_MAP = {
 }
 
 
-def get_intent(msg):
+def get_rasa_intent(msg):
     result = interpreter.parse(msg)
 
     # A bit of a cheat, but we'll take entities over anything
@@ -67,12 +68,30 @@ def get_intent(msg):
     return Intent.UNKNOWN
 
 
+def get_intent(sentence):
+    # Doing an exact match right now.
+    # Could imagine doing a leviathan distance thing instead to make it
+    # slightly more flexible, but that seems unnecessary for now
+    sentence = sentence.strip().lower()
+    if sentence in NUMBERS.keys():
+        if NUMBERS[sentence] == 'greet':
+            return Intent.GREET
+        elif NUMBERS[sentence] == 'yes':
+            return Intent.YES
+        elif NUMBERS[sentence] == 'no':
+            return Intent.NO
+        return ENTITY_MAP[NUMBERS[sentence]]
+
+    return Intent.UNKNOWN
+
+
 def test_nlu_loop():
     sentence = input(
         'Enter a sentence and I will tell you the intent (-1 or ctrl-c to quit):\n')
     while sentence != '-1':
-        print(f'Intent result: {get_intent(sentence)}')
-        print(interpreter.parse(sentence))
+        print(f'STRICT Intent result: {get_strict_intent(sentence)}')
+        # print(f'Intent result: {get_intent(sentence)}')
+        # print(interpreter.parse(sentence))
         sentence = input(
             'Enter a sentence and I will tell you the intent (-1 or ctrl-c to quit):\n')
 
