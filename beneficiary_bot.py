@@ -118,7 +118,7 @@ def _get_menu_for_user(context):
     msg = sm.get_messages_from_state_name(
         menu_state, context.user_data['child_gender'])[0]
 
-    if menu_state == GLOBAL_MAIN_MENU_STATE:
+    if menu_state == GLOBAL_MAIN_MENU_STATE and context.user_data['cohort'] < 2:
         # Trim down the menu to content they have seen before in non-demo mode
         msg = '\n'.join(msg.split(
             '\n')[:context.user_data['next_module']])
