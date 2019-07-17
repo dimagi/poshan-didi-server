@@ -289,11 +289,19 @@ def _handle_wrong_input(update, context):
 
 def _handle_global_menu_input(update, context):
     intent = get_intent(update.message.text)
+    max_module = settings.MAX_MODULE_6 if int(
+        context.user_data['track']) == 6 else settings.MAX_MODULE_12
+    gm_module = settings.GM_MODULE_6 if int(
+        context.user_data['track']) == 6 else settings.GM_MODULE_12
     if intent < Intent.ONE or intent > Intent.TEN:
         # Input was way off, so escalate up to the nurse
         msgs, state_id, state_name = _escalate_to_nurse(update, context)
         return _save_state_and_process(update, context, msgs, [], state_id, state_name)
-    elif intent >= context.user_data['next_module']:
+    elif intent >= context.user_data['next_module'] and context.user_data['cohort'] < 2:
+        # They gave a number input, but it was out of bounds, so just re-prompt them
+        return _handle_wrong_input(update, context)
+    elif context.user_data['cohort'] >= 2 and (intent > max_module or (
+            gm_module >= context.user_data['next_module'] and intent == gm_module)):
         # They gave a number input, but it was out of bounds, so just re-prompt them
         return _handle_wrong_input(update, context)
 
