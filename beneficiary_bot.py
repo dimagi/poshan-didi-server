@@ -118,10 +118,16 @@ def _get_menu_for_user(context):
     msg = sm.get_messages_from_state_name(
         menu_state, context.user_data['child_gender'])[0]
 
+    gm_module = settings.GM_MODULE_6 if int(
+        context.user_data['track']) == 6 else settings.GM_MODULE_12
     if menu_state == GLOBAL_MAIN_MENU_STATE and context.user_data['cohort'] < 2:
         # Trim down the menu to content they have seen before in non-demo mode
         msg = '\n'.join(msg.split(
             '\n')[:context.user_data['next_module']])
+    elif menu_state == GLOBAL_MAIN_MENU_STATE and context.user_data['cohort'] >= 2 and context.user_data['next_module'] <= gm_module:
+        # Keep all content except the GM option
+        mparts = msg.split('\n')
+        msg = '\n'.join(mparts[:gm_module] + mparts[gm_module+1:])
 
     return [msg], sm.get_images_from_state_name(menu_state), sm.get_state_id_from_state_name(menu_state), menu_state
 
