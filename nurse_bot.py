@@ -19,10 +19,6 @@ logger = logging.getLogger(__name__)
 #################################################
 # Send module messages!
 #################################################
-MAX_MODULE_6 = 7
-MAX_MODULE_12 = 8
-
-
 def _send_next_module_and_log(update, context, user):
     # Find state associated with the next_module
     sm = beneficiary_bot.get_sm_from_track(user.track)
@@ -68,8 +64,8 @@ def send_next_module(update, context, cohort):
     users = Database().session.query(User).filter(
         (User.test_user == False) &
         (User.cohort == cohort) &
-        ((User.track == '6') & (User.next_module <= MAX_MODULE_6) |
-            (User.track == '12') & (User.next_module <= MAX_MODULE_12))
+        ((User.track == '6') & (User.next_module <= settings.MAX_MODULE_6) |
+            (User.track == '12') & (User.next_module <= settings.MAX_MODULE_12))
     )
 
     for user in users:

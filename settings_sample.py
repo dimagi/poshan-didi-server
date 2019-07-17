@@ -29,6 +29,12 @@ TRANSLATIONS_6_MONTHS = os.path.join(
 TRANSLATIONS_12_MONTHS = os.path.join(
     'data', 'poshan-didi-translations-12months.csv')
 
+# MODULE details
+MAX_MODULE_6 = 7
+MAX_MODULE_12 = 8
+GM_MODULE_6 = MAX_MODULE_6 - 1
+GM_MODULE_12 = MAX_MODULE_12 - 1
+
 # state machine timeout
 STATE_TIMEOUT_MINUTES = 30
 
