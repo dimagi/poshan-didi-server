@@ -19,7 +19,7 @@ ESCALATE_TEXT = 'Let me check into that and get back to you.'
 ESCALATE_TEXT_HI = 'मुझे इस बारे में थोड़ी जानकारी इकठ्ठा कर के आपको थोड़ी देर में बताती हूँ।'
 
 WRONG_INPUT = "I did not quite understand what you are saying. Please try again."
-WRONG_INPUT_HI = "मुझे समझ नहीं आया आप क्या कहना चाह। कृपया पुन: प्रयास करें।"
+WRONG_INPUT_HI = "मुझे आप जो कह रहे हैं वो समझ नहीं आया, कृपया फिर से प्रयास करें।"
 
 TIMEOUT_TEXT = "Thank you for talking to me. If you want to talk to me again, say hello."
 TIMEOUT_TEXT_HI = "मुझसे बात करने के लिए धन्यवाद। यदि आप किसी भी समय बात करना चाहते हैं तो 'हेल्लो' बोलिये!"
@@ -279,7 +279,8 @@ def _handle_wrong_input(update, context):
     # Repeat our message.
     sm = _get_sm_from_context(context)
     if current_state_name == GLOBAL_MAIN_MENU_STATE:
-        msgs, _, _, _ = _get_menu_for_user(context)
+        new_msgs, _, _, _ = _get_menu_for_user(context)
+        msgs = msgs + new_msgs
     else:
         msgs = msgs + sm.get_messages_from_state_name(
             current_state_name, context.user_data['child_gender'])
