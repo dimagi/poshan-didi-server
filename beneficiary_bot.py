@@ -74,7 +74,9 @@ def _load_custom_gm(folder):
 def replace_custom_message(msgs, imgs, context):
     chat_id = str(context.user_data['chat_id'])
     imgs = imgs or []
-    imgs.append(os.path.join(settings.GM_FOLDER, custom_gm_map_imgs[chat_id]))
+    if 'custom_gm' in msgs:
+        imgs.append(os.path.join(settings.GM_FOLDER,
+                                 custom_gm_map_imgs[chat_id]))
     if settings.HINDI:
         return [custom_gm_map_hi[chat_id] if m == 'custom_gm' else m for m in msgs], imgs
     return [custom_gm_map_en[chat_id] if m == 'custom_gm' else m for m in msgs], imgs
