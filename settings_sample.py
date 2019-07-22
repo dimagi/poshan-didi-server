@@ -28,6 +28,7 @@ TRANSLATIONS_6_MONTHS = os.path.join(
     'data', 'poshan-didi-translations-6months.csv')
 TRANSLATIONS_12_MONTHS = os.path.join(
     'data', 'poshan-didi-translations-12months.csv')
+GM_FOLDER = os.path.join('data', 'gm')
 
 # MODULE details
 MAX_MODULE_6 = 7
