@@ -1,4 +1,6 @@
+import csv
 import os
+import glob
 from datetime import datetime, timedelta
 import logging
 
@@ -41,6 +43,9 @@ logger = logging.getLogger(__name__)
 #  TODO: get rid of this global statemachine
 sm6 = None
 sm12 = None
+custom_gm_map_en = {}
+custom_gm_map_hi = {}
+custom_gm_map_imgs = {}
 
 
 def setup_state_machines():
@@ -48,6 +53,31 @@ def setup_state_machines():
     sm6 = StateMachine(settings.FLOW_6_MONTHS, settings.TRANSLATIONS_6_MONTHS)
     sm12 = StateMachine(settings.FLOW_12_MONTHS,
                         settings.TRANSLATIONS_12_MONTHS)
+    _load_custom_gm(settings.GM_FOLDER)
+
+
+def _load_custom_gm(folder):
+    start_dir = os.getcwd()
+    os.chdir(folder)
+    for _, csv_file in enumerate(glob.glob("*.csv")):
+        with open(csv_file, 'r') as f:
+            csv_rdr = csv.DictReader(f)
+            for row in csv_rdr:
+                custom_gm_map_en[row['telegram_id']] = row['english']
+                custom_gm_map_hi[row['telegram_id']] = row['hindi']
+                custom_gm_map_imgs[row['telegram_id']] = row['image']
+
+    # Reset the working director
+    os.chdir(start_dir)
+
+
+def replace_custom_message(msgs, imgs, context):
+    chat_id = str(context.user_data['chat_id'])
+    imgs = imgs or []
+    imgs.append(os.path.join(settings.GM_FOLDER, custom_gm_map_imgs[chat_id]))
+    if settings.HINDI:
+        return [custom_gm_map_hi[chat_id] if m == 'custom_gm' else m for m in msgs], imgs
+    return [custom_gm_map_en[chat_id] if m == 'custom_gm' else m for m in msgs], imgs
 
 
 def get_sm_from_track(track):
@@ -185,7 +215,9 @@ def replace_template(msg, context):
 
 
 def prepend_img_path(img):
-    return os.path.join('data', 'images', img)
+    if img.find('/') < 0:
+        return os.path.join('data', 'images', img)
+    return img
 
 
 #################################################
@@ -284,13 +316,17 @@ def _handle_wrong_input(update, context):
         msgs = [WRONG_INPUT_HI]
     # Repeat our message.
     sm = _get_sm_from_context(context)
+    imgs = []
     if current_state_name == GLOBAL_MAIN_MENU_STATE:
         new_msgs, _, _, _ = _get_menu_for_user(context)
         msgs = msgs + new_msgs
     else:
-        msgs = msgs + sm.get_messages_from_state_name(
+        # Largely unncessary, but maybe there's some version where this would happen
+        repeat_msgs = sm.get_messages_from_state_name(
             current_state_name, context.user_data['child_gender'])
-    return _save_state_and_process(update, context, msgs, [], current_state_id, current_state_name)
+        repeat_msgs, imgs = replace_custom_message(repeat_msgs, imgs, context)
+        msgs = msgs + repeat_msgs
+    return _save_state_and_process(update, context, msgs, imgs, current_state_id, current_state_name)
 
 
 def _handle_global_menu_input(update, context):
@@ -335,6 +371,7 @@ def _handle_valid_input(update, context):
         return _handle_wrong_input(update, context)
 
     # Ok, valid input and valid transition!
+    msgs, imgs = replace_custom_message(msgs, imgs, context)
     _save_state_and_process(update, context, msgs, imgs, state_id, state_name)
 
     # Last bit, if it's a leaf node, send them back to the main menu

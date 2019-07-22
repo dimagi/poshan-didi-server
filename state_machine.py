@@ -1,7 +1,5 @@
 import csv
-import glob
 import json
-import os
 
 from simple_settings import settings
 
@@ -23,8 +21,6 @@ class StateMachine(object):
         # msg_id for a state) as the key and the action or text as the value.
         # We could generalize this to some Action class or something, but we're
         # not. It's fine.
-        self.custom_gm_map_en = {}
-        self.custom_gm_map_hi = {}
         self.uttering_map_en = {}
         self.uttering_map_hi = {}
         self.uttering_map_hi_male = {}
@@ -39,7 +35,6 @@ class StateMachine(object):
     def load_state_machine(self, flow_filename, messages_filename):
         self._load_messages(messages_filename)
         self._load_flows(flow_filename)
-        self._load_custom_gm(settings.GM_FOLDER)
 
     def get_start_state(self):
         return self.find_state(self.root_uuid)
@@ -70,7 +65,7 @@ class StateMachine(object):
 
     def is_nurse_state(self, state_name):
         return state_name in self.direct_to_nurse_states
-        
+
     def get_state_id_from_state_name(self, state_name):
         node = self.find_state_by_name(state_name)
         return node.id
@@ -78,6 +73,9 @@ class StateMachine(object):
     def get_messages_from_state_name(self, state_name, gender):
         if state_name is None:
             return []
+
+        if state_name == 'custom_gm':
+            return [state_name]
         if settings.HINDI:
             try:
                 if gender == 'M':
@@ -104,19 +102,6 @@ class StateMachine(object):
         the_map[key].append(value)
         return the_map
 
-    def _load_custom_gm(self, folder):
-        start_dir = os.getcwd()
-        os.chdir(folder)
-        for _, csv_file in enumerate(glob.glob("*.csv")):
-            with open(csv_file,'r') as f:
-                csv_rdr = csv.DictReader(f)
-                for row in csv_rdr:
-                    self.custom_gm_map_en[row['telegram_id']] = row['english']
-                    self.custom_gm_map_hi[row['telegram_id']] = row['hindi']
-
-        # Reset the working director
-        os.chdir(start_dir)
-    
     def _load_messages(self, messages_filename):
         with open(messages_filename) as f:
             csv_rdr = csv.DictReader(f)
@@ -124,7 +109,8 @@ class StateMachine(object):
                 row['message_shortname'] = row['message_shortname'].replace(
                     ' ', '_')
                 if row['direct_to_nurse'].lower() == 'yes':
-                    self.direct_to_nurse_states.append(row['message_shortname'])
+                    self.direct_to_nurse_states.append(
+                        row['message_shortname'])
                 self.uttering_map_en = self._check_and_add(self.uttering_map_en,
                                                            row['message_shortname'],
                                                            row['english'])

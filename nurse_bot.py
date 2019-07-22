@@ -29,6 +29,7 @@ def _send_next_module_and_log(update, context, user):
     msgs = sm.get_messages_from_state_name(
         next_state_name, user.child_gender)
     imgs = sm.get_images_from_state_name(next_state_name) or []
+    msgs, imgs = beneficiary_bot.replace_custom_message(msgs, imgs, context)
 
     # Send the content
     for msg_txt in msgs:
@@ -195,6 +196,22 @@ def _send_message_to_chat_id(update, context, chat_id, msgs_txt):
             chat_id, beneficiary_bot.replace_template(msg_txt, context))
 
 
+def _send_images_to_chat_id(update, context, chat_id, imgs):
+    """Send msg_text to a specific chat_id from GOD mode."""
+    beneficiary_bot.fetch_user_data(chat_id, context)
+
+    for img in imgs:
+        # Log the message from nurse to the user
+        _log_msg(img, 'GOD', update,
+                 state=Database().get_state_name_from_chat_id(chat_id),
+                 chat_id=str(chat_id))
+        # And send it
+        f = open(beneficiary_bot.prepend_img_path(img), 'rb')
+        context.bot.send_photo(
+            chat_id, f)
+        f.close()
+
+
 #################################################
 # State setting
 #################################################
@@ -250,10 +267,12 @@ def set_state(update, context):
 
     our_user = Database().session.query(User).filter_by(chat_id=str(chat_id)).first()
     sm = beneficiary_bot.get_sm_from_track(our_user.track)
+    msgs = sm.get_messages_from_state_name(
+        new_state, our_user.child_gender)
     imgs = sm.get_images_from_state_name(new_state) or []
+    msgs, imgs = beneficiary_bot.replace_custom_message(msgs, imgs, context)
     _send_message_to_queue(
-        update, context, sm.get_messages_from_state_name(
-            new_state, our_user.child_gender), imgs
+        update, context, msgs, imgs
     )
 
     # Tell the nurse and check the queue
@@ -289,9 +308,12 @@ def set_super_state(update, context):
 
     our_user = Database().session.query(User).filter_by(chat_id=str(chat_id)).first()
     sm = beneficiary_bot.get_sm_from_track(our_user.track)
+    msgs = sm.get_messages_from_state_name(new_state, our_user.child_gender)
+    imgs = sm.get_images_from_state_name(new_state) or []
+    msgs, imgs = beneficiary_bot.replace_custom_message(msgs, imgs, context)
     _send_message_to_chat_id(
         update, context, chat_id,
-        sm.get_messages_from_state_name(new_state, our_user.child_gender))
+        msgs)
 
     # Tell the nurse and check the queue
     send_text_reply(
