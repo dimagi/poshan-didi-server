@@ -2834,6 +2834,25 @@
             }
           ],
           "exit_uuid": "87037cc3-a979-48f9-a6ed-7667a0452adb"
+        },
+        {
+          "uuid": "c213147b-1211-4976-93a5-10aeb175fdc0",
+          "x": 2015,
+          "y": 141,
+          "destination": null,
+          "actions": [
+            {
+              "type": "reply",
+              "uuid": "12e5bc9b-ac80-4af4-82c6-b3f04fb3a299",
+              "msg": {
+                "base": "custom_gm"
+              },
+              "media": {},
+              "quick_replies": [],
+              "send_all": false
+            }
+          ],
+          "exit_uuid": "c5c7a83f-cbcf-4bde-bb7f-c1cc9ea3249c"
         }
       ],
       "rule_sets": [
@@ -3653,8 +3672,8 @@
               "category": {
                 "base": "9"
               },
-              "destination": null,
-              "destination_type": null,
+              "destination": "c213147b-1211-4976-93a5-10aeb175fdc0",
+              "destination_type": "A",
               "test": {
                 "type": "contains_any",
                 "test": {
@@ -6090,8 +6109,8 @@
         "dependencies": {},
         "uuid": "47d40ef7-81aa-453d-bed8-ca24daf6f9ad",
         "name": "Poshan Didi(6-12)_shortnames",
-        "saved_on": "2019-07-01T14:51:36.046522Z",
-        "revision": 406,
+        "saved_on": "2019-07-22T11:03:32.722588Z",
+        "revision": 408,
         "expires": 10080,
         "notes": []
       }
