@@ -89,7 +89,7 @@ def test_nlu_loop():
     sentence = input(
         'Enter a sentence and I will tell you the intent (-1 or ctrl-c to quit):\n')
     while sentence != '-1':
-        print(f'STRICT Intent result: {get_strict_intent(sentence)}')
+        print(f'STRICT Intent result: {get_intent(sentence)}')
         # print(f'Intent result: {get_intent(sentence)}')
         # print(interpreter.parse(sentence))
         sentence = input(
