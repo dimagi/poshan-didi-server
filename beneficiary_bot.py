@@ -74,6 +74,8 @@ def _load_custom_gm(folder):
 def replace_custom_message(msgs, imgs, context):
     chat_id = str(context.user_data['chat_id'])
     imgs = imgs or []
+    if imgs == ['custom_gm']:
+        imgs = []
     if 'custom_gm' in msgs:
         imgs.append(os.path.join(settings.GM_FOLDER,
                                  custom_gm_map_imgs[chat_id]))
@@ -147,8 +149,10 @@ def _get_menu_for_user(context):
     # The "global main menu" is state 1_menu for both of them.
     # Menus have only one message, so we can just take that.
     sm = _get_sm_from_context(context)
-    msg = sm.get_messages_from_state_name(
-        menu_state, context.user_data['child_gender'])[0]
+    msgs, imgs, _, _, _ = sm.get_msg_and_next_state(
+        menu_state, context.user_data['child_gender'])
+
+    msg = msgs[0]
 
     gm_module = settings.GM_MODULE_6 if int(
         context.user_data['track']) == 6 else settings.GM_MODULE_12
@@ -161,7 +165,7 @@ def _get_menu_for_user(context):
         mparts = msg.split('\n')
         msg = '\n'.join(mparts[:gm_module] + mparts[gm_module+1:])
 
-    return [msg], sm.get_images_from_state_name(menu_state), sm.get_state_id_from_state_name(menu_state), menu_state
+    return [msg], imgs, sm.get_state_id_from_state_name(menu_state), menu_state
 
 #################################################
 # Timeout
@@ -314,17 +318,17 @@ def _handle_wrong_input(update, context):
     current_state_id, current_state_name = _get_current_state_from_context(
         context)
     msgs = [WRONG_INPUT]
+    imgs = []
     if settings.HINDI:
         msgs = [WRONG_INPUT_HI]
     # Repeat our message.
     sm = _get_sm_from_context(context)
-    imgs = []
     if current_state_name == GLOBAL_MAIN_MENU_STATE:
         new_msgs, _, _, _ = _get_menu_for_user(context)
         msgs = msgs + new_msgs
     else:
         # Largely unncessary, but maybe there's some version where this would happen
-        repeat_msgs = sm.get_messages_from_state_name(
+        repeat_msgs, imgs, _, _, _ = sm.get_msg_and_next_state(
             current_state_name, context.user_data['child_gender'])
         repeat_msgs, imgs = replace_custom_message(repeat_msgs, imgs, context)
         msgs = msgs + repeat_msgs
@@ -365,7 +369,7 @@ def _handle_valid_input(update, context):
 
     try:
         msgs, imgs, state_id, state_name, terminal = sm.get_msg_and_next_state(
-            current_state_id, intent, context.user_data['child_gender'])
+            current_state_id, context.user_data['child_gender'], intent)
     except ValueError:
         # Ok, something went wrong with the input and a transition.
         # We already know it is a numeric input as a precodition, so we can

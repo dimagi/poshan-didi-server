@@ -26,9 +26,8 @@ def _send_next_module_and_log(update, context, user):
     next_state_id = sm.get_state_id_from_state_name(next_state_name)
 
     # Get the content
-    msgs = sm.get_messages_from_state_name(
+    msgs, imgs, _, _ = sm.get_msg_and_next_state(
         next_state_name, user.child_gender)
-    imgs = sm.get_images_from_state_name(next_state_name) or []
     msgs, imgs = beneficiary_bot.replace_custom_message(msgs, imgs, context)
 
     # Send the content
@@ -267,9 +266,8 @@ def set_state(update, context):
 
     our_user = Database().session.query(User).filter_by(chat_id=str(chat_id)).first()
     sm = beneficiary_bot.get_sm_from_track(our_user.track)
-    msgs = sm.get_messages_from_state_name(
+    msgs, imgs, _, _ = sm.get_msg_and_next_state(
         new_state, our_user.child_gender)
-    imgs = sm.get_images_from_state_name(new_state) or []
     msgs, imgs = beneficiary_bot.replace_custom_message(msgs, imgs, context)
     _send_message_to_queue(
         update, context, msgs, imgs
@@ -308,8 +306,8 @@ def set_super_state(update, context):
 
     our_user = Database().session.query(User).filter_by(chat_id=str(chat_id)).first()
     sm = beneficiary_bot.get_sm_from_track(our_user.track)
-    msgs = sm.get_messages_from_state_name(new_state, our_user.child_gender)
-    imgs = sm.get_images_from_state_name(new_state) or []
+    msgs, imgs, _, _ = sm.get_msg_and_next_state(
+        new_state, our_user.child_gender)
     msgs, imgs = beneficiary_bot.replace_custom_message(msgs, imgs, context)
     _send_message_to_chat_id(
         update, context, chat_id,
