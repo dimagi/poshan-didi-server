@@ -121,15 +121,15 @@
         },
         {
           "uuid": "6f0403dd-d47d-45b2-b78d-23aa7c7a078c",
-          "x": 254,
-          "y": 2078,
+          "x": 257,
+          "y": 2079,
           "destination": null,
           "actions": [
             {
               "type": "reply",
               "uuid": "469b6e00-7c17-44e0-be3f-1ae5464f0fec",
               "msg": {
-                "base": "1_1_3_pic"
+                "base": "1_1_3_pic_a"
               },
               "media": {
                 "base": "image/png:attachments/15397/123785/steps/13333e05-ed56-40ce-8168-2aff47e112af.png"
@@ -141,7 +141,7 @@
               "type": "reply",
               "uuid": "10092eae-f5e6-4593-bd3e-b8423dbf878d",
               "msg": {
-                "base": "1_1_3_pic"
+                "base": "1_1_3_pic_b"
               },
               "media": {
                 "base": "image/png:attachments/15397/123785/steps/e77ca691-48b4-465c-9390-815f5c7dd247.png"
@@ -153,7 +153,7 @@
               "type": "reply",
               "uuid": "55752152-e334-4eed-bd63-86e72204c661",
               "msg": {
-                "base": "1_1_3_pic"
+                "base": "1_1_3_pic_c"
               },
               "media": {
                 "base": "image/png:attachments/15397/123785/steps/49860b5b-bd12-41d8-b347-0aef5f752f8b.png"
@@ -613,7 +613,7 @@
               "type": "reply",
               "uuid": "5db6a633-4c6b-40a2-8865-668b54312cc7",
               "msg": {
-                "base": "1_7_3_gmchart"
+                "base": "1_7_3_gmchart_a"
               },
               "media": {
                 "base": "image/jpeg:attachments/15397/123785/steps/5dd90482-b7fd-45f1-923b-407383d6c88e.jpg"
@@ -625,7 +625,7 @@
               "type": "reply",
               "uuid": "7a2ce3b3-6647-46d6-bc36-a6bab0b22fd7",
               "msg": {
-                "base": "1_7_3_gmchart"
+                "base": "1_7_3_gmchart_b"
               },
               "media": {
                 "base": "image/jpeg:attachments/15397/123785/steps/48935564-52f7-40bd-87df-687bb7070fa1.jpg"
@@ -1295,25 +1295,6 @@
             }
           ],
           "exit_uuid": "d251d382-8d0d-49ce-a6a0-73ce680e03a1"
-        },
-        {
-          "uuid": "fc373510-4f1c-4b3a-b0f6-576d49eb47f0",
-          "x": 1164,
-          "y": 1472,
-          "destination": null,
-          "actions": [
-            {
-              "type": "reply",
-              "uuid": "7f5166aa-145f-4c82-82bf-ccaf81d80b4d",
-              "msg": {
-                "base": "1_5_5_7_other"
-              },
-              "media": {},
-              "quick_replies": [],
-              "send_all": false
-            }
-          ],
-          "exit_uuid": "2ae967f2-8a67-4e7b-b720-5881c519c964"
         },
         {
           "uuid": "7a9bfb8a-5b9b-46b0-bd46-be66d89ecbc2",
@@ -4542,8 +4523,8 @@
               "category": {
                 "base": "All Responses"
               },
-              "destination": "fc373510-4f1c-4b3a-b0f6-576d49eb47f0",
-              "destination_type": "A",
+              "destination": null,
+              "destination_type": null,
               "test": {
                 "type": "true"
               },
@@ -6109,8 +6090,8 @@
         "dependencies": {},
         "uuid": "47d40ef7-81aa-453d-bed8-ca24daf6f9ad",
         "name": "Poshan Didi(6-12)_shortnames",
-        "saved_on": "2019-07-22T11:03:32.722588Z",
-        "revision": 408,
+        "saved_on": "2019-07-23T10:09:35.955908Z",
+        "revision": 418,
         "expires": 10080,
         "notes": []
       }

@@ -264,7 +264,7 @@
               "type": "reply",
               "uuid": "469b6e00-7c17-44e0-be3f-1ae5464f0fec",
               "msg": {
-                "base": "1_3_4_pic"
+                "base": "1_3_4_pic_a"
               },
               "media": {
                 "base": "image/png:attachments/15397/123785/steps/13333e05-ed56-40ce-8168-2aff47e112af.png"
@@ -276,7 +276,7 @@
               "type": "reply",
               "uuid": "10092eae-f5e6-4593-bd3e-b8423dbf878d",
               "msg": {
-                "base": "1_3_4_pic"
+                "base": "1_3_4_pic_b"
               },
               "media": {
                 "base": "image/png:attachments/15397/123785/steps/e77ca691-48b4-465c-9390-815f5c7dd247.png"
@@ -288,7 +288,7 @@
               "type": "reply",
               "uuid": "55752152-e334-4eed-bd63-86e72204c661",
               "msg": {
-                "base": "1_3_4_pic"
+                "base": "1_3_4_pic_c"
               },
               "media": {
                 "base": "image/png:attachments/15397/123785/steps/49860b5b-bd12-41d8-b347-0aef5f752f8b.png"
@@ -767,7 +767,7 @@
               "type": "reply",
               "uuid": "5db6a633-4c6b-40a2-8865-668b54312cc7",
               "msg": {
-                "base": "1_6_3_gmchart"
+                "base": "1_6_3_gmchart_a"
               },
               "media": {
                 "base": "image/jpeg:attachments/15397/123785/steps/5dd90482-b7fd-45f1-923b-407383d6c88e.jpg"
@@ -779,7 +779,7 @@
               "type": "reply",
               "uuid": "7a2ce3b3-6647-46d6-bc36-a6bab0b22fd7",
               "msg": {
-                "base": "1_6_3_gmchart"
+                "base": "1_6_3_gmchart_b"
               },
               "media": {
                 "base": "image/jpeg:attachments/15397/123785/steps/48935564-52f7-40bd-87df-687bb7070fa1.jpg"
@@ -995,7 +995,7 @@
         {
           "uuid": "668104cd-e316-465e-acdc-3ea219df7ab9",
           "x": 1448,
-          "y": 278,
+          "y": 279,
           "destination": "90f51801-dd6d-4448-bf1b-5fa153c1fd69",
           "actions": [
             {
@@ -1148,7 +1148,7 @@
           "uuid": "9903fb43-703f-4ad1-a704-a0948c2f7aa2",
           "x": 1542,
           "y": 963,
-          "destination": null,
+          "destination": "bdc120d1-8591-4f22-9e19-70f58691ff93",
           "actions": [
             {
               "type": "reply",
@@ -1167,7 +1167,7 @@
           "uuid": "535cdef4-5b11-4f8b-bd03-c7a93b8f3d96",
           "x": 1682,
           "y": 1040,
-          "destination": null,
+          "destination": "bdc120d1-8591-4f22-9e19-70f58691ff93",
           "actions": [
             {
               "type": "reply",
@@ -1186,7 +1186,7 @@
           "uuid": "0b88a4fa-29a5-4719-bdf3-12a76697b420",
           "x": 1787,
           "y": 938,
-          "destination": null,
+          "destination": "bdc120d1-8591-4f22-9e19-70f58691ff93",
           "actions": [
             {
               "type": "reply",
@@ -1565,25 +1565,6 @@
           "exit_uuid": "dd3a7ab7-e323-4d76-be8d-74dc114b0bf8"
         },
         {
-          "uuid": "c501f219-a24b-49c6-91a8-58df498d674d",
-          "x": 1164,
-          "y": 1472,
-          "destination": null,
-          "actions": [
-            {
-              "type": "reply",
-              "uuid": "7f5166aa-145f-4c82-82bf-ccaf81d80b4d",
-              "msg": {
-                "base": "1_4_5_7_other"
-              },
-              "media": {},
-              "quick_replies": [],
-              "send_all": false
-            }
-          ],
-          "exit_uuid": "f6151089-e603-4fe9-95e4-7fa69577b098"
-        },
-        {
           "uuid": "639cb15e-0a62-475f-b4c4-e6a314882ce1",
           "x": 837,
           "y": 456,
@@ -1604,8 +1585,8 @@
         },
         {
           "uuid": "324f9bb3-9d40-4e20-ab40-c52edd731beb",
-          "x": 743,
-          "y": 72,
+          "x": 720,
+          "y": 68,
           "destination": "99401c58-3023-4f11-862d-a3f2cdae149f",
           "actions": [
             {
@@ -1650,7 +1631,7 @@
               "type": "reply",
               "uuid": "67df6a40-bec7-437d-bf8c-2ac29da04d49",
               "msg": {
-                "base": "1_4_2_sn_sat_y"
+                "base": "1_4_3_sn_sat_y"
               },
               "media": {},
               "quick_replies": [],
@@ -1669,7 +1650,7 @@
               "type": "reply",
               "uuid": "64bafaac-a2c7-4493-90d0-87a026eeb367",
               "msg": {
-                "base": "1_4_2_sn_sat_n"
+                "base": "1_4_3_sn_sat_n"
               },
               "media": {},
               "quick_replies": [],
@@ -2361,6 +2342,25 @@
             }
           ],
           "exit_uuid": "403da1c9-2ad0-4c90-953f-dd80eb99d1eb"
+        },
+        {
+          "uuid": "bdc120d1-8591-4f22-9e19-70f58691ff93",
+          "x": 1782,
+          "y": 1229,
+          "destination": null,
+          "actions": [
+            {
+              "type": "reply",
+              "uuid": "a14c3a92-79ab-479b-bd39-f1be0ba1dc18",
+              "msg": {
+                "base": "1_6_8_gm_quiz_summary"
+              },
+              "media": {},
+              "quick_replies": [],
+              "send_all": false
+            }
+          ],
+          "exit_uuid": "7a9b55b7-6628-4ed4-b3f7-5850054016f1"
         }
       ],
       "rule_sets": [
@@ -4220,8 +4220,8 @@
               "category": {
                 "base": "All Responses"
               },
-              "destination": "c501f219-a24b-49c6-91a8-58df498d674d",
-              "destination_type": "A",
+              "destination": null,
+              "destination_type": null,
               "test": {
                 "type": "true"
               },
@@ -4346,8 +4346,8 @@
         },
         {
           "uuid": "9710e220-a5c1-493a-b466-62b3e9192638",
-          "x": 770,
-          "y": 789,
+          "x": 779,
+          "y": 798,
           "label": "Response 25",
           "rules": [
             {
@@ -5152,8 +5152,8 @@
         "dependencies": {},
         "uuid": "ce7e2665-f545-4eff-a7a8-f861a4f3b7e3",
         "name": "Poshan Didi(0-6)_shortnames",
-        "saved_on": "2019-07-22T11:00:59.580864Z",
-        "revision": 944,
+        "saved_on": "2019-07-23T11:55:48.374294Z",
+        "revision": 970,
         "expires": 10080
       }
     }
