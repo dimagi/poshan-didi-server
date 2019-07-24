@@ -243,7 +243,7 @@ class StateMachine(object):
 
     def get_submodule_state_name(self, prefix):
         # Take advantage of our naming scheme to find the correct submodule menu.
-        options = [state for state in self.states
+        options = [state.state_name for state in self.states
                    if state.state_name.startswith(prefix)]
         options.sort()
         return options[-1]
