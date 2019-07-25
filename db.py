@@ -122,3 +122,4 @@ class Database(metaclass=Singleton):
     def nurse_queue_mark_answered(self, chat_id):
         self.session.query(Escalation).filter_by(
             chat_src_id=chat_id, pending=True).update({'pending': False, 'replied_time': datetime.utcnow()})
+        self.commit()
