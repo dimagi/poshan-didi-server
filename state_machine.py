@@ -121,7 +121,9 @@ class StateMachine(object):
 
     def get_state_id_from_state_name(self, state_name):
         node = self._find_state_by_name(state_name)
-        return node.uuid
+        if node:
+            return node.uuid
+        raise ValueError(f'Unknown state name {state_name}')
 
     def _get_msgs_and_imgs_from_state_name(self, state_name, gender):
         if state_name is None:

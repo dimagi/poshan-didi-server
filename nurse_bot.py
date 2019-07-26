@@ -28,6 +28,7 @@ def _send_next_module_and_log(update, context, user):
     # Get the content
     msgs, imgs, _, _, _ = sm.get_msg_and_next_state(
         next_state_name, user.child_gender)
+    beneficiary_bot.fetch_user_data(user.chat_id, context)
     msgs, imgs = beneficiary_bot.replace_custom_message(msgs, imgs, context)
 
     # Send the content
@@ -268,6 +269,7 @@ def set_state(update, context):
     sm = beneficiary_bot.get_sm_from_track(our_user.track)
     msgs, imgs, _, _, _ = sm.get_msg_and_next_state(
         new_state, our_user.child_gender)
+    beneficiary_bot.fetch_user_data(chat_id, context)
     msgs, imgs = beneficiary_bot.replace_custom_message(msgs, imgs, context)
     _send_message_to_queue(
         update, context, msgs, imgs
@@ -308,6 +310,7 @@ def set_super_state(update, context):
     sm = beneficiary_bot.get_sm_from_track(our_user.track)
     msgs, imgs, _, _, _ = sm.get_msg_and_next_state(
         new_state, our_user.child_gender)
+    beneficiary_bot.fetch_user_data(chat_id, context)
     msgs, imgs = beneficiary_bot.replace_custom_message(msgs, imgs, context)
     _send_message_to_chat_id(
         update, context, chat_id,
