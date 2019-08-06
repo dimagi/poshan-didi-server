@@ -43,7 +43,7 @@ def main():
 
     # Add a nurse command to skip the current escalated message 
     # (only allow the nurse to access this command)
-    dp.add_handler(CommandHandler('skip', nurse_bot.skip,
+    dp.add_handler(CommandHandler('noreply', nurse_bot.skip,
                                   Filters.chat(settings.NURSE_CHAT_ID)))
     
     # Add a nurse command to set state for a user (only allow the nurse to access this command)
