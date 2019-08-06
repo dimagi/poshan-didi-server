@@ -140,15 +140,18 @@ class StateMachine(object):
         msg_hi_f = msg_hi_f if len(msg_hi_f) > 0 else None
         image = image if len(image) > 0 else None
         state = self._find_state_by_name(state_name)
-        state.add_en_msg(msg_en)
-        state.add_hi_msg(msg_hi, msg_hi_m, msg_hi_f)
-        state.add_img(image)
+        try:
+            state.add_en_msg(msg_en)
+            state.add_hi_msg(msg_hi, msg_hi_m, msg_hi_f)
+            state.add_img(image)
+        except AttributeError:
+            raise ValueError(f'Unable to find state "{state_name}"')
 
     def _load_messages(self, messages_filename):
         with open(messages_filename) as f:
             csv_rdr = csv.DictReader(f)
             for row in csv_rdr:
-                row['message_shortname'] = row['message_shortname'].replace(
+                row['message_shortname'] = row['message_shortname'].strip().replace(
                     ' ', '_')
                 if row['direct_to_nurse'].lower() == 'yes':
                     self.direct_to_nurse_states.append(
