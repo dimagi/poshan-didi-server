@@ -570,7 +570,7 @@
         {
           "uuid": "de18ade3-ac63-493f-9981-e13c6a75f487",
           "x": 995,
-          "y": 1859,
+          "y": 1788,
           "destination": null,
           "actions": [
             {
@@ -588,8 +588,8 @@
         },
         {
           "uuid": "361186ce-8fdb-443c-9f7c-5b2be02e3075",
-          "x": 1050,
-          "y": 1970,
+          "x": 1040,
+          "y": 1871,
           "destination": null,
           "actions": [
             {
@@ -607,8 +607,8 @@
         },
         {
           "uuid": "9401c3ea-ca23-4ca2-aaaa-ea5f0be00831",
-          "x": 1227,
-          "y": 1875,
+          "x": 1241,
+          "y": 1793,
           "destination": null,
           "actions": [
             {
@@ -626,8 +626,8 @@
         },
         {
           "uuid": "cb50a04f-9374-4c8f-9db3-d2ebdbca376c",
-          "x": 1211,
-          "y": 2069,
+          "x": 1259,
+          "y": 1880,
           "destination": null,
           "actions": [
             {
@@ -645,8 +645,8 @@
         },
         {
           "uuid": "48d6b6bc-f6be-4db6-82db-460d5f93dfd9",
-          "x": 1320,
-          "y": 1973,
+          "x": 1481,
+          "y": 1790,
           "destination": null,
           "actions": [
             {
@@ -664,8 +664,8 @@
         },
         {
           "uuid": "daf58f8d-ea4d-4f25-adf4-4be6c2faf824",
-          "x": 1347,
-          "y": 2181,
+          "x": 1437,
+          "y": 1964,
           "destination": null,
           "actions": [
             {
@@ -683,8 +683,8 @@
         },
         {
           "uuid": "430f1f0b-03ad-48ee-a256-9bfb712915d9",
-          "x": 1590,
-          "y": 2054,
+          "x": 1499,
+          "y": 1874,
           "destination": null,
           "actions": [
             {
@@ -1203,8 +1203,8 @@
         },
         {
           "uuid": "b166dd72-6da0-420e-879a-5b7f63ec021e",
-          "x": 1518,
-          "y": 2279,
+          "x": 1218,
+          "y": 1967,
           "destination": null,
           "actions": [
             {
@@ -1680,7 +1680,7 @@
         },
         {
           "uuid": "001aa6a2-851e-4d4b-b975-5ea8fc399796",
-          "x": 71,
+          "x": 0,
           "y": 1511,
           "destination": "50036a82-642e-4b30-9fa0-6cefed65fba1",
           "actions": [
@@ -1699,8 +1699,8 @@
         },
         {
           "uuid": "4129e662-611d-43bf-9202-594cbeb13ca0",
-          "x": 218,
-          "y": 1584,
+          "x": 0,
+          "y": 1581,
           "destination": "0a15ba53-3668-4143-b1b2-7bea25aa5320",
           "actions": [
             {
@@ -1719,7 +1719,7 @@
         {
           "uuid": "8824d279-606f-4e17-b1c6-e7442cc3c438",
           "x": 0,
-          "y": 1760,
+          "y": 1733,
           "destination": "9b0c6eac-5ee7-4fc8-bf51-8cad3d4a6c16",
           "actions": [
             {
@@ -1737,8 +1737,8 @@
         },
         {
           "uuid": "23bcbfd8-3744-41ab-9185-47761285c513",
-          "x": 230,
-          "y": 1748,
+          "x": 0,
+          "y": 1898,
           "destination": "9b0c6eac-5ee7-4fc8-bf51-8cad3d4a6c16",
           "actions": [
             {
@@ -2041,8 +2041,8 @@
         },
         {
           "uuid": "e5a6ce12-64e0-4b4e-a5cd-01155ddc6dc8",
-          "x": 647,
-          "y": 2732,
+          "x": 633,
+          "y": 2700,
           "destination": null,
           "actions": [
             {
@@ -2079,8 +2079,8 @@
         },
         {
           "uuid": "0834b330-1e5c-4729-ac64-7249d0da8961",
-          "x": 1733,
-          "y": 1877,
+          "x": 1727,
+          "y": 1785,
           "destination": "988f30df-a6e3-4a63-9f06-e19cbe0531f8",
           "actions": [
             {
@@ -2098,8 +2098,8 @@
         },
         {
           "uuid": "d99c9246-af71-4a36-acf0-17acf4f8a5ad",
-          "x": 1631,
-          "y": 2408,
+          "x": 1556,
+          "y": 2069,
           "destination": "1194dc8b-d8c3-4b64-9525-311f6faa32ab",
           "actions": [
             {
@@ -2117,8 +2117,8 @@
         },
         {
           "uuid": "db207a08-5794-4a9b-afea-d754f16f843f",
-          "x": 1782,
-          "y": 2330,
+          "x": 1745,
+          "y": 1863,
           "destination": "1194dc8b-d8c3-4b64-9525-311f6faa32ab",
           "actions": [
             {
@@ -2136,8 +2136,8 @@
         },
         {
           "uuid": "2fcb6d40-5f2e-4636-bfc8-ff930d776cee",
-          "x": 1778,
-          "y": 2498,
+          "x": 1823,
+          "y": 2078,
           "destination": "1194dc8b-d8c3-4b64-9525-311f6faa32ab",
           "actions": [
             {
@@ -2155,8 +2155,8 @@
         },
         {
           "uuid": "1194dc8b-d8c3-4b64-9525-311f6faa32ab",
-          "x": 1550,
-          "y": 2645,
+          "x": 1721,
+          "y": 2202,
           "destination": "2f1fbede-b178-4409-848f-044d74db3835",
           "actions": [
             {
@@ -2361,6 +2361,747 @@
             }
           ],
           "exit_uuid": "7a9b55b7-6628-4ed4-b3f7-5850054016f1"
+        },
+        {
+          "uuid": "2877c7bb-77b0-453f-a4fb-48fe05108630",
+          "x": 1370,
+          "y": 494,
+          "destination": "86e90fdd-a7a8-4401-85ee-a008139f5d8b",
+          "actions": [
+            {
+              "type": "reply",
+              "uuid": "a9c147af-e319-4c86-8406-9ef0aaf80b93",
+              "msg": {
+                "base": "1_8_lmn"
+              },
+              "media": {},
+              "quick_replies": [],
+              "send_all": false
+            }
+          ],
+          "exit_uuid": "3de753d5-5471-4da4-93a3-7f8ce7e5915b"
+        },
+        {
+          "uuid": "6ee0e919-ed9d-4eae-96f0-5b45d94c84c3",
+          "x": 1971,
+          "y": 1109,
+          "destination": null,
+          "actions": [
+            {
+              "type": "reply",
+              "uuid": "ad0ade94-17fe-4489-b584-8bf53463a234",
+              "msg": {
+                "base": "1_8_1_imp"
+              },
+              "media": {},
+              "quick_replies": [],
+              "send_all": false
+            }
+          ],
+          "exit_uuid": "814642af-73d2-4de5-b0fc-d7bb6c76a9d2"
+        },
+        {
+          "uuid": "0a34eea5-204c-45c5-b1af-6f8d18bc394d",
+          "x": 1040,
+          "y": 953,
+          "destination": null,
+          "actions": [
+            {
+              "type": "reply",
+              "uuid": "73252174-4333-45ee-85c2-89a0961c5d06",
+              "msg": {
+                "base": "1_8_2_effectonmotherhealth"
+              },
+              "media": {},
+              "quick_replies": [],
+              "send_all": false
+            }
+          ],
+          "exit_uuid": "281bfe53-4b75-41ca-8711-fa240ca24311"
+        },
+        {
+          "uuid": "1917b9cc-3f27-422e-b71d-8ee077236445",
+          "x": 1394,
+          "y": 1370,
+          "destination": null,
+          "actions": [
+            {
+              "type": "reply",
+              "uuid": "b86caceb-2e3e-451f-bf8a-f337206ae14b",
+              "msg": {
+                "base": "1_8_3_benefitstomother"
+              },
+              "media": {},
+              "quick_replies": [],
+              "send_all": false
+            }
+          ],
+          "exit_uuid": "27522807-dda0-4ee4-af97-383aeb6d141f"
+        },
+        {
+          "uuid": "d6254ce8-5448-4b03-98d9-ce58ca59ae99",
+          "x": 989,
+          "y": 1484,
+          "destination": null,
+          "actions": [
+            {
+              "type": "reply",
+              "uuid": "d3b4ccfb-4592-4d9b-97b3-e3ac9290146e",
+              "msg": {
+                "base": "1_8_4_effectonbm"
+              },
+              "media": {},
+              "quick_replies": [],
+              "send_all": false
+            }
+          ],
+          "exit_uuid": "60c74509-e39b-4b2d-8b7e-e4f1cb720af8"
+        },
+        {
+          "uuid": "c013701a-5cbc-48fe-8523-b2c0930dfa86",
+          "x": 1212,
+          "y": 1442,
+          "destination": null,
+          "actions": [
+            {
+              "type": "reply",
+              "uuid": "711b3dcd-e6eb-4c3b-81f9-0d5d389f81da",
+              "msg": {
+                "base": "1_8_5_effectonchildhealth"
+              },
+              "media": {},
+              "quick_replies": [],
+              "send_all": false
+            }
+          ],
+          "exit_uuid": "05ee3c2c-b6c0-454d-8139-e09942ba4ddd"
+        },
+        {
+          "uuid": "e862ab53-1b54-44e3-b682-89148f7b7acd",
+          "x": 1538,
+          "y": 1223,
+          "destination": "480b0608-1a53-47e5-aa49-da7fd80070aa",
+          "actions": [
+            {
+              "type": "reply",
+              "uuid": "78ef0aef-df60-4030-9d8f-30a718aa3438",
+              "msg": {
+                "base": "1_8_6_nutritionaldeficiency"
+              },
+              "media": {},
+              "quick_replies": [],
+              "send_all": false
+            }
+          ],
+          "exit_uuid": "b5fc80c6-6594-436f-98a2-e83f3ffe0da2"
+        },
+        {
+          "uuid": "3f738ed4-f72d-44bb-bc49-9ee17bb58d0a",
+          "x": 921,
+          "y": 1397,
+          "destination": null,
+          "actions": [
+            {
+              "type": "reply",
+              "uuid": "7cfad936-f42b-4c0a-a0ea-b8b76715eee2",
+              "msg": {
+                "base": "1_8_6_1_iron"
+              },
+              "media": {},
+              "quick_replies": [],
+              "send_all": false
+            }
+          ],
+          "exit_uuid": "e6a37efe-98ef-46f0-b79f-6c2ce9fe220d"
+        },
+        {
+          "uuid": "473e66f1-0f91-46d7-9d7d-3363c532d134",
+          "x": 1268,
+          "y": 1524,
+          "destination": null,
+          "actions": [
+            {
+              "type": "reply",
+              "uuid": "81140d11-b837-49f2-b935-5ad8a77acf9e",
+              "msg": {
+                "base": "1_8_6_2_vitamina"
+              },
+              "media": {},
+              "quick_replies": [],
+              "send_all": false
+            }
+          ],
+          "exit_uuid": "22dadc65-5a21-4e15-9b23-08441984cb8b"
+        },
+        {
+          "uuid": "87da169b-d292-426b-b83a-c14771e3392a",
+          "x": 1614,
+          "y": 1640,
+          "destination": null,
+          "actions": [
+            {
+              "type": "reply",
+              "uuid": "c64d10a0-57b5-4535-8f5d-b600a03b3873",
+              "msg": {
+                "base": "1_8_6_3_lethargy"
+              },
+              "media": {},
+              "quick_replies": [],
+              "send_all": false
+            }
+          ],
+          "exit_uuid": "59c77e17-9d93-4ad6-bb53-f4618f395e65"
+        },
+        {
+          "uuid": "436e89eb-0bb7-4de9-90f4-e11f17205839",
+          "x": 2004,
+          "y": 872,
+          "destination": null,
+          "actions": [
+            {
+              "type": "reply",
+              "uuid": "21b6b7ab-2703-49d4-82f7-a52e1270895d",
+              "msg": {
+                "base": "1_8_7_dietaryrec"
+              },
+              "media": {},
+              "quick_replies": [],
+              "send_all": false
+            }
+          ],
+          "exit_uuid": "c02c51a9-b3e1-43a9-9675-239460ae67a6"
+        },
+        {
+          "uuid": "5e8fbe3f-92cc-414d-84e3-27ba1470e801",
+          "x": 1104,
+          "y": 1043,
+          "destination": null,
+          "actions": [
+            {
+              "type": "reply",
+              "uuid": "5949e9fc-9768-45a3-b856-6892aa5dac9f",
+              "msg": {
+                "base": "1_8_8_curative"
+              },
+              "media": {},
+              "quick_replies": [],
+              "send_all": false
+            }
+          ],
+          "exit_uuid": "b08a9d7c-69d0-4394-ad63-3fff5835d98e"
+        },
+        {
+          "uuid": "f7bb5217-7c1c-4af9-96b9-567ba80c128c",
+          "x": 1965,
+          "y": 1028,
+          "destination": null,
+          "actions": [
+            {
+              "type": "reply",
+              "uuid": "98577432-c20c-40ae-a8fe-6893b7c81ceb",
+              "msg": {
+                "base": "1_8_9_others"
+              },
+              "media": {},
+              "quick_replies": [],
+              "send_all": false
+            }
+          ],
+          "exit_uuid": "7195533c-6ce0-44ba-87be-957a855b423b"
+        },
+        {
+          "uuid": "b936a101-d440-4092-8510-a25469f01749",
+          "x": 368,
+          "y": 1422,
+          "destination": "f9fbdcee-60ae-4e63-9dd0-b6a5878f997c",
+          "actions": [
+            {
+              "type": "reply",
+              "uuid": "9dca63c5-0cde-444e-aff0-2e5bc62cf333",
+              "msg": {
+                "base": "1_9_cod"
+              },
+              "media": {},
+              "quick_replies": [],
+              "send_all": false
+            }
+          ],
+          "exit_uuid": "ae918849-de8d-4531-97f9-60d0ef818ec6"
+        },
+        {
+          "uuid": "63974a0b-77c6-47c1-9c8b-69ca41b51460",
+          "x": 1187,
+          "y": 2195,
+          "destination": "d04477d6-4840-43a3-adfc-b2e1bdc743b5",
+          "actions": [
+            {
+              "type": "reply",
+              "uuid": "e086c7a4-e49a-4eaa-87e6-daaa43300d90",
+              "msg": {
+                "base": "1_9_1_jaundice"
+              },
+              "media": {},
+              "quick_replies": [],
+              "send_all": false
+            }
+          ],
+          "exit_uuid": "b33bf17a-b321-4cbd-b465-1d6ff3e15c5e"
+        },
+        {
+          "uuid": "8ecfc778-125a-422e-98ac-9b9db7717154",
+          "x": 1242,
+          "y": 2129,
+          "destination": null,
+          "actions": [
+            {
+              "type": "reply",
+              "uuid": "6499ce09-e293-41ee-a389-dae50fae4483",
+              "msg": {
+                "base": "1_9_1_1_sym"
+              },
+              "media": {},
+              "quick_replies": [],
+              "send_all": false
+            }
+          ],
+          "exit_uuid": "bfc1df01-3139-4311-aa41-4d90004e06cc"
+        },
+        {
+          "uuid": "9ff30830-5b8d-41e1-9232-8692b895e761",
+          "x": 1407,
+          "y": 2225,
+          "destination": null,
+          "actions": [
+            {
+              "type": "reply",
+              "uuid": "ffe3fdb3-6938-4ebc-90c8-2f6737501c5f",
+              "msg": {
+                "base": "1_9_1_2_causes"
+              },
+              "media": {},
+              "quick_replies": [],
+              "send_all": false
+            }
+          ],
+          "exit_uuid": "594dda8e-c234-4061-aea7-0e7879528978"
+        },
+        {
+          "uuid": "22468917-1d85-4a70-9d8a-5ae001da9afd",
+          "x": 1451,
+          "y": 2159,
+          "destination": null,
+          "actions": [
+            {
+              "type": "reply",
+              "uuid": "7cb8cef1-d0e9-42e1-9d34-1f1a457badbb",
+              "msg": {
+                "base": "1_9_1_3_prev"
+              },
+              "media": {},
+              "quick_replies": [],
+              "send_all": false
+            }
+          ],
+          "exit_uuid": "c6d115b8-a9bb-4992-b9d6-a438e0f93163"
+        },
+        {
+          "uuid": "3041df6b-2bf2-416d-8582-f45e91955617",
+          "x": 1076,
+          "y": 2528,
+          "destination": "f3ba5829-d523-44ed-89f6-9f5da41a3ccd",
+          "actions": [
+            {
+              "type": "reply",
+              "uuid": "fe6d61ca-5323-40f9-a032-9603fa5417fb",
+              "msg": {
+                "base": "1_9_2_diarrhea"
+              },
+              "media": {},
+              "quick_replies": [],
+              "send_all": false
+            }
+          ],
+          "exit_uuid": "6a2f3291-c9d2-4c71-8036-ad4bede16d6a"
+        },
+        {
+          "uuid": "d1bd314f-4801-4b6e-8bb4-3f4be5d0bc94",
+          "x": 695,
+          "y": 2855,
+          "destination": null,
+          "actions": [
+            {
+              "type": "reply",
+              "uuid": "443bfb49-f67e-4a52-bf48-a83467cbce4a",
+              "msg": {
+                "base": "1_9_2_1_sym"
+              },
+              "media": {},
+              "quick_replies": [],
+              "send_all": false
+            }
+          ],
+          "exit_uuid": "d0323cff-f07a-4971-ad5b-e772f378a0de"
+        },
+        {
+          "uuid": "33d9d5e7-67bb-42b6-bb14-7c13430bfa5b",
+          "x": 1037,
+          "y": 2834,
+          "destination": null,
+          "actions": [
+            {
+              "type": "reply",
+              "uuid": "283aae2c-47e2-4f6c-a564-6e30f358c1d6",
+              "msg": {
+                "base": "1_9_2_2_causes"
+              },
+              "media": {},
+              "quick_replies": [],
+              "send_all": false
+            }
+          ],
+          "exit_uuid": "42569575-efda-4fdf-a5b3-abdbb5173af4"
+        },
+        {
+          "uuid": "d2e4c47c-b1bc-4448-abd8-b31e291926ce",
+          "x": 705,
+          "y": 2783,
+          "destination": null,
+          "actions": [
+            {
+              "type": "reply",
+              "uuid": "cc762566-cfea-4ce6-bf8d-dc3d387c715d",
+              "msg": {
+                "base": "1_9_2_3_prev"
+              },
+              "media": {},
+              "quick_replies": [],
+              "send_all": false
+            }
+          ],
+          "exit_uuid": "49d72844-48b9-4f06-8871-8916f82cf26e"
+        },
+        {
+          "uuid": "b80b20e6-602a-49b6-b8d4-dc37b2368588",
+          "x": 498,
+          "y": 2921,
+          "destination": null,
+          "actions": [
+            {
+              "type": "reply",
+              "uuid": "4094dea6-35f3-4aa4-9c06-a70f734cf3bb",
+              "msg": {
+                "base": "1_9_2_4_homeremedies"
+              },
+              "media": {},
+              "quick_replies": [],
+              "send_all": false
+            }
+          ],
+          "exit_uuid": "b7b08eae-acce-4cdb-a2b0-76e6c9dad51e"
+        },
+        {
+          "uuid": "690a35f4-193d-4d73-bac3-df5fe2284a2e",
+          "x": 1280,
+          "y": 2465,
+          "destination": "f7b40e18-285f-4ffb-a959-87f078de8956",
+          "actions": [
+            {
+              "type": "reply",
+              "uuid": "b9d76141-a2f9-4838-8fbe-355fb7952dde",
+              "msg": {
+                "base": "1_9_3_typhoid"
+              },
+              "media": {},
+              "quick_replies": [],
+              "send_all": false
+            }
+          ],
+          "exit_uuid": "f8b99b09-3d65-48c5-88b2-4da8c432df95"
+        },
+        {
+          "uuid": "9a5afd25-62ce-4e30-aa15-f849d5ce9eae",
+          "x": 1118,
+          "y": 2660,
+          "destination": null,
+          "actions": [
+            {
+              "type": "reply",
+              "uuid": "41266426-4e0e-41c3-be82-e43b884749be",
+              "msg": {
+                "base": "1_9_3_1_sym"
+              },
+              "media": {},
+              "quick_replies": [],
+              "send_all": false
+            }
+          ],
+          "exit_uuid": "367c4580-7739-44c3-9c46-f9e24f94d4fe"
+        },
+        {
+          "uuid": "7e179360-5773-4214-b30f-e317d8e4931a",
+          "x": 1349,
+          "y": 2666,
+          "destination": null,
+          "actions": [
+            {
+              "type": "reply",
+              "uuid": "7835414a-c8ad-431f-a161-49ef65a62490",
+              "msg": {
+                "base": "1_9_3_2_causes"
+              },
+              "media": {},
+              "quick_replies": [],
+              "send_all": false
+            }
+          ],
+          "exit_uuid": "860c432b-74fa-4bb3-b62f-37caf58c5e4c"
+        },
+        {
+          "uuid": "008a7727-f14f-4405-983c-e0587dbae495",
+          "x": 1443,
+          "y": 2822,
+          "destination": null,
+          "actions": [
+            {
+              "type": "reply",
+              "uuid": "7b998503-495a-4b09-af8a-8c747886b118",
+              "msg": {
+                "base": "1_9_3_3_prev"
+              },
+              "media": {},
+              "quick_replies": [],
+              "send_all": false
+            }
+          ],
+          "exit_uuid": "562edef5-ceed-4e82-86f2-f1e98f4ad054"
+        },
+        {
+          "uuid": "431ac335-5177-46fa-8d4d-e831589fb164",
+          "x": 1514,
+          "y": 2453,
+          "destination": "d4ffe989-0228-4eca-af4a-37d4d522848a",
+          "actions": [
+            {
+              "type": "reply",
+              "uuid": "5a01debd-e5b9-4eff-9bbd-1d3737f4038f",
+              "msg": {
+                "base": "1_9_4_pneumonia"
+              },
+              "media": {},
+              "quick_replies": [],
+              "send_all": false
+            }
+          ],
+          "exit_uuid": "bce15242-4205-4c0d-9706-3ceeacc51b56"
+        },
+        {
+          "uuid": "762af81e-c29f-41e2-a1cd-a1ed30dd2ec4",
+          "x": 1661,
+          "y": 2822,
+          "destination": null,
+          "actions": [
+            {
+              "type": "reply",
+              "uuid": "18d1925c-b1fc-4a59-b167-2ff186fe129d",
+              "msg": {
+                "base": "1_9_4_1_sym"
+              },
+              "media": {},
+              "quick_replies": [],
+              "send_all": false
+            }
+          ],
+          "exit_uuid": "ab4481d2-4ed0-4640-b8b4-3d35962e926e"
+        },
+        {
+          "uuid": "556b7cb8-3137-4872-8eab-66ff5f9490c3",
+          "x": 1452,
+          "y": 2993,
+          "destination": null,
+          "actions": [
+            {
+              "type": "reply",
+              "uuid": "90bf93fc-a1aa-4146-8113-f6abe0805745",
+              "msg": {
+                "base": "1_9_4_2_causes"
+              },
+              "media": {},
+              "quick_replies": [],
+              "send_all": false
+            }
+          ],
+          "exit_uuid": "ccaede74-de4d-44e7-974c-15ab9cb0acb4"
+        },
+        {
+          "uuid": "92c7b22e-a3a6-42b6-bc7c-0c94bbc406e8",
+          "x": 1749,
+          "y": 3038,
+          "destination": null,
+          "actions": [
+            {
+              "type": "reply",
+              "uuid": "099efa32-d70a-4c89-a4d3-5b0a2193b834",
+              "msg": {
+                "base": "1_9_4_3_prev"
+              },
+              "media": {},
+              "quick_replies": [],
+              "send_all": false
+            }
+          ],
+          "exit_uuid": "5e705f44-ffc2-4758-a922-3e5155a09970"
+        },
+        {
+          "uuid": "f25e7585-6e41-40af-a6fa-d3ad51fc2e26",
+          "x": 1683,
+          "y": 2558,
+          "destination": "71082f09-ea78-47ff-be8f-6a95410f2a35",
+          "actions": [
+            {
+              "type": "reply",
+              "uuid": "c87d7e9c-190f-4402-b5bd-d265ebe443ff",
+              "msg": {
+                "base": "1_9_5_measles"
+              },
+              "media": {},
+              "quick_replies": [],
+              "send_all": false
+            }
+          ],
+          "exit_uuid": "221e80e6-ab05-4c4a-8bb1-b16977143689"
+        },
+        {
+          "uuid": "b05bd337-ad59-4497-8f52-6714a129a65a",
+          "x": 1886,
+          "y": 2621,
+          "destination": null,
+          "actions": [
+            {
+              "type": "reply",
+              "uuid": "5d324297-e63b-45c3-894f-1897345af94e",
+              "msg": {
+                "base": "1_9_5_1_sym"
+              },
+              "media": {},
+              "quick_replies": [],
+              "send_all": false
+            }
+          ],
+          "exit_uuid": "f4d51558-40ee-4157-82f4-d4ebe8932c86"
+        },
+        {
+          "uuid": "f73b292c-62cf-4e2c-959e-0fcceb73274b",
+          "x": 1754,
+          "y": 2387,
+          "destination": null,
+          "actions": [
+            {
+              "type": "reply",
+              "uuid": "b2ad6ccc-d3b6-474b-9ffa-919f500a687b",
+              "msg": {
+                "base": "1_9_5_2_causes"
+              },
+              "media": {},
+              "quick_replies": [],
+              "send_all": false
+            }
+          ],
+          "exit_uuid": "2d56844e-1dec-4a39-9bb9-029bed427e61"
+        },
+        {
+          "uuid": "c9fd6563-a775-4686-922c-641c147b12b3",
+          "x": 1913,
+          "y": 2555,
+          "destination": null,
+          "actions": [
+            {
+              "type": "reply",
+              "uuid": "b0ef97d6-cf9b-449e-9f91-2b2adc2e0011",
+              "msg": {
+                "base": "1_9_5_3_prev"
+              },
+              "media": {},
+              "quick_replies": [],
+              "send_all": false
+            }
+          ],
+          "exit_uuid": "46d562bd-23a5-42a2-a38a-e47ae5318fd7"
+        },
+        {
+          "uuid": "24ec5af6-cb21-4136-aa52-d0fcd63ac1df",
+          "x": 1911,
+          "y": 2798,
+          "destination": "3ac35f53-f77d-48f7-8372-3e0578ddd29d",
+          "actions": [
+            {
+              "type": "reply",
+              "uuid": "1832b26b-1a02-480d-b1aa-485c30d5e8aa",
+              "msg": {
+                "base": "1_9_6_malaria"
+              },
+              "media": {},
+              "quick_replies": [],
+              "send_all": false
+            }
+          ],
+          "exit_uuid": "1c80eef0-74ec-418d-94ba-9e652cfd1655"
+        },
+        {
+          "uuid": "2c3f061d-fb14-4d5c-85f9-bb277eef1753",
+          "x": 1515,
+          "y": 3176,
+          "destination": null,
+          "actions": [
+            {
+              "type": "reply",
+              "uuid": "d54a0e11-07e4-4dcf-aa4c-0f42bf8aad32",
+              "msg": {
+                "base": "1_9_6_1_sym"
+              },
+              "media": {},
+              "quick_replies": [],
+              "send_all": false
+            }
+          ],
+          "exit_uuid": "cadfcd58-484a-4a77-ad00-7ed55751ae71"
+        },
+        {
+          "uuid": "b5a8d02f-1b31-4e82-9394-57a0d13f9710",
+          "x": 1799,
+          "y": 3260,
+          "destination": null,
+          "actions": [
+            {
+              "type": "reply",
+              "uuid": "e2b1725b-dbdf-44a5-b4b8-a4542527cf6f",
+              "msg": {
+                "base": "1_9_6_2_causes"
+              },
+              "media": {},
+              "quick_replies": [],
+              "send_all": false
+            }
+          ],
+          "exit_uuid": "f2347327-c7b1-462a-be50-afd5ef32aaf9"
+        },
+        {
+          "uuid": "1f2367d4-0fae-4d43-9655-d273875d9279",
+          "x": 1851,
+          "y": 3161,
+          "destination": null,
+          "actions": [
+            {
+              "type": "reply",
+              "uuid": "810685c2-ea65-4316-8b29-6f6473755a04",
+              "msg": {
+                "base": "1_9_6_3_prev"
+              },
+              "media": {},
+              "quick_replies": [],
+              "send_all": false
+            }
+          ],
+          "exit_uuid": "ea447367-b68e-49ac-a040-b4902f03439f"
         }
       ],
       "rule_sets": [
@@ -2471,6 +3212,36 @@
                 "type": "contains_any",
                 "test": {
                   "base": "7"
+                }
+              },
+              "label": null
+            },
+            {
+              "uuid": "682a0402-8e7b-462b-a858-7fc0af44c1e1",
+              "category": {
+                "base": "8"
+              },
+              "destination": "2877c7bb-77b0-453f-a4fb-48fe05108630",
+              "destination_type": "A",
+              "test": {
+                "type": "contains_any",
+                "test": {
+                  "base": "8"
+                }
+              },
+              "label": null
+            },
+            {
+              "uuid": "daf53020-efb1-420b-b9d9-31586d5fa5b0",
+              "category": {
+                "base": "9"
+              },
+              "destination": "b936a101-d440-4092-8510-a25469f01749",
+              "destination_type": "A",
+              "test": {
+                "type": "contains_any",
+                "test": {
+                  "base": "9"
                 }
               },
               "label": null
@@ -4426,8 +5197,8 @@
         },
         {
           "uuid": "50036a82-642e-4b30-9fa0-6cefed65fba1",
-          "x": 38,
-          "y": 1661,
+          "x": 0,
+          "y": 1655,
           "label": "imm_sat",
           "rules": [
             {
@@ -4481,8 +5252,8 @@
         },
         {
           "uuid": "9b0c6eac-5ee7-4fc8-bf51-8cad3d4a6c16",
-          "x": 78,
-          "y": 1841,
+          "x": 0,
+          "y": 1820,
           "label": "Response 28",
           "rules": [
             {
@@ -4911,8 +5682,8 @@
         },
         {
           "uuid": "988f30df-a6e3-4a63-9f06-e19cbe0531f8",
-          "x": 1733,
-          "y": 2198,
+          "x": 1665,
+          "y": 1958,
           "label": "Response 38",
           "rules": [
             {
@@ -4981,8 +5752,8 @@
         },
         {
           "uuid": "2f1fbede-b178-4409-848f-044d74db3835",
-          "x": 1530,
-          "y": 2786,
+          "x": 1755,
+          "y": 2288,
           "label": "Response 39",
           "rules": [
             {
@@ -5143,6 +5914,786 @@
           "response_type": "",
           "operand": "@step.value",
           "config": {}
+        },
+        {
+          "uuid": "86e90fdd-a7a8-4401-85ee-a008139f5d8b",
+          "x": 1424,
+          "y": 755,
+          "label": "lactatingmother",
+          "rules": [
+            {
+              "uuid": "f5f00e1d-403d-41b2-b18a-e2ddf0a2a19b",
+              "category": {
+                "base": "1"
+              },
+              "destination": "6ee0e919-ed9d-4eae-96f0-5b45d94c84c3",
+              "destination_type": "A",
+              "test": {
+                "type": "contains_any",
+                "test": {
+                  "base": "1"
+                }
+              },
+              "label": null
+            },
+            {
+              "uuid": "6eb5fb48-5f9f-4197-9176-d5a630c79d80",
+              "category": {
+                "base": "2"
+              },
+              "destination": "0a34eea5-204c-45c5-b1af-6f8d18bc394d",
+              "destination_type": "A",
+              "test": {
+                "type": "contains_any",
+                "test": {
+                  "base": "2"
+                }
+              },
+              "label": null
+            },
+            {
+              "uuid": "aa73fbca-89be-4e7b-8531-554878694a3f",
+              "category": {
+                "base": "3"
+              },
+              "destination": "1917b9cc-3f27-422e-b71d-8ee077236445",
+              "destination_type": "A",
+              "test": {
+                "type": "contains_any",
+                "test": {
+                  "base": "3"
+                }
+              },
+              "label": null
+            },
+            {
+              "uuid": "2f1d480b-c3c2-4562-9293-6f98c21c26b2",
+              "category": {
+                "base": "4"
+              },
+              "destination": "d6254ce8-5448-4b03-98d9-ce58ca59ae99",
+              "destination_type": "A",
+              "test": {
+                "type": "contains_any",
+                "test": {
+                  "base": "4"
+                }
+              },
+              "label": null
+            },
+            {
+              "uuid": "a1128860-5f7a-4a70-995f-108259fdae68",
+              "category": {
+                "base": "5"
+              },
+              "destination": "c013701a-5cbc-48fe-8523-b2c0930dfa86",
+              "destination_type": "A",
+              "test": {
+                "type": "contains_any",
+                "test": {
+                  "base": "5"
+                }
+              },
+              "label": null
+            },
+            {
+              "uuid": "19be1539-9cfa-46b1-9e04-f5407e1243bc",
+              "category": {
+                "base": "6"
+              },
+              "destination": "e862ab53-1b54-44e3-b682-89148f7b7acd",
+              "destination_type": "A",
+              "test": {
+                "type": "contains_any",
+                "test": {
+                  "base": "6"
+                }
+              },
+              "label": null
+            },
+            {
+              "uuid": "6b62fc52-0933-4546-be03-475f12a9c6ab",
+              "category": {
+                "base": "7"
+              },
+              "destination": "436e89eb-0bb7-4de9-90f4-e11f17205839",
+              "destination_type": "A",
+              "test": {
+                "type": "contains_any",
+                "test": {
+                  "base": "7"
+                }
+              },
+              "label": null
+            },
+            {
+              "uuid": "95275a81-e787-4aac-adea-f940608c1c56",
+              "category": {
+                "base": "8"
+              },
+              "destination": "5e8fbe3f-92cc-414d-84e3-27ba1470e801",
+              "destination_type": "A",
+              "test": {
+                "type": "contains_any",
+                "test": {
+                  "base": "8"
+                }
+              },
+              "label": null
+            },
+            {
+              "uuid": "e59a8972-25ab-4bc8-a78e-0114658f7bf8",
+              "category": {
+                "base": "9"
+              },
+              "destination": "f7bb5217-7c1c-4af9-96b9-567ba80c128c",
+              "destination_type": "A",
+              "test": {
+                "type": "contains_any",
+                "test": {
+                  "base": "9"
+                }
+              },
+              "label": null
+            },
+            {
+              "uuid": "a9bfa636-2517-44d0-8e05-122a26298831",
+              "category": {
+                "base": "Other"
+              },
+              "destination": null,
+              "destination_type": null,
+              "test": {
+                "type": "true"
+              },
+              "label": null
+            }
+          ],
+          "finished_key": null,
+          "ruleset_type": "wait_message",
+          "response_type": "",
+          "operand": "@step.value",
+          "config": {}
+        },
+        {
+          "uuid": "480b0608-1a53-47e5-aa49-da7fd80070aa",
+          "x": 2034,
+          "y": 1418,
+          "label": "nutritionaldeficiency",
+          "rules": [
+            {
+              "uuid": "3b619aa5-f4c2-4154-b452-96595c77f4bb",
+              "category": {
+                "base": "1"
+              },
+              "destination": "3f738ed4-f72d-44bb-bc49-9ee17bb58d0a",
+              "destination_type": "A",
+              "test": {
+                "type": "contains_any",
+                "test": {
+                  "base": "1"
+                }
+              },
+              "label": null
+            },
+            {
+              "uuid": "aec91640-5cd6-44b3-a930-4ef57c7de298",
+              "category": {
+                "base": "2"
+              },
+              "destination": "473e66f1-0f91-46d7-9d7d-3363c532d134",
+              "destination_type": "A",
+              "test": {
+                "type": "contains_any",
+                "test": {
+                  "base": "2"
+                }
+              },
+              "label": null
+            },
+            {
+              "uuid": "b44c4eed-3586-43c5-97fa-7a6845339469",
+              "category": {
+                "base": "3"
+              },
+              "destination": "87da169b-d292-426b-b83a-c14771e3392a",
+              "destination_type": "A",
+              "test": {
+                "type": "contains_any",
+                "test": {
+                  "base": "3"
+                }
+              },
+              "label": null
+            },
+            {
+              "uuid": "7dd3ed7b-a378-4afa-bf03-09b1d553f0d5",
+              "category": {
+                "base": "Other"
+              },
+              "destination": null,
+              "destination_type": null,
+              "test": {
+                "type": "true"
+              },
+              "label": null
+            }
+          ],
+          "finished_key": null,
+          "ruleset_type": "wait_message",
+          "response_type": "",
+          "operand": "@step.value",
+          "config": {}
+        },
+        {
+          "uuid": "f9fbdcee-60ae-4e63-9dd0-b6a5878f997c",
+          "x": 1112,
+          "y": 2331,
+          "label": "diseases",
+          "rules": [
+            {
+              "uuid": "2cd33380-7426-48b5-a410-c43c5866becd",
+              "category": {
+                "base": "1"
+              },
+              "destination": "63974a0b-77c6-47c1-9c8b-69ca41b51460",
+              "destination_type": "A",
+              "test": {
+                "type": "contains_any",
+                "test": {
+                  "base": "1"
+                }
+              },
+              "label": null
+            },
+            {
+              "uuid": "a935c3f7-0003-49c2-bf8e-640ddcb2830d",
+              "category": {
+                "base": "2"
+              },
+              "destination": "3041df6b-2bf2-416d-8582-f45e91955617",
+              "destination_type": "A",
+              "test": {
+                "type": "contains_any",
+                "test": {
+                  "base": "2"
+                }
+              },
+              "label": null
+            },
+            {
+              "uuid": "624b7362-0c46-45c7-bdb5-4f871aa73c65",
+              "category": {
+                "base": "3"
+              },
+              "destination": "690a35f4-193d-4d73-bac3-df5fe2284a2e",
+              "destination_type": "A",
+              "test": {
+                "type": "contains_any",
+                "test": {
+                  "base": "3"
+                }
+              },
+              "label": null
+            },
+            {
+              "uuid": "8b31ced2-4c02-41c6-9927-a4ccf289cf87",
+              "category": {
+                "base": "4"
+              },
+              "destination": "431ac335-5177-46fa-8d4d-e831589fb164",
+              "destination_type": "A",
+              "test": {
+                "type": "contains_any",
+                "test": {
+                  "base": "4"
+                }
+              },
+              "label": null
+            },
+            {
+              "uuid": "ffadfcd9-cfab-49b7-8ea5-a3a4291b5232",
+              "category": {
+                "base": "5"
+              },
+              "destination": "f25e7585-6e41-40af-a6fa-d3ad51fc2e26",
+              "destination_type": "A",
+              "test": {
+                "type": "contains_any",
+                "test": {
+                  "base": "5"
+                }
+              },
+              "label": null
+            },
+            {
+              "uuid": "3e5f5d0e-45b1-4ecc-9454-fff27106e51f",
+              "category": {
+                "base": "6"
+              },
+              "destination": "24ec5af6-cb21-4136-aa52-d0fcd63ac1df",
+              "destination_type": "A",
+              "test": {
+                "type": "contains_any",
+                "test": {
+                  "base": "6"
+                }
+              },
+              "label": null
+            },
+            {
+              "uuid": "bd02986f-7761-407b-9a28-657fedf8902a",
+              "category": {
+                "base": "Other"
+              },
+              "destination": null,
+              "destination_type": null,
+              "test": {
+                "type": "true"
+              },
+              "label": null
+            }
+          ],
+          "finished_key": null,
+          "ruleset_type": "wait_message",
+          "response_type": "",
+          "operand": "@step.value",
+          "config": {}
+        },
+        {
+          "uuid": "d04477d6-4840-43a3-adfc-b2e1bdc743b5",
+          "x": 1034,
+          "y": 2045,
+          "label": "jaundice",
+          "rules": [
+            {
+              "uuid": "c7f2828e-21bb-4554-86b6-29eaa736041c",
+              "category": {
+                "base": "1"
+              },
+              "destination": "8ecfc778-125a-422e-98ac-9b9db7717154",
+              "destination_type": "A",
+              "test": {
+                "type": "contains_any",
+                "test": {
+                  "base": "1"
+                }
+              },
+              "label": null
+            },
+            {
+              "uuid": "17944e76-57e1-4ba3-b9bc-57608faa24f3",
+              "category": {
+                "base": "2"
+              },
+              "destination": "9ff30830-5b8d-41e1-9232-8692b895e761",
+              "destination_type": "A",
+              "test": {
+                "type": "contains_any",
+                "test": {
+                  "base": "2"
+                }
+              },
+              "label": null
+            },
+            {
+              "uuid": "48b7021a-ad7a-424f-aead-c9627b5da7d0",
+              "category": {
+                "base": "3"
+              },
+              "destination": "22468917-1d85-4a70-9d8a-5ae001da9afd",
+              "destination_type": "A",
+              "test": {
+                "type": "contains_any",
+                "test": {
+                  "base": "3"
+                }
+              },
+              "label": null
+            },
+            {
+              "uuid": "ab0163fa-2615-4291-a07a-3863b3cd1428",
+              "category": {
+                "base": "Other"
+              },
+              "destination": null,
+              "destination_type": null,
+              "test": {
+                "type": "true"
+              },
+              "label": null
+            }
+          ],
+          "finished_key": null,
+          "ruleset_type": "wait_message",
+          "response_type": "",
+          "operand": "@step.value",
+          "config": {}
+        },
+        {
+          "uuid": "f3ba5829-d523-44ed-89f6-9f5da41a3ccd",
+          "x": 1007,
+          "y": 2741,
+          "label": "diarrhea",
+          "rules": [
+            {
+              "uuid": "ebccfe86-df54-4b5e-a8b8-cc29abf0c0f5",
+              "category": {
+                "base": "1"
+              },
+              "destination": "d1bd314f-4801-4b6e-8bb4-3f4be5d0bc94",
+              "destination_type": "A",
+              "test": {
+                "type": "contains_any",
+                "test": {
+                  "base": "1"
+                }
+              },
+              "label": null
+            },
+            {
+              "uuid": "86acc398-a5ab-462d-ad6f-6b414e811a7e",
+              "category": {
+                "base": "2"
+              },
+              "destination": "33d9d5e7-67bb-42b6-bb14-7c13430bfa5b",
+              "destination_type": "A",
+              "test": {
+                "type": "contains_any",
+                "test": {
+                  "base": "2"
+                }
+              },
+              "label": null
+            },
+            {
+              "uuid": "46e78e93-16f0-4e3f-b60f-dc5e97ff091b",
+              "category": {
+                "base": "3"
+              },
+              "destination": "d2e4c47c-b1bc-4448-abd8-b31e291926ce",
+              "destination_type": "A",
+              "test": {
+                "type": "contains_any",
+                "test": {
+                  "base": "3"
+                }
+              },
+              "label": null
+            },
+            {
+              "uuid": "5cca3392-a529-4c46-9dbb-30eb3192ef62",
+              "category": {
+                "base": "4"
+              },
+              "destination": "b80b20e6-602a-49b6-b8d4-dc37b2368588",
+              "destination_type": "A",
+              "test": {
+                "type": "contains_any",
+                "test": {
+                  "base": "4"
+                }
+              },
+              "label": null
+            },
+            {
+              "uuid": "d6f75f74-4e17-4960-8535-1f363ae0b106",
+              "category": {
+                "base": "Other"
+              },
+              "destination": null,
+              "destination_type": null,
+              "test": {
+                "type": "true"
+              },
+              "label": null
+            }
+          ],
+          "finished_key": null,
+          "ruleset_type": "wait_message",
+          "response_type": "",
+          "operand": "@step.value",
+          "config": {}
+        },
+        {
+          "uuid": "f7b40e18-285f-4ffb-a959-87f078de8956",
+          "x": 1296,
+          "y": 2573,
+          "label": "typhoid",
+          "rules": [
+            {
+              "uuid": "555f4d9e-d72d-4523-9050-92c959cbd9b8",
+              "category": {
+                "base": "1"
+              },
+              "destination": "9a5afd25-62ce-4e30-aa15-f849d5ce9eae",
+              "destination_type": "A",
+              "test": {
+                "type": "contains_any",
+                "test": {
+                  "base": "1"
+                }
+              },
+              "label": null
+            },
+            {
+              "uuid": "5d58aa10-fb9b-4fef-b897-5eb63cdae234",
+              "category": {
+                "base": "2"
+              },
+              "destination": "7e179360-5773-4214-b30f-e317d8e4931a",
+              "destination_type": "A",
+              "test": {
+                "type": "contains_any",
+                "test": {
+                  "base": "2"
+                }
+              },
+              "label": null
+            },
+            {
+              "uuid": "cbe94d65-5e0f-40ec-a7b0-124c2176f020",
+              "category": {
+                "base": "3"
+              },
+              "destination": "008a7727-f14f-4405-983c-e0587dbae495",
+              "destination_type": "A",
+              "test": {
+                "type": "contains_any",
+                "test": {
+                  "base": "3"
+                }
+              },
+              "label": null
+            },
+            {
+              "uuid": "254bdfeb-8665-44fd-8777-11cd2dd4ee4e",
+              "category": {
+                "base": "Other"
+              },
+              "destination": null,
+              "destination_type": null,
+              "test": {
+                "type": "true"
+              },
+              "label": null
+            }
+          ],
+          "finished_key": null,
+          "ruleset_type": "wait_message",
+          "response_type": "",
+          "operand": "@step.value",
+          "config": {}
+        },
+        {
+          "uuid": "d4ffe989-0228-4eca-af4a-37d4d522848a",
+          "x": 1560,
+          "y": 2684,
+          "label": "pneumonia",
+          "rules": [
+            {
+              "uuid": "ccdc2f12-a180-4ebb-8c37-b99b96e0f9d3",
+              "category": {
+                "base": "1"
+              },
+              "destination": "762af81e-c29f-41e2-a1cd-a1ed30dd2ec4",
+              "destination_type": "A",
+              "test": {
+                "type": "contains_any",
+                "test": {
+                  "base": "1"
+                }
+              },
+              "label": null
+            },
+            {
+              "uuid": "35a26438-cc2d-4d87-a97d-ca22f0e01693",
+              "category": {
+                "base": "2"
+              },
+              "destination": "556b7cb8-3137-4872-8eab-66ff5f9490c3",
+              "destination_type": "A",
+              "test": {
+                "type": "contains_any",
+                "test": {
+                  "base": "2"
+                }
+              },
+              "label": null
+            },
+            {
+              "uuid": "d57b54f7-2551-4184-8456-49b1104f2a44",
+              "category": {
+                "base": "3"
+              },
+              "destination": "92c7b22e-a3a6-42b6-bc7c-0c94bbc406e8",
+              "destination_type": "A",
+              "test": {
+                "type": "contains_any",
+                "test": {
+                  "base": "3"
+                }
+              },
+              "label": null
+            },
+            {
+              "uuid": "e0d38fab-f8f4-42f1-9078-129e7b61867f",
+              "category": {
+                "base": "Other"
+              },
+              "destination": null,
+              "destination_type": null,
+              "test": {
+                "type": "true"
+              },
+              "label": null
+            }
+          ],
+          "finished_key": null,
+          "ruleset_type": "wait_message",
+          "response_type": "",
+          "operand": "@step.value",
+          "config": {}
+        },
+        {
+          "uuid": "71082f09-ea78-47ff-be8f-6a95410f2a35",
+          "x": 1737,
+          "y": 2459,
+          "label": "measles",
+          "rules": [
+            {
+              "uuid": "2cb612eb-b147-42b7-b9a3-df08b07448cd",
+              "category": {
+                "base": "1"
+              },
+              "destination": "b05bd337-ad59-4497-8f52-6714a129a65a",
+              "destination_type": "A",
+              "test": {
+                "type": "contains_any",
+                "test": {
+                  "base": "1"
+                }
+              },
+              "label": null
+            },
+            {
+              "uuid": "54c56d25-bfe4-4aec-bc12-55572aec8a2a",
+              "category": {
+                "base": "2"
+              },
+              "destination": "f73b292c-62cf-4e2c-959e-0fcceb73274b",
+              "destination_type": "A",
+              "test": {
+                "type": "contains_any",
+                "test": {
+                  "base": "2"
+                }
+              },
+              "label": null
+            },
+            {
+              "uuid": "8c59384f-edd5-4ab0-aba1-3ea9884b4260",
+              "category": {
+                "base": "3"
+              },
+              "destination": "c9fd6563-a775-4686-922c-641c147b12b3",
+              "destination_type": "A",
+              "test": {
+                "type": "contains_any",
+                "test": {
+                  "base": "3"
+                }
+              },
+              "label": null
+            },
+            {
+              "uuid": "36383c3e-4c01-4e27-9783-216781d45f98",
+              "category": {
+                "base": "Other"
+              },
+              "destination": null,
+              "destination_type": null,
+              "test": {
+                "type": "true"
+              },
+              "label": null
+            }
+          ],
+          "finished_key": null,
+          "ruleset_type": "wait_message",
+          "response_type": "",
+          "operand": "@step.value",
+          "config": {}
+        },
+        {
+          "uuid": "3ac35f53-f77d-48f7-8372-3e0578ddd29d",
+          "x": 1829,
+          "y": 2918,
+          "label": "malaria",
+          "rules": [
+            {
+              "uuid": "3c27610f-5b82-4473-8333-c0ca12a76ed4",
+              "category": {
+                "base": "1"
+              },
+              "destination": "2c3f061d-fb14-4d5c-85f9-bb277eef1753",
+              "destination_type": "A",
+              "test": {
+                "type": "contains_any",
+                "test": {
+                  "base": "1"
+                }
+              },
+              "label": null
+            },
+            {
+              "uuid": "c090c426-1208-409e-a6b6-82e11d7c9e10",
+              "category": {
+                "base": "2"
+              },
+              "destination": "b5a8d02f-1b31-4e82-9394-57a0d13f9710",
+              "destination_type": "A",
+              "test": {
+                "type": "contains_any",
+                "test": {
+                  "base": "2"
+                }
+              },
+              "label": null
+            },
+            {
+              "uuid": "db6e71bb-4945-4e7b-bb54-066943779d3b",
+              "category": {
+                "base": "3"
+              },
+              "destination": "1f2367d4-0fae-4d43-9655-d273875d9279",
+              "destination_type": "A",
+              "test": {
+                "type": "contains_any",
+                "test": {
+                  "base": "3"
+                }
+              },
+              "label": null
+            },
+            {
+              "uuid": "49bd5e6b-96ae-402a-8ec6-57ed1db6c630",
+              "category": {
+                "base": "Other"
+              },
+              "destination": null,
+              "destination_type": null,
+              "test": {
+                "type": "true"
+              },
+              "label": null
+            }
+          ],
+          "finished_key": null,
+          "ruleset_type": "wait_message",
+          "response_type": "",
+          "operand": "@step.value",
+          "config": {}
         }
       ],
       "base_language": "base",
@@ -5152,8 +6703,8 @@
         "dependencies": {},
         "uuid": "ce7e2665-f545-4eff-a7a8-f861a4f3b7e3",
         "name": "Poshan Didi(0-6)_shortnames",
-        "saved_on": "2019-07-23T11:55:48.374294Z",
-        "revision": 970,
+        "saved_on": "2019-08-01T06:31:17.682430Z",
+        "revision": 1110,
         "expires": 10080
       }
     }
