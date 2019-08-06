@@ -225,6 +225,8 @@ NUMBERS = {
     'hello': 'greet',
     'hallo': 'greet',
     'halo': 'greet',
+    'heelo': 'greet',
+    'haloo': 'greet',
     'helo': 'greet',
     'परनाम': 'greet',
     'hello!': 'greet',
