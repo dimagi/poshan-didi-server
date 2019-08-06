@@ -41,6 +41,11 @@ def main():
     # Add the regsitration conversation, which handles the /start command
     dp.add_handler(registration_conversation)
 
+    # Add a nurse command to skip the current escalated message 
+    # (only allow the nurse to access this command)
+    dp.add_handler(CommandHandler('skip', nurse_bot.skip,
+                                  Filters.chat(settings.NURSE_CHAT_ID)))
+    
     # Add a nurse command to set state for a user (only allow the nurse to access this command)
     dp.add_handler(CommandHandler('state', nurse_bot.set_state,
                                   Filters.chat(settings.NURSE_CHAT_ID)))

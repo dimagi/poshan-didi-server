@@ -145,6 +145,16 @@ def _check_nurse_queue(context, escalation=None):
     # Database().commit()
 
 
+def skip(update,context):
+    if not _check_pending(update,context,"No pending messages to skip!"):
+        return
+
+    escalation = Database().get_nurse_queue_first_pending()
+    Database().nurse_queue_mark_answered(escalation.chat_src_id)
+    send_text_reply(
+        f"Ok. Successfully skipped one pending message from {escalation.first_name} ({escalation.chat_src_id}).", update)
+    _check_nurse_queue(context)
+
 def _check_pending(update, context, none_pending_msg):
     if not Database().nurse_queue_pending():
         send_text_reply(none_pending_msg, update)
