@@ -5,6 +5,7 @@ Poshan Didi!
 """
 
 import logging
+import logging.handlers
 
 import beneficiary_bot
 import nurse_bot
@@ -18,6 +19,13 @@ logging.basicConfig(filename=settings.LOG_FILENAME,
                     level=settings.LOG_LEVEL)
 logger = logging.getLogger(__name__)
 
+handler = logging.handlers.RotatingFileHandler(
+    settings.LOG_FILENAME,
+    maxBytes=10*1024*1024,
+    backupCount=100
+)
+
+logger.addHandler(handler)
 
 # Define a few command handlers. These usually take the two arguments bot and
 # update. Error handlers also receive the raised TelegramError object in error.
