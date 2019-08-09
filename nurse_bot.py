@@ -325,6 +325,9 @@ def set_super_state(update, context):
     _send_message_to_chat_id(
         update, context, chat_id,
         msgs)
+    _send_images_to_chat_id(
+        update, context, chat_id,
+        imgs)
 
     # Tell the nurse and check the queue
     send_text_reply(
