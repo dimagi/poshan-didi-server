@@ -12,6 +12,8 @@ LOG_LEVEL = logging.INFO
 TELEGRAM_TOKEN = 'TOKEN_ID'
 # The telegram chatid with your bot for the escalation messages
 NURSE_CHAT_ID = 12345
+NURSE_CHAT_ID_WHATSAPP = 'whatsapp:+12345'
+
 
 # Database setup
 DB_SQLALCHEMY_CONNECTION = 'sqlite:///poshan_didi.db'
@@ -44,6 +46,12 @@ HINDI = False
 
 # GOD Mode chat ID
 GOD_MODE = 0
+GOD_MODE_WHATSAPP = "whatsapp:+0000"
 
 # Demo users
 DEMO_CHAT_IDS = [123, 456]
+
+# WhatsApp config
+WHATSAPP_ACCOUNT = "xx"
+WHATSAPP_AUTH = "xx"
+WHATSAPP_FROM='whatsapp:+0000'
