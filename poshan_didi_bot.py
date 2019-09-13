@@ -71,7 +71,7 @@ def main():
                                   Filters.chat(settings.GOD_MODE)))
 
     # on non-command i.e., a normal message message - process_user_input the
-    # message from Telegram. Use different handlers for the purse and user
+    # message from Telegram. Use different handlers for the nurse and user
     # messages
     dp.add_handler(MessageHandler(
         (Filters.text & (~ Filters.chat(settings.NURSE_CHAT_ID))), beneficiary_bot.process_user_input))
