@@ -4,11 +4,49 @@ import json
 import os
 from flask import Flask, render_template, request, make_response, current_app
 from functools import update_wrapper
+import beneficiary_bot
+from simple_settings import settings
+
+# TODO move this with the stub
+from twilio.rest import Client
+from twilio.twiml.messaging_response import MessagingResponse
 
 from db import User, Message, Database
 
 app = Flask(__name__)
 db = Database()
+
+
+# TODO: Move to a stub somehwere
+class FakeContext(object):
+    def __init__(self):
+        self.user_data = {}
+
+class FakeChat(object):
+    def __init__(self, id):
+        self.id = id
+class FakeMessage(object):
+    def __init__(self, text,chat_id):
+        self.text = text
+        self.chat_id = chat_id
+    
+    def reply_text(self,txt, ** kwargs):
+        client = Client(settings.WHATSAPP_ACCOUNT, settings.WHATSAPP_AUTH)
+        client.messages.create(
+            body=txt,
+            from_=settings.WHATSAPP_FROM,
+            to=self.chat_id
+        )        
+        print(f"Reply on WhatsApp sent! {txt}")
+
+    def reply_photo(self,file, ** kwargs):
+        print("Fake send an image reply to WhatsApp!")
+
+class FakeUpdate(object):
+    def __init__(self, chat_id, msg):
+        self.effective_chat = FakeChat(chat_id)
+        self.message = FakeMessage(msg,chat_id)
+
 
 # Thanks
 # https://stackoverflow.com/questions/11875770/how-to-overcome-datetime-datetime-not-json-serializable
@@ -74,6 +112,52 @@ def crossdomain(debug=False, origin=None, methods=None, headers=None, max_age=21
 def homepage():
     return render_template('index.html')
 
+
+@app.route('/callback/v1/twilio', methods = ['POST'])
+def twilio_msg():
+    msg_id = request.values.get('SmsMessageSid',None)
+    chat_id = request.values.get('From',None)
+    msg = request.values.get('Body',None)
+
+    # Message info we'll want
+    msg_to_save = Message(msg=msg, chat_id=chat_id,msg_id=msg_id,source="user")
+    
+    # empty context because we're not using telegram
+    context = FakeContext()
+    update = FakeUpdate(chat_id, msg)
+    beneficiary_bot.fetch_user_data(chat_id,context)
+    if context.user_data['child_name'] == 'NONE':
+        # If this user does not exist, create a user in the DB and set to echo state
+        # HACK: to calculate the cohort
+        d1 = datetime(2019, 6, 26)
+        d2 = datetime.utcnow()
+        monday1 = (d1 - timedelta(days=d1.weekday()))
+        monday2 = (d2 - timedelta(days=d2.weekday()))
+        cohort = (monday2 - monday1).days // 7
+        new_user = User(
+            chat_id=chat_id, 
+            cohort=cohort,        
+            current_state='echo',
+            current_state_name='echo'
+        )
+        db.insert(new_user)
+        beneficiary_bot.fetch_user_data(chat_id,context)
+
+    # Save off the message.
+    msg_to_save.state = context.user_data['current_state_name']
+    db.insert(msg_to_save)
+
+    if chat_id == settings.NURSE_CHAT_ID_WHATSAPP:
+        # Process nurse commands and such
+        pass
+    elif chat_id == settings.GOD_MODE_WHATSAPP:
+        # Handle the GOD mode 
+        pass
+    else:
+        # Process normal user commands
+        print("calling process user input")
+        beneficiary_bot.process_user_input(update, context)
+    return 'ok'
 
 @app.route('/api/v1/users')
 @crossdomain(origin='*', debug=app.debug)
