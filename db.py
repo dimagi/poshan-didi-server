@@ -74,6 +74,7 @@ class Message(Base):
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey('users.id'))
     msg = Column(String)
+    msg_id = Column(String)
     server_time = Column(DateTime)
     chat_id = Column(String, index=True)
     source = Column(String)
