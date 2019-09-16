@@ -334,6 +334,61 @@ def set_super_state(update, context):
         f"Ok. State successfully set to {new_state} and message sent to the user.", update)
     _check_nurse_queue(context)
 
+def set_cohort_super_state(update, context):
+    # Save the mssage the nurse sent in
+    logger.warning('Set SUPER cohort-state called in GOD mode!')
+    _log_msg(update.message.text, 'GOD', update)
+
+    # Check syntax of the command
+    try:
+        cmd_parts = update.message.text.split()
+        if len(cmd_parts) != 3:
+            raise Exception()
+        cohort = cmd_parts[1]
+        new_state = cmd_parts[2]
+    except:
+        send_text_reply(
+            "Usage details for GOD mode: /cohortstate <cohort_number> <new_state_name>", update)
+        return
+
+    # Find all the users whose:
+    # - not a test user
+    # - in the correct cohort
+    users = Database().session.query(User).filter(
+        (User.test_user == False) &
+        (User.cohort == cohort))
+    )
+
+    for user in users:
+        # set the state for the user!
+        sm = beneficiary_bot.get_sm_from_track(user.track)
+        try:
+            state_id = sm.get_state_id_from_state_name(new_state)
+        except ValueError:
+            send_text_reply(
+                f"Usage details: /state <new_state_name>\n '{new_state}' not recognized as a valid state.", update)
+            return False
+        user.current_state = state_id
+        user.current_state_name = new_state
+
+        msgs, imgs, _, _, _ = sm.get_msg_and_next_state(
+            new_state, user.child_gender)
+        beneficiary_bot.fetch_user_data(user.chat_id, context)
+        msgs, imgs = beneficiary_bot.replace_custom_message(msgs, imgs, context)
+        _send_message_to_chat_id(
+            update, context, user.chat_id,
+            msgs)
+        _send_images_to_chat_id(
+            update, context, user.chat_id,
+            imgs)
+
+    # Save back to DB
+    Database().commit()
+    # Tell the nurse and check the queue
+    send_text_reply(
+        f"Ok. State successfully set to {new_state} and message sent to {len(users)} users in cohort {cohort}.", update)
+    _check_nurse_queue(context)
+
 
 date_re = re.compile('[0-3]\d-[0-1]\d-[1-2]\d\d\d')
 date_y_first_re = re.compile('[1-2]\d\d\d-[0-1]\d-[0-3]\d')
