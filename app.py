@@ -26,9 +26,10 @@ class FakeChat(object):
     def __init__(self, id):
         self.id = id
 class FakeMessage(object):
-    def __init__(self, text,chat_id):
+    def __init__(self, text,chat_id, msg_id):
         self.text = text
         self.chat_id = chat_id
+        self.msg_id = msg_id
     
     def reply_text(self,txt, ** kwargs):
         client = Client(settings.WHATSAPP_ACCOUNT, settings.WHATSAPP_AUTH)
@@ -119,12 +120,9 @@ def twilio_msg():
     chat_id = request.values.get('From',None)
     msg = request.values.get('Body',None)
 
-    # Message info we'll want
-    msg_to_save = Message(msg=msg, chat_id=chat_id,msg_id=msg_id,source="user")
-    
     # empty context because we're not using telegram
     context = FakeContext()
-    update = FakeUpdate(chat_id, msg)
+    update = FakeUpdate(chat_id, msg, msg_id)
     beneficiary_bot.fetch_user_data(chat_id,context)
     if context.user_data['child_name'] == 'NONE':
         # If this user does not exist, create a user in the DB and set to echo state
@@ -138,14 +136,12 @@ def twilio_msg():
             chat_id=chat_id, 
             cohort=cohort,        
             current_state='echo',
-            current_state_name='echo'
+            current_state_name='echo',
+            registration_date=datetime.utcnow(),
+            test_user=False
         )
         db.insert(new_user)
         beneficiary_bot.fetch_user_data(chat_id,context)
-
-    # Save off the message.
-    msg_to_save.state = context.user_data['current_state_name']
-    db.insert(msg_to_save)
 
     if chat_id == settings.NURSE_CHAT_ID_WHATSAPP:
         # Process nurse commands and such
