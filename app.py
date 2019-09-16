@@ -1,11 +1,15 @@
 from datetime import date, datetime, timedelta
+import time
 
 import json
 import os
 from flask import Flask, render_template, request, make_response, current_app
 from functools import update_wrapper
 import beneficiary_bot
+import nurse_bot
 from simple_settings import settings
+
+from telegram.ext import JobQueue
 
 # TODO move this with the stub
 from twilio.rest import Client
@@ -15,21 +19,30 @@ from db import User, Message, Database
 
 app = Flask(__name__)
 db = Database()
-
+beneficiary_bot.setup_state_machines()
 
 # TODO: Move to a stub somehwere
 class FakeContext(object):
     def __init__(self):
         self.user_data = {}
+        self.bot = FakeBot()
+        self.job_queue = JobQueue(self.bot)
+
+class FakeBot(object):
+    def send_message(self, chat_id, text):
+        msg = FakeMessage(text,chat_id)
+        msg.reply_text(text)
+    def send_photo(self, chat_id, f):
+        msg = FakeMessage(f.name,chat_id)
+        msg.reply_photo(f)
 
 class FakeChat(object):
     def __init__(self, id):
         self.id = id
 class FakeMessage(object):
-    def __init__(self, text,chat_id, msg_id):
+    def __init__(self, text,chat_id):
         self.text = text
         self.chat_id = chat_id
-        self.msg_id = msg_id
     
     def reply_text(self,txt, ** kwargs):
         client = Client(settings.WHATSAPP_ACCOUNT, settings.WHATSAPP_AUTH)
@@ -40,7 +53,23 @@ class FakeMessage(object):
         )        
         print(f"Reply on WhatsApp sent! {txt}")
 
-    def reply_photo(self,file, ** kwargs):
+    def reply_photo(self,f, ** kwargs):
+        # TODO: fix growth monitoring as well!
+        filename = f.name
+        filename = filename[filename.rfind('/')+1:]
+
+        url = f'https://poshan-didi.commcarehq.org/public/{filename}'
+        client = Client(settings.WHATSAPP_ACCOUNT, settings.WHATSAPP_AUTH)
+        client.messages.create(
+            body='',
+            from_=settings.WHATSAPP_FROM,
+            to=self.chat_id,
+            media_url=url
+        )
+        # HACK!
+        # Sleep for 5 seconds so the picture can send. 
+        # For the record, I feel bad about this.
+        time.sleep(5)
         print("Fake send an image reply to WhatsApp!")
 
 class FakeUpdate(object):
@@ -122,7 +151,7 @@ def twilio_msg():
 
     # empty context because we're not using telegram
     context = FakeContext()
-    update = FakeUpdate(chat_id, msg, msg_id)
+    update = FakeUpdate(chat_id, msg)
     beneficiary_bot.fetch_user_data(chat_id,context)
     if context.user_data['child_name'] == 'NONE':
         # If this user does not exist, create a user in the DB and set to echo state
@@ -144,14 +173,26 @@ def twilio_msg():
         beneficiary_bot.fetch_user_data(chat_id,context)
 
     if chat_id == settings.NURSE_CHAT_ID_WHATSAPP:
+        print(f"calling nurse input for {msg}")
         # Process nurse commands and such
-        pass
+        if msg.startswith('/noreply'):
+            nurse_bot.skip(update,context)
+        elif msg.startswith('/state'):
+            nurse_bot.set_state(update,context)
+        else:
+            nurse_bot.process_nurse_input(update,context)
     elif chat_id == settings.GOD_MODE_WHATSAPP:
         # Handle the GOD mode 
-        pass
+        print(f"calling GOD-mode input for {msg}")
+        if msg.startswith('/state'):
+            nurse_bot.set_super_state(update,context)
+        elif msg.startswith('/cohortstate'):
+            nurse_bot.set_cohort_super_state(update,context)
+        elif msg.startswith('/send_next_modules'):
+            nurse_bot.send_next_modules(update,context)
     else:
         # Process normal user commands
-        print("calling process user input")
+        print(f"calling process user input for {msg}")
         beneficiary_bot.process_user_input(update, context)
     return 'ok'
 
