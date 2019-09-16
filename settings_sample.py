@@ -49,7 +49,8 @@ GOD_MODE = 0
 GOD_MODE_WHATSAPP = "whatsapp:+0000"
 
 # Demo users
-DEMO_CHAT_IDS = [123, 456]
+# NOTE: Must be strings
+DEMO_CHAT_IDS = ['123', '456']
 
 # WhatsApp config
 WHATSAPP_ACCOUNT = "xx"
