@@ -191,7 +191,6 @@ def _send_message_to_queue(update, context, msgs_txt, imgs=[]):
             escalation.chat_src_id, f)
         f.close()
 
-
 def _send_message_to_chat_id(update, context, chat_id, msgs_txt):
     """Send msg_text to a specific chat_id from GOD mode."""
     beneficiary_bot.fetch_user_data(chat_id, context)
@@ -355,7 +354,7 @@ def set_cohort_super_state(update, context):
     # - not a test user
     # - in the correct cohort
     users = Database().session.query(User).filter(
-        (User.test_user == False) &
+        ((User.test_user == False) &
         (User.cohort == cohort))
     )
 
