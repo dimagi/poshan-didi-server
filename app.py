@@ -46,6 +46,8 @@ class FakeMessage(object):
     
     def reply_text(self,txt, ** kwargs):
         client = Client(settings.WHATSAPP_ACCOUNT, settings.WHATSAPP_AUTH)
+        if self.chat_id == settings.NURSE_CHAT_ID:
+            self.chat_id = settings.NURSE_CHAT_ID_WHATSAPP
         client.messages.create(
             body=txt,
             from_=settings.WHATSAPP_FROM,
@@ -60,6 +62,8 @@ class FakeMessage(object):
 
         url = f'https://poshan-didi.commcarehq.org/public/{filename}'
         client = Client(settings.WHATSAPP_ACCOUNT, settings.WHATSAPP_AUTH)
+        if self.chat_id == settings.NURSE_CHAT_ID:
+            self.chat_id = settings.NURSE_CHAT_ID_WHATSAPP
         client.messages.create(
             body='',
             from_=settings.WHATSAPP_FROM,
