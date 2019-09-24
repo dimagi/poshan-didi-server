@@ -156,7 +156,7 @@ def _get_menu_for_user(context):
 
     gm_module = settings.GM_MODULE_6 if int(
         context.user_data['track']) == 6 else settings.GM_MODULE_12
-    if menu_state == GLOBAL_MAIN_MENU_STATE and context.user_data['cohort'] < 2:
+    if menu_state == GLOBAL_MAIN_MENU_STATE and (context.user_data['cohort'] < 2 and context.user_data['cohort'] >= 0):
         # Trim down the menu to content they have seen before in non-demo mode
         msg = '\n'.join(msg.split(
             '\n')[:context.user_data['next_module']])
