@@ -21,6 +21,8 @@ logger = logging.getLogger(__name__)
 #################################################
 WA_TEMPLATE_6 = "नमस्कार {{1}}! मैं पोषण दीदी हूँ (मैं मध्य प्रदेश महिला एवं बाल विकास संचालनालय के साथ जुड़ी हुई हूँ)। क्यूंकि आपका बच्चा {{2}} महीने का हो गया है, ये महत्वपूर्ण है की आप उसे विशेष रूप से केवल स्तनपान कराएं।"
 WA_TEMPLATE_12 = "नमस्कार {{1}}! मैं पोषण दीदी हूँ (मैं मध्य प्रदेश महिला एवं बाल विकास संचालनालय के साथ जुड़ी हुई हूँ)। क्यूंकि आपका बच्चा {{2}} महीने का हो गया है, ये महत्वपूर्ण है की आप उसे क्या ऊपरी आहार देंगी उसके बारे में सोचना शुरू करें।"
+
+WA_TEMPLATE_B = "नमस्कार {{1}}! मैं पोषण दीदी हूँ (मैं मध्य प्रदेश महिला एवं बाल विकास संचालनालय के साथ जुड़ी हुई हूँ)। क्यूंकि आपका बच्चा {{2}} सप्ताह का हो गया है, तो यह महत्वपूर्ण है कि आप {{3}} की पोषण संबंधी बढ़ती जरूरतों पर विचार करें।याद रखें कि आप अतिरिक्त पोषण जानकारी पाने के लिए किसी भी समय 'हैलो' टाइप कर सकते हैं।"
 def _send_next_module_and_log(update, context, user):
     # Find state associated with the next_module
     sm = beneficiary_bot.get_sm_from_track(user.track)
@@ -35,12 +37,19 @@ def _send_next_module_and_log(update, context, user):
 
     if str(user.chat_id).startswith('whatsapp:'):
         # Manually adjust messages to the 
-        msg_template = WA_TEMPLATE_6 if int(user.track) == 6 else WA_TEMPLATE_12
-        msg_template = msg_template.replace('{{1}}', user.first_name)
-        # Calculate months based on the WHO standard. This may be off by a couple days, 
-        # but that's fine for our purposes. 
-        months_old = (datetime.now() - user.child_birthday).days // 30.625
-        msg_template = msg_template.replace('{{2}}', str(int(months_old)))
+        if int(user.next_module) % 2 == 0:
+            msg_template = WA_TEMPLATE_B
+            weeks_old = (datetime.now() - user.child_birthday).days // 7 
+            msg_template = msg_template.replace('{{1}}', user.first_name)
+            msg_template = msg_template.replace('{{2}}', str(int(weeks_old)))
+            msg_template = msg_template.replace('{{3}}', user.child_name)
+        else:
+            msg_template = WA_TEMPLATE_6 if int(user.track) == 6 else WA_TEMPLATE_12
+            msg_template = msg_template.replace('{{1}}', user.first_name)
+            # Calculate months based on the WHO standard. This may be off by a couple days, 
+            # but that's fine for our purposes. 
+            months_old = (datetime.now() - user.child_birthday).days // 30.625
+            msg_template = msg_template.replace('{{2}}', str(int(months_old)))
         msgs = [msg_template]
         imgs = []
 
