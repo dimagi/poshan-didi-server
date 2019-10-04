@@ -465,7 +465,7 @@ def send_global_msg(update,context):
             continue
         logger.info(f'sending pre sign off to {user.chat_id}')
         try:
-            _send_images_to_chat_id(
+            _send_message_to_chat_id(
                 update,context,user.chat_id,[pre_sign_off]
             )
         except:
