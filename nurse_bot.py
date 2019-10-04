@@ -387,7 +387,7 @@ def set_cohort_super_state(update, context):
             state_id = sm.get_state_id_from_state_name(new_state)
         except ValueError:
             send_text_reply(
-                f"Usage details: /state <new_state_name>\n '{new_state}' not recognized as a valid state.", update)
+                f"for GOD mode: /cohortstate <cohort_number> <new_state_name>\n'{new_state}' not recognized as a valid state.", update)
             return False
         user.current_state = state_id
         user.current_state_name = new_state
@@ -454,6 +454,29 @@ def send_vhnd_reminder(update, context):
     else:
         send_text_reply(
             f"Unable to find any users with AWC code {awc_id}", update)
+
+
+def send_global_msg(update,context):
+    pre_sign_off="मेरे साथ इस गतिविधि में भाग लेने और बात करने के लिए धन्यवाद! पोशन दीदी के साथ बात-चीत करने का परीक्षण अक्टूबर 15, 2019 को समाप्त हो जाएगा जिसके बाद मैं उपलब्ध नहीं रहूंगी। यदि आपके पास मेरे लिए कोई और प्रश्न हैं, तो कृपया अंतिम तिथि से पहले मुझे संदेश भेजें।"
+    users = Database().session.query(User)
+
+    for user in users:
+        if user.chat_id.startswith('whatsapp') or user.cohort < 0 or user.cohort > 20:
+            continue
+        logger.info(f'sending pre sign off to {user.chat_id}')
+        try:
+            _send_images_to_chat_id(
+                update,context,user.chat_id,[pre_sign_off]
+            )
+        except:
+            logger.warning(f'Error sending pre sign off to {user.chat_id}')
+    
+    if users.count() > 0:
+        send_text_reply(
+            f"Ok. Successfully sent pre sign off to to {users.count()} users.", update)
+    else:
+        send_text_reply(
+            f"Unable to find any users to send pre sign off message", update)
 
 
 #################################################

@@ -71,6 +71,10 @@ def main():
     # Add a nurse command to set state for a user (only allow the nurse to access this command)
     dp.add_handler(CommandHandler('vhnd', nurse_bot.send_vhnd_reminder,
                                   Filters.chat(settings.GOD_MODE)))
+    
+    # sign off messages
+    dp.add_handler(CommandHandler('sendglobal', nurse_bot.send_global_msg,
+                                  Filters.chat(settings.GOD_MODE)))
 
     # on non-command i.e., a normal message message - process_user_input the
     # message from Telegram. Use different handlers for the nurse and user
