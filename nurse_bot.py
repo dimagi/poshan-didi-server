@@ -407,8 +407,7 @@ def set_cohort_super_state(update, context):
     Database().commit()
     # Tell the nurse and check the queue
     send_text_reply(
-        f"Ok. State successfully set to {new_state} and message sent to {len(users)} users in cohort {cohort}.", update)
-    _check_nurse_queue(context)
+        f"Ok. State successfully set to {new_state} and message sent to {users.count()} users in cohort {cohort}.", update)
 
 
 date_re = re.compile('[0-3]\d-[0-1]\d-[1-2]\d\d\d')
