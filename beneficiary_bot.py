@@ -60,6 +60,7 @@ def _load_custom_gm(folder):
     start_dir = os.getcwd()
     os.chdir(folder)
     for _, csv_file in enumerate(glob.glob("*.csv")):
+        logger.info(f'Opening custom GM file {csv_file}')
         with open(csv_file, 'r') as f:
             csv_rdr = csv.DictReader(f)
             for row in csv_rdr:
@@ -433,3 +434,16 @@ def process_user_input(update, context):
     # Handle valid input (standard case)
     return _handle_valid_input(update, context)
     # Handle quick state transitions for quiz??
+
+
+def process_user_input(update, context):
+    """Handle a user message."""
+    # Log and fetch user data
+    _, current_state_name = _log_and_fetch_user_data(
+        update, context)
+    
+    msgs = ['पोशन दीदी ऑफलाइन है क्योंकि परीक्षण की अवधि अब पूरी हो चुकी है। यदि आपके कोई प्रश्न हैं, तो कृपया अपनी आंगनवाड़ी कार्यकर्ता [AWW name] से संपर्क करें!']
+    imgs = []
+    state_id = 'all_done_id'
+    state_name = 'all_done_name'
+    _save_state_and_process(update, context, msgs, imgs, state_id, state_name)

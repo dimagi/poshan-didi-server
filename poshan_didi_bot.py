@@ -51,26 +51,26 @@ def main():
 
     # Add a nurse command to skip the current escalated message 
     # (only allow the nurse to access this command)
-    dp.add_handler(CommandHandler('noreply', nurse_bot.skip,
-                                  Filters.chat(settings.NURSE_CHAT_ID)))
+    # dp.add_handler(CommandHandler('noreply', nurse_bot.skip,
+    #                               Filters.chat(settings.NURSE_CHAT_ID)))
     
     # Add a nurse command to set state for a user (only allow the nurse to access this command)
-    dp.add_handler(CommandHandler('state', nurse_bot.set_state,
-                                  Filters.chat(settings.NURSE_CHAT_ID)))
+    # dp.add_handler(CommandHandler('state', nurse_bot.set_state,
+    #                               Filters.chat(settings.NURSE_CHAT_ID)))
 
     # Add a nurse command to set state for a user (only allow the nurse to access this command)
-    dp.add_handler(CommandHandler('state', nurse_bot.set_super_state,
-                                  Filters.chat(settings.GOD_MODE)))
-    dp.add_handler(CommandHandler('cohortstate', nurse_bot.set_cohort_super_state,
-                                  Filters.chat(settings.GOD_MODE)))
+    # dp.add_handler(CommandHandler('state', nurse_bot.set_super_state,
+    #                               Filters.chat(settings.GOD_MODE)))
+    # dp.add_handler(CommandHandler('cohortstate', nurse_bot.set_cohort_super_state,
+    #                               Filters.chat(settings.GOD_MODE)))
 
     # Add a nurse command to set state for a user (only allow the nurse to access this command)
-    dp.add_handler(CommandHandler('send_next_modules', nurse_bot.send_next_modules,
-                                  Filters.chat(settings.GOD_MODE)))
+    # dp.add_handler(CommandHandler('send_next_modules', nurse_bot.send_next_modules,
+    #                               Filters.chat(settings.GOD_MODE)))
 
     # Add a nurse command to set state for a user (only allow the nurse to access this command)
-    dp.add_handler(CommandHandler('vhnd', nurse_bot.send_vhnd_reminder,
-                                  Filters.chat(settings.GOD_MODE)))
+    # dp.add_handler(CommandHandler('vhnd', nurse_bot.send_vhnd_reminder,
+    #                               Filters.chat(settings.GOD_MODE)))
     
     # sign off messages
     dp.add_handler(CommandHandler('sendglobal', nurse_bot.send_global_msg,
@@ -80,9 +80,11 @@ def main():
     # message from Telegram. Use different handlers for the nurse and user
     # messages
     dp.add_handler(MessageHandler(
-        (Filters.text & (~ Filters.chat(settings.NURSE_CHAT_ID))), beneficiary_bot.process_user_input))
-    dp.add_handler(MessageHandler(
-        (Filters.text & Filters.chat(settings.NURSE_CHAT_ID)), nurse_bot.process_nurse_input))
+        (Filters.text & (~ Filters.chat(settings.NURSE_CHAT_ID))), beneficiary_bot.all_done))
+    # dp.add_handler(MessageHandler(
+    #     (Filters.text & (~ Filters.chat(settings.NURSE_CHAT_ID))), beneficiary_bot.process_user_input))
+    # dp.add_handler(MessageHandler(
+    #     (Filters.text & Filters.chat(settings.NURSE_CHAT_ID)), nurse_bot.process_nurse_input))
 
     # log all errors
     dp.add_error_handler(error)
