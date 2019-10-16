@@ -456,23 +456,26 @@ def send_vhnd_reminder(update, context):
 
 
 def send_global_msg(update,context):
-    pre_sign_off="मेरे साथ इस गतिविधि में भाग लेने और बात करने के लिए धन्यवाद! पोशन दीदी के साथ बात-चीत करने का परीक्षण अक्टूबर 15, 2019 को समाप्त हो जाएगा जिसके बाद मैं उपलब्ध नहीं रहूंगी। यदि आपके पास मेरे लिए कोई और प्रश्न हैं, तो कृपया अंतिम तिथि से पहले मुझे संदेश भेजें।"
+    # pre_sign_off="मेरे साथ इस गतिविधि में भाग लेने और बात करने के लिए धन्यवाद! पोशन दीदी के साथ बात-चीत करने का परीक्षण अक्टूबर 15, 2019 को समाप्त हो जाएगा जिसके बाद मैं उपलब्ध नहीं रहूंगी। यदि आपके पास मेरे लिए कोई और प्रश्न हैं, तो कृपया अंतिम तिथि से पहले मुझे संदेश भेजें।"
+    sign_off="आप पोशन दीदी से बात करने वाले पहले कुछ उपयोगकर्ताओं में से एक हैं! अब हम इस परीक्षण अवधि के अंत तक पहुँच चुके हैं और इसलिए मुझे ऑफ़लाइन जाना होगा यानि की अब मैं उपलब्ध नहीं रहूंगी। मेरे साथ बात करके इस गतिविधि में भाग लेने के लिए धन्यवाद! यदि आपके बच्चे से सम्बंधित आपको पोषण या स्वास्थ्य पर अधिक प्रश्न हैं तो कृपया अपनी आंगनवाड़ी कार्यकर्ता [AWW name] से संपर्क करें।"
     users = Database().session.query(User)
 
+    n = 0
     for user in users:
         if user.chat_id.startswith('whatsapp') or user.cohort < 0 or user.cohort > 20:
             continue
         logger.info(f'sending pre sign off to {user.chat_id}')
         try:
             _send_message_to_chat_id(
-                update,context,user.chat_id,[pre_sign_off]
+                update,context,user.chat_id,[sign_off]
             )
+            n = n + 1
         except:
             logger.warning(f'Error sending pre sign off to {user.chat_id}')
-    
+
     if users.count() > 0:
         send_text_reply(
-            f"Ok. Successfully sent pre sign off to to {users.count()} users.", update)
+            f"Ok. Successfully sent pre sign off to {n} of {users.count()} users.", update)
     else:
         send_text_reply(
             f"Unable to find any users to send pre sign off message", update)
