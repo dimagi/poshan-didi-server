@@ -61,7 +61,7 @@ def _load_custom_gm(folder):
     os.chdir(folder)
     for _, csv_file in enumerate(glob.glob("*.csv")):
         logger.info(f'Opening custom GM file {csv_file}')
-        with open(csv_file, 'r') as f:
+        with open(csv_file, 'r',encoding='utf-8-sig') as f:
             csv_rdr = csv.DictReader(f)
             for row in csv_rdr:
                 custom_gm_map_en[row['telegram_id']] = row['english']
