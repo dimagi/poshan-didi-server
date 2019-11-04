@@ -176,28 +176,29 @@ def twilio_msg():
         db.insert(new_user)
         beneficiary_bot.fetch_user_data(chat_id,context)
 
-    if chat_id == settings.NURSE_CHAT_ID_WHATSAPP:
-        print(f"calling nurse input for {msg}")
-        # Process nurse commands and such
-        if msg.startswith('/noreply'):
-            nurse_bot.skip(update,context)
-        elif msg.startswith('/state'):
-            nurse_bot.set_state(update,context)
-        else:
-            nurse_bot.process_nurse_input(update,context)
-    elif chat_id == settings.GOD_MODE_WHATSAPP:
-        # Handle the GOD mode 
-        print(f"calling GOD-mode input for {msg}")
-        if msg.startswith('/state'):
-            nurse_bot.set_super_state(update,context)
-        elif msg.startswith('/cohortstate'):
-            nurse_bot.set_cohort_super_state(update,context)
-        elif msg.startswith('/send_next_modules'):
-            nurse_bot.send_next_modules(update,context)
-    else:
-        # Process normal user commands
-        print(f"calling process user input for {msg}")
-        beneficiary_bot.process_user_input(update, context)
+    # if chat_id == settings.NURSE_CHAT_ID_WHATSAPP:
+    #     print(f"calling nurse input for {msg}")
+    #     # Process nurse commands and such
+    #     if msg.startswith('/noreply'):
+    #         nurse_bot.skip(update,context)
+    #     elif msg.startswith('/state'):
+    #         nurse_bot.set_state(update,context)
+    #     else:
+    #         nurse_bot.process_nurse_input(update,context)
+    # elif chat_id == settings.GOD_MODE_WHATSAPP:
+    #     # Handle the GOD mode 
+    #     print(f"calling GOD-mode input for {msg}")
+    #     if msg.startswith('/state'):
+    #         nurse_bot.set_super_state(update,context)
+    #     elif msg.startswith('/cohortstate'):
+    #         nurse_bot.set_cohort_super_state(update,context)
+    #     elif msg.startswith('/send_next_modules'):
+    #         nurse_bot.send_next_modules(update,context)
+    # else:
+    #     # Process normal user commands
+    #     print(f"calling process user input for {msg}")
+    #     beneficiary_bot.process_user_input(update, context)
+    beneficiary_bot.all_done(update,context)
     return 'ok'
 
 @app.route('/api/v1/users')
