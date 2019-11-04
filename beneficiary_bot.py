@@ -436,7 +436,7 @@ def process_user_input(update, context):
     # Handle quick state transitions for quiz??
 
 
-def process_user_input(update, context):
+def all_done(update, context):
     """Handle a user message."""
     # Log and fetch user data
     _, current_state_name = _log_and_fetch_user_data(
